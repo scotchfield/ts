@@ -8,28 +8,9 @@ define( 'ts_meta_type_character',            1 );
 define( 'ts_meta_type_inventory',            2 );
 define( 'ts_meta_type_buff',                 3 );
 
-define( 'TS_NAME', 1 );
-define( 'TS_TITLED_NAME', 2 );
-define( 'TS_STATS', 3 );
-define( 'TS_EQUIPPED', 4 );
-define( 'TS_ENCOUNTER', 5 );
-
-/*define( 'TS_LEVEL', 3 );
-define( 'TS_STR', 10 );
-define( 'TS_DEX', 11 );
-define( 'TS_INT', 12 );
-define( 'TS_CHA', 13 );
-define( 'TS_CON', 14 );
-define( 'TS_BASE_HP', 15 );
-define( 'TS_CURRENT_HP', 16 );
-define( 'TS_MANA', 17 );
-define( 'TS_MANA_MAX', 18 );
-define( 'TS_FATIGUE', 19 );
-define( 'TS_FATIGUE_REDUCTION', 20 );
-define( 'TS_FATIGUE_RESTED', 21 );
-define( 'TS_XP', 22 );
-define( 'TS_GOLD', 23 );
-define( 'TS_GOLD_BANK', 24 );*/
+define( 'TS_INFO', 1 );
+define( 'TS_EQUIPPED', 2 );
+define( 'TS_ENCOUNTER', 3 );
 
 /*define( 'TS_WEAPON', 100 );
 define( 'TS_ARMOUR_HEAD', 101 );
@@ -107,48 +88,55 @@ function ts_default_action() {
 add_action( 'set_default_action', 'ts_default_action' );
 
 
+function ts_unpack_character() {
+    global $character;
+
+    if ( FALSE == $character ) {
+        return;
+    }
+
+    $character[ 'info' ] = json_decode(
+        character_meta( ts_meta_type_character, TS_INFO ), TRUE );
+
+    $default_info = array(
+        'level' => 1,
+        'str' => 10,
+        'dex' => 10,
+        'int' => 10,
+        'cha' => 10,
+        'con' => 10,
+        'health' => 10,
+        'health_max' => 10,
+        'mana' => 10,
+        'mana_max' => 10,
+        'fatigue' => 0,
+        'fatigue_reduction' => 0,
+        'fatigue_rested' => 0,
+        'xp' => 0,
+        'gold' => 0,
+        'gold_bank' => 0,
+    );
+
+    foreach ( $default_info as $k => $v ) {
+        if ( ! isset( $character[ 'info' ][ $k ] ) ) {
+            $character[ 'info' ][ $k ] = $v;
+        }
+    }
+
+    $character[ 'equipped' ] = json_decode(
+        character_meta( ts_meta_type_character, TS_EQUIPPED ), TRUE );
+    $character[ 'encounter' ] = json_decode(
+        character_meta( ts_meta_type_character, TS_ENCOUNTER ), TRUE );
+}
+
 function ts_login() {
     global $character;
 
-/*    ensure_character_meta_keygroup(
-        $character[ 'id' ], cr_meta_type_character, '',
-        array(
-            CR_CHARACTER_NAME, CR_CHARACTER_TIP, CR_CURRENT_ZONE
-        ) );
-
     ensure_character_meta_keygroup(
-        $character[ 'id' ], cr_meta_type_character, 0,
+        $character[ 'id' ], ts_meta_type_character, '',
         array(
-            CR_TUTORIAL_STATUS, CR_CHARACTER_MONEY,
-            CR_CHARACTER_STAMINA_TIMESTAMP,
-            CR_CHARACTER_XP,
-            CR_CHARACTER_JOB_ID, CR_CHARACTER_JOB_HIRED,
-            CR_CHARACTER_JOB_LASTPAID,
-            CR_CHARACTER_JAIL_TIME
+            TS_INFO, TS_EQUIPPED, TS_ENCOUNTER,
         ) );
-
-    ensure_character_meta_keygroup(
-        $character[ 'id' ], cr_meta_type_character, 1,
-        array(
-            CR_CHARACTER_GYM_ID, CR_CURRENT_CITYAREA
-        ) );
-
-    ensure_character_meta_keygroup(
-        $character[ 'id' ], cr_meta_type_character, 10,
-        array(
-            CR_CHARACTER_STR, CR_CHARACTER_DEX, CR_CHARACTER_INT,
-            CR_CHARACTER_CON, CR_CHARACTER_APP, CR_CHARACTER_POW,
-            CR_CHARACTER_EDU
-        ) );
-
-    ensure_character_meta_keygroup(
-        $character[ 'id' ], cr_meta_type_character, 100,
-        array(
-            CR_CHARACTER_HEALTH, CR_CHARACTER_HEALTH_MAX,
-            CR_CHARACTER_STAMINA, CR_CHARACTER_STAMINA_MAX
-        ) );
-
-    cr_award_salary();*/
 }
 
 add_action( 'select_character', 'ts_login' );
@@ -160,6 +148,7 @@ function ts_header() {
         return;
     }
 
+    ts_unpack_character();
 //    update_buffs();
 
 ?><!DOCTYPE html>
@@ -267,23 +256,33 @@ function ts_header() {
     </div>
 
     <div class="container">
+<?php
+    if ( FALSE != $character ) {
+?>
       <div class="row">
 
-<div class="col-md-6">
-  <a href="#"><?php echo( 'TS_TITLED_NAME' ); ?></a>,
-  Level <?php echo( 'TS_LEVEL' ); ?>,
-  Gold: <?php echo( 'TS_GOLD' ); ?>
-  (<a href="#">x new messages</a>)<br>
-  HEALTH | MANA
-</div>
-<div class="col-md-6 text-right">
-  BUFFS<br>
-  Twelve Sands
-</div>
+        <div class="col-md-6">
+          <a href="#"><?php echo( $character[ 'character_name' ] ); ?></a>,
+          Level <?php echo( $character[ 'info' ][ 'level' ] ); ?>,
+          Gold: <?php echo( $character[ 'info' ][ 'gold' ] ); ?>
+          (<a href="#">x new messages</a>)<br>
+          Health: <?php echo( $character[ 'info' ][ 'health' ] ); ?> /
+          <?php echo( $character[ 'info' ][ 'health_max' ] ); ?>,
+          Mana: <?php echo( $character[ 'info' ][ 'mana' ] ); ?> /
+          <?php echo( $character[ 'info' ][ 'mana_max' ] ); ?>
+        </div>
+        <div class="col-md-6 text-right">
+          BUFFS<br>
+          Twelve Sands
+        </div>
 
       </div>
+<?php
+    }
+?>
       <div class="row">
 <?php
+debug_print( $character );
 }
 
 function ts_footer() {
