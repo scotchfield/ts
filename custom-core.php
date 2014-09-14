@@ -3,6 +3,9 @@
 require( GAME_CUSTOM_PATH . 'select.php' );
 require( GAME_CUSTOM_PATH . 'title.php' );
 
+require( GAME_CUSTOM_PATH . 'map.php' );
+require( GAME_CUSTOM_PATH . 'zone.php' );
+
 
 define( 'ts_meta_type_character',            1 );
 define( 'ts_meta_type_inventory',            2 );
@@ -12,65 +15,10 @@ define( 'TS_INFO', 1 );
 define( 'TS_EQUIPPED', 2 );
 define( 'TS_ENCOUNTER', 3 );
 
-/*define( 'TS_WEAPON', 100 );
-define( 'TS_ARMOUR_HEAD', 101 );
-define( 'TS_ARMOUR_CHEST', 102 );
-define( 'TS_ARMOUR_LEGS', 103 );
-define( 'TS_ARMOUR_NECK', 104 );
-define( 'TS_ARMOUR_TRINKET_1', 105 );
-define( 'TS_ARMOUR_TRINKET_2', 106 );
-define( 'TS_ARMOUR_TRINKET_3', 107 );
-define( 'TS_ARMOUR_HANDS', 108 );
-define( 'TS_ARMOUR_WRISTS', 109 );
-define( 'TS_ARMOUR_BELT', 110 );
-define( 'TS_ARMOUR_BOOTS', 111 );
-define( 'TS_ARMOUR_RING_1', 112 );
-define( 'TS_ARMOUR_RING_2', 113 );
-define( 'TS_MOUNT', 114 );*/
+define( 'TS_TIP', 10 );
 
 
-
-/*define( 'CR_TUTORIAL_STATUS',                1 );
-define( 'CR_CHARACTER_NAME',                 2 );
-define( 'CR_CHARACTER_MONEY',                3 );
-define( 'CR_CHARACTER_TIP',                  4 );
-define( 'CR_CURRENT_ZONE',                   5 );
-
-define( 'CR_CURRENT_CITYAREA',              10 );
-
-define( 'CR_CHARACTER_HEALTH',              50 );
-define( 'CR_CHARACTER_HEALTH_MAX',          51 );
-
-define( 'CR_CHARACTER_STAMINA',             60 );
-define( 'CR_CHARACTER_STAMINA_TIMESTAMP',   61 );
-define( 'CR_CHARACTER_STAMINA_MAX',         62 );
-
-define( 'CR_CHARACTER_STR',                100 );
-define( 'CR_CHARACTER_DEX',                101 );
-define( 'CR_CHARACTER_INT',                102 );
-define( 'CR_CHARACTER_CON',                103 );
-define( 'CR_CHARACTER_APP',                104 );
-define( 'CR_CHARACTER_POW',                105 );
-define( 'CR_CHARACTER_EDU',                106 );
-define( 'CR_CHARACTER_XP',                 107 );
-
-define( 'CR_CHARACTER_JOB_ID',             150 );
-define( 'CR_CHARACTER_JOB_HIRED',          151 );
-define( 'CR_CHARACTER_JOB_LASTPAID',       152 );
-
-define( 'CR_CHARACTER_GYM_ID',             200 );
-
-define( 'CR_CHARACTER_JAIL_TIME',          250 );*/
-
-/*define( 'cr_game_meta_employers',            1 );
-define( 'cr_game_meta_jobs',                 2 );
-define( 'cr_game_meta_crimes',               3 );
-define( 'cr_game_meta_degrees',              4 );
-define( 'cr_game_meta_courses',              5 );
-define( 'cr_game_meta_gyms',                 6 );
-define( 'cr_game_meta_state',                7 );*/
-
-/*define( 'CR_GAME_FOES_MALL',                 1 );*/
+//define( 'CR_TUTORIAL_STATUS',                1 );
 
 
 function ts_default_action() {
@@ -97,24 +45,31 @@ function ts_unpack_character() {
 
     $character[ 'info' ] = json_decode(
         character_meta( ts_meta_type_character, TS_INFO ), TRUE );
-
+// add timestamps so health/mana/stamina regenerate over time
+// or just regen_timestamp so that it can all be done at once
     $default_info = array(
         'level' => 1,
         'str' => 10,
         'dex' => 10,
         'int' => 10,
-        'cha' => 10,
         'con' => 10,
+	'cha' => 10,
+	'pow' => 10,
         'health' => 10,
         'health_max' => 10,
         'mana' => 10,
         'mana_max' => 10,
+	'stamina' => 100,
+	'stamina_max' => 100,
+	'sanity' => 100,
+	'sanity_max' => 100,
         'fatigue' => 0,
         'fatigue_reduction' => 0,
         'fatigue_rested' => 0,
         'xp' => 0,
         'gold' => 0,
         'gold_bank' => 0,
+        'zone' => 1,
     );
 
     foreach ( $default_info as $k => $v ) {
@@ -125,6 +80,32 @@ function ts_unpack_character() {
 
     $character[ 'equipped' ] = json_decode(
         character_meta( ts_meta_type_character, TS_EQUIPPED ), TRUE );
+
+    $default_info = array(
+      'weapon' => 0,
+      'head' => 0,
+      'chest' => 0,
+      'legs' => 0,
+      'neck' => 0,
+      'trinket_1' => 0,
+      'trinket_2' => 0,
+      'trinket_3' => 0,
+      'hands' => 0,
+      'wrists' => 0,
+      'belt' => 0,
+      'boots' => 0,
+      'ring_1' => 0,
+      'ring_2' => 0,
+      'mount' => 0,
+    );
+
+
+    foreach ( $default_info as $k => $v ) {
+        if ( ! isset( $character[ 'equipped' ][ $k ] ) ) {
+            $character[ 'equipped' ][ $k ] = $v;
+        }
+    }
+
     $character[ 'encounter' ] = json_decode(
         character_meta( ts_meta_type_character, TS_ENCOUNTER ), TRUE );
 }
@@ -283,6 +264,7 @@ function ts_header() {
       <div class="row">
 <?php
 debug_print( $character );
+debug_print( game_get_action() );
 }
 
 function ts_footer() {
@@ -313,18 +295,18 @@ add_action( 'game_footer', 'ts_footer' );
 
 function ts_tip_print() {
     global $character;
-/*
+
     if ( FALSE == $character ) {
         return;
     }
 
-    $tip = character_meta( ts_meta_type_character, TS_CHARACTER_TIP );
+    $tip = character_meta( ts_meta_type_character, TS_TIP );
 
     if ( 0 < strlen( $tip ) ) {
         echo( '<p class="tip">' . $tip . '</p>' );
         update_character_meta( $character[ 'id' ], ts_meta_type_character,
-            TS_CHARACTER_TIP, '' );
-    }*/
+            TS_TIP, '' );
+    }
 }
 
 add_action_priority( 'do_page_content', 'ts_tip_print' );
