@@ -42,7 +42,7 @@ function ts_zone_content() {
 
     if ( ! is_numeric( $zone_id ) ) {
         $zone_id = ts_str_to_int( $zone_id );
-        debug_print( 'zone_id changed to ' . $zone_id );
+//        debug_print( 'zone_id changed to ' . $zone_id );
     }
 
     $zone = ts_get_zone( $zone_id );
@@ -51,11 +51,20 @@ function ts_zone_content() {
         return;
     }
 
-    debug_print( $zone );
+//    debug_print( $zone );
 ?>
+<div class="row text-center">
+  <h2><?php echo( $zone[ 'name' ] ); ?></h2>
+  <p class="lead"><?php echo( $zone[ 'description' ] ); ?></p>
+</div>
+
 <div class="row">
-  <h3><?php echo( $zone[ 'name' ] ); ?></h3>
-  <h4><?php echo( $zone[ 'description' ] ); ?></h4>
+  <div class="col-sm-6 text-center">
+    <h3>Actions</h3>
+  </div>
+  <div class="col-sm-6 text-center">
+    <h3>Places to go</h3>
+  </div>
 </div>
 <?php
 }

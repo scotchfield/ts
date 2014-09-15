@@ -263,8 +263,8 @@ function ts_header() {
 ?>
       <div class="row">
 <?php
-debug_print( $character );
-debug_print( game_get_action() );
+//debug_print( $character );
+//debug_print( game_get_action() );
 }
 
 function ts_footer() {
