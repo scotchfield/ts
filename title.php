@@ -8,7 +8,8 @@ function ts_title_content() {
     }
 
     if ( FALSE != $character ) {
-        return;
+        header( 'Location: game-logout.php' );
+        exit;
     }
 
 ?>
@@ -95,13 +96,6 @@ if ( isset( $_GET[ 'notify' ] ) ) {
         politicians, the police force, and the large corporations in town.
         With their own crypto-currency taking over the economic landscape,
         the XY seem unstoppable.</p>
-      <h3>Rise up and take the power back!</h3>
-      <p>As a new recruit in the Elysian Uprising, you will join the
-        outsiders who commit subversive acts to bring down the criminals
-        taking over the city. By sabotaging the XY's interests,
-        obtaining a job that gives you access to the gang, and a wide
-        range of other actions, you will become a force for good, even if
-        it means you're branded a villain.</p>
       <h3>Always free</h3>
       <p><?php echo( GAME_NAME ); ?> is free to play, and we are devoted
         to keeping it that way. Although we offer microtransactions,
