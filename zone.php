@@ -51,7 +51,7 @@ function ts_zone_content() {
         return;
     }
 
-//    debug_print( $zone );
+    debug_print( $zone );
 ?>
 <div class="row text-center">
   <h2><?php echo( $zone[ 'name' ] ); ?></h2>
@@ -62,8 +62,17 @@ function ts_zone_content() {
   <div class="col-sm-6 text-center">
     <h3>Actions</h3>
   </div>
+
   <div class="col-sm-6 text-center">
     <h3>Places to go</h3>
+<?php
+    if ( isset( $zone[ 'places' ] ) && ( count( $zone[ 'places' ] ) > 0 ) ) {
+        foreach ( $zone[ 'places' ] as $k => $v ) {
+            echo( '      <a href="' . GAME_URL . '?action=zone&zone_id=' .
+                  $k . '">' . $v . "</a>\n" );
+        }
+    }
+?>
   </div>
 </div>
 <?php

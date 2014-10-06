@@ -3,6 +3,7 @@
 require( GAME_CUSTOM_PATH . 'select.php' );
 require( GAME_CUSTOM_PATH . 'title.php' );
 
+require( GAME_CUSTOM_PATH . 'character.php' );
 require( GAME_CUSTOM_PATH . 'map.php' );
 require( GAME_CUSTOM_PATH . 'zone.php' );
 
@@ -43,11 +44,12 @@ function ts_unpack_character() {
         return;
     }
 
-    $character[ 'info' ] = json_decode(
+    $info_obj = json_decode(
         character_meta( ts_meta_type_character, TS_INFO ), TRUE );
-// add timestamps so health/mana/stamina regenerate over time
-// or just regen_timestamp so that it can all be done at once
-    $default_info = array(
+
+// @todo: regen health/mana/stamina
+
+    $default_info_obj = array(
         'level' => 1,
         'str' => 10,
         'dex' => 10,
@@ -72,9 +74,9 @@ function ts_unpack_character() {
         'zone' => 1,
     );
 
-    foreach ( $default_info as $k => $v ) {
-        if ( ! isset( $character[ 'info' ][ $k ] ) ) {
-            $character[ 'info' ][ $k ] = $v;
+    foreach ( $default_info_obj as $k => $v ) {
+        if ( ! isset( $character[ $k ] ) ) {
+            $character[ $k ] = $v;
         }
     }
 
@@ -174,8 +176,9 @@ function ts_header() {
               <a href="#" class="droptown-toggle"
                  data-toggle="dropdown">Character <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Profile</a></li>
+                <li><a href="?action=profile">Profile</a></li>
                 <li><a href="#">Inventory</a></li>
+                <li><a href="?action=achievements">Achievements</a></li>
                 <li class="divider">
                 <li><a href="#">Allies</a></li>
                 <li><a href="#">Guild</a></li>
@@ -244,13 +247,13 @@ function ts_header() {
 
         <div class="col-md-6">
           <a href="#"><?php echo( $character[ 'character_name' ] ); ?></a>,
-          Level <?php echo( $character[ 'info' ][ 'level' ] ); ?>,
-          Gold: <?php echo( $character[ 'info' ][ 'gold' ] ); ?>
+          Level <?php echo( $character[ 'level' ] ); ?>,
+          Gold: <?php echo( $character[ 'gold' ] ); ?>
           (<a href="#">x new messages</a>)<br>
-          Health: <?php echo( $character[ 'info' ][ 'health' ] ); ?> /
-          <?php echo( $character[ 'info' ][ 'health_max' ] ); ?>,
-          Mana: <?php echo( $character[ 'info' ][ 'mana' ] ); ?> /
-          <?php echo( $character[ 'info' ][ 'mana_max' ] ); ?>
+          Health: <?php echo( $character[ 'health' ] ); ?> /
+          <?php echo( $character[ 'health_max' ] ); ?>,
+          Mana: <?php echo( $character[ 'mana' ] ); ?> /
+          <?php echo( $character[ 'mana_max' ] ); ?>
         </div>
         <div class="col-md-6 text-right">
           BUFFS<br>
@@ -263,6 +266,7 @@ function ts_header() {
 ?>
       <div class="row">
 <?php
+
 //debug_print( $character );
 //debug_print( game_get_action() );
 }
