@@ -23,14 +23,14 @@ define( 'TS_TIP', 10 );
 
 
 function ts_default_action() {
-    global $user, $character;
+    global $user, $character, $game;
 
     if ( FALSE == $user ) {
-        game_set_action( 'title' );
+        $game->set_action( 'title' );
     } else if ( FALSE == $character ) {
-        game_set_action( 'select' );
+        $game->set_action( 'select' );
     } else {
-        game_set_action( 'map' );
+        $game->set_action( 'map' );
     }
 }
 
@@ -125,9 +125,9 @@ function ts_login() {
 add_action( 'select_character', 'ts_login' );
 
 function ts_header() {
-    global $user, $character;
+    global $user, $character, $game;
 
-    if ( ! strcmp( 'title', game_get_action() ) ) {
+    if ( ! strcmp( 'title', $game->get_action() ) ) {
         return;
     }
 
@@ -140,7 +140,7 @@ function ts_header() {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo( GAME_NAME ); ?> (<?php echo( game_get_action() );
+    <title><?php echo( GAME_NAME ); ?> (<?php echo( $game->get_action() );
         ?>)</title>
     <link rel="stylesheet" href="<?php echo( GAME_CUSTOM_STYLE_URL );
         ?>bootstrap.min.css">
@@ -268,13 +268,13 @@ function ts_header() {
 <?php
 
 //debug_print( $character );
-//debug_print( game_get_action() );
+//debug_print( $game->get_action() );
 }
 
 function ts_footer() {
-    global $character;
+    global $character, $game;
 
-    if ( ! strcmp( 'title', game_get_action() ) ) {
+    if ( ! strcmp( 'title', $game->get_action() ) ) {
         return;
     }
 
@@ -316,7 +316,9 @@ function ts_tip_print() {
 add_action_priority( 'do_page_content', 'ts_tip_print' );
 
 function ts_about() {
-    if ( strcmp( 'about', game_get_action() ) ) {
+    global $game;
+
+    if ( strcmp( 'about', $game->get_action() ) ) {
        return;
     }
 
@@ -330,7 +332,9 @@ function ts_about() {
 }
 
 function ts_contact() {
-    if ( strcmp( 'contact', game_get_action() ) ) {
+    global $game;
+
+    if ( strcmp( 'contact', $game->get_action() ) ) {
        return;
     }
 

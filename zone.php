@@ -17,9 +17,9 @@ function ts_get_zone( $zone_id ) {
 }
 
 function ts_zone_set() {
-    global $character;
+    global $character, $game;
 
-    if ( strcmp( 'zone', game_get_action() ) ) {
+    if ( strcmp( 'zone', $game->get_action() ) ) {
         return;
     }
 //todo: need to do this?
@@ -28,9 +28,9 @@ function ts_zone_set() {
 add_action( 'action_set', 'ts_zone_set' );
 
 function ts_zone_content() {
-    global $character;
+    global $character, $game;
 
-    if ( strcmp( 'zone', game_get_action() ) ) {
+    if ( strcmp( 'zone', $game->get_action() ) ) {
        return;
     }
 

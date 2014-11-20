@@ -1,9 +1,9 @@
 <?
 
 function ts_map_print() {
-    global $user, $character;
+    global $user, $character, $game;
 
-    if ( strcmp( 'map', game_get_action() ) ) {
+    if ( strcmp( 'map', $game->get_action() ) ) {
         return;
     }
 

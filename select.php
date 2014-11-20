@@ -1,14 +1,14 @@
 <?php
 
 function ts_select_check() {
-    global $user, $character;
+    global $user, $character, $game;
 
     if ( FALSE == $user ) {
         return;
     }
 
     if ( FALSE == $character ) {
-        game_set_action( 'select' );
+        $game->set_action( 'select' );
     }
 }
 
@@ -16,9 +16,9 @@ add_action( 'action_set', 'ts_select_check' );
 
 
 function ts_select_print() {
-    global $user;
+    global $user, $game;
 
-    if ( strcmp( 'select', game_get_action() ) ) {
+    if ( strcmp( 'select', $game->get_action() ) ) {
        return;
     }
 
