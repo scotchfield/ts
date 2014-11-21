@@ -22,19 +22,19 @@ define( 'TS_TIP', 10 );
 //define( 'CR_TUTORIAL_STATUS',                1 );
 
 
-function ts_default_action() {
+function ts_default_state() {
     global $user, $character, $game;
 
     if ( FALSE == $user ) {
-        $game->set_action( 'title' );
+        $game->set_state( 'title' );
     } else if ( FALSE == $character ) {
-        $game->set_action( 'select' );
+        $game->set_state( 'select' );
     } else {
-        $game->set_action( 'map' );
+        $game->set_state( 'map' );
     }
 }
 
-add_action( 'set_default_action', 'ts_default_action' );
+add_state( 'set_default_state', 'ts_default_state' );
 
 
 function ts_unpack_character() {
@@ -122,12 +122,12 @@ function ts_login() {
         ) );
 }
 
-add_action( 'select_character', 'ts_login' );
+add_state( 'select_character', 'ts_login' );
 
 function ts_header() {
     global $user, $character, $game;
 
-    if ( ! strcmp( 'title', $game->get_action() ) ) {
+    if ( ! strcmp( 'title', $game->get_state() ) ) {
         return;
     }
 
@@ -140,7 +140,7 @@ function ts_header() {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo( GAME_NAME ); ?> (<?php echo( $game->get_action() );
+    <title><?php echo( GAME_NAME ); ?> (<?php echo( $game->get_state() );
         ?>)</title>
     <link rel="stylesheet" href="<?php echo( GAME_CUSTOM_STYLE_URL );
         ?>bootstrap.min.css">
@@ -176,9 +176,9 @@ function ts_header() {
               <a href="#" class="droptown-toggle"
                  data-toggle="dropdown">Character <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="?action=profile">Profile</a></li>
+                <li><a href="?state=profile">Profile</a></li>
                 <li><a href="#">Inventory</a></li>
-                <li><a href="?action=achievements">Achievements</a></li>
+                <li><a href="?state=achievements">Achievements</a></li>
                 <li class="divider">
                 <li><a href="#">Allies</a></li>
                 <li><a href="#">Guild</a></li>
@@ -215,8 +215,8 @@ function ts_header() {
                 <li><a href="#">Character Search</a></li>
               </ul>
             </li>
-            <li><a href="?action=about">About</a></li>
-            <li><a href="?action=contact">Contact</a></li>
+            <li><a href="?state=about">About</a></li>
+            <li><a href="?state=contact">Contact</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -224,7 +224,7 @@ function ts_header() {
                   echo( $character[ 'character_name' ] );
                   ?> <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="?action=dashboard">Dashboard</a></li>
+                <li><a href="?state=dashboard">Dashboard</a></li>
                 <li class="divider"></li>
                 <li><a href="game-setting.php?setting=change_character">
                     Change Character</a></li>
@@ -268,13 +268,13 @@ function ts_header() {
 <?php
 
 //debug_print( $character );
-//debug_print( $game->get_action() );
+//debug_print( $game->get_state() );
 }
 
 function ts_footer() {
     global $character, $game;
 
-    if ( ! strcmp( 'title', $game->get_action() ) ) {
+    if ( ! strcmp( 'title', $game->get_state() ) ) {
         return;
     }
 
@@ -292,8 +292,8 @@ function ts_footer() {
 <?php
 }
 
-add_action( 'game_header', 'ts_header' );
-add_action( 'game_footer', 'ts_footer' );
+add_state( 'game_header', 'ts_header' );
+add_state( 'game_footer', 'ts_footer' );
 
 
 
@@ -313,12 +313,12 @@ function ts_tip_print() {
     }
 }
 
-add_action_priority( 'do_page_content', 'ts_tip_print' );
+add_state_priority( 'do_page_content', 'ts_tip_print' );
 
 function ts_about() {
     global $game;
 
-    if ( strcmp( 'about', $game->get_action() ) ) {
+    if ( strcmp( 'about', $game->get_state() ) ) {
        return;
     }
 
@@ -334,7 +334,7 @@ function ts_about() {
 function ts_contact() {
     global $game;
 
-    if ( strcmp( 'contact', $game->get_action() ) ) {
+    if ( strcmp( 'contact', $game->get_state() ) ) {
        return;
     }
 
@@ -347,8 +347,8 @@ function ts_contact() {
     echo '<h1>OH BOB SAGET</h1>';
 }
 
-add_action( 'do_page_content', 'ts_about' );
-add_action( 'do_page_content', 'ts_contact' );
+add_state( 'do_page_content', 'ts_about' );
+add_state( 'do_page_content', 'ts_contact' );
 
 
 function ts_item_popup_str( $item ) {
@@ -376,4 +376,4 @@ function ts_validate_user( $args ) {
     set_user_max_characters( $args[ 'user_id' ], 1 );
 }
 
-add_action( 'validate_user', 'ts_validate_user' );
+add_state( 'validate_user', 'ts_validate_user' );

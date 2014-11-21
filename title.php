@@ -3,7 +3,7 @@
 function ts_title_content() {
     global $character, $game;
 
-    if ( strcmp( 'title', $game->get_action() ) ) {
+    if ( strcmp( 'title', $game->get_state() ) ) {
         return;
     }
 
@@ -58,7 +58,7 @@ function ts_title_content() {
         <div class="text-right">
           <button type="submit" class="btn btn-sm btn-default">Log in!</button>
         </div>
-        <input type="hidden" name="action" value="login">
+        <input type="hidden" name="state" value="login">
       </form>
 
     </div>
@@ -147,7 +147,7 @@ if ( isset( $_GET[ 'notify' ] ) ) {
           <button type="submit"
                   class="btn btn-sm btn-default">Register</button>
         </div>
-        <input type="hidden" name="action" value="register">
+        <input type="hidden" name="state" value="register">
       </form>
 
     </div>
@@ -164,4 +164,4 @@ if ( isset( $_GET[ 'notify' ] ) ) {
 <?
 }
 
-add_action( 'do_page_content', 'ts_title_content' );
+add_state( 'do_page_content', 'ts_title_content' );

@@ -19,18 +19,18 @@ function ts_get_zone( $zone_id ) {
 function ts_zone_set() {
     global $character, $game;
 
-    if ( strcmp( 'zone', $game->get_action() ) ) {
+    if ( strcmp( 'zone', $game->get_state() ) ) {
         return;
     }
 //todo: need to do this?
 }
 
-add_action( 'action_set', 'ts_zone_set' );
+add_state( 'state_set', 'ts_zone_set' );
 
 function ts_zone_content() {
     global $character, $game;
 
-    if ( strcmp( 'zone', $game->get_action() ) ) {
+    if ( strcmp( 'zone', $game->get_state() ) ) {
        return;
     }
 
@@ -68,7 +68,7 @@ function ts_zone_content() {
 <?php
     if ( isset( $zone[ 'places' ] ) && ( count( $zone[ 'places' ] ) > 0 ) ) {
         foreach ( $zone[ 'places' ] as $k => $v ) {
-            echo( '      <a href="' . GAME_URL . '?action=zone&zone_id=' .
+            echo( '      <a href="' . GAME_URL . '?state=zone&zone_id=' .
                   $k . '">' . $v . "</a>\n" );
         }
     }
@@ -78,7 +78,7 @@ function ts_zone_content() {
 <?php
 }
 
-add_action( 'do_page_content', 'ts_zone_content' );
+add_state( 'do_page_content', 'ts_zone_content' );
 
 function ts_str_to_int( $st ) {
     $x = substr( md5( $st ), 0, 8 );

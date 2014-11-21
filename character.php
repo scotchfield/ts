@@ -3,7 +3,7 @@
 function ts_profile_content() {
     global $character, $game;
 
-    if ( strcmp( 'profile', $game->get_action() ) ) {
+    if ( strcmp( 'profile', $game->get_state() ) ) {
        return;
     }
 
@@ -12,25 +12,16 @@ function ts_profile_content() {
   <h1 class="page_section">Profile</h1>
 </div>
 <?php
-debug_print( $character );
+    debug_print( $character );
     ts_print_character( $character );
-/*
-?>
-</div>
-<div class="row text-center">
-<a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo( GAME_URL ); ?>?action=char&id=<?php echo( $character[ 'id' ] ); ?>" data-text="I'm on a quest for the warmest hoodie." data-size="large" data-count="none" data-hashtags="hoodiecraft">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-</div>
-<?php
-*/
 }
 
-add_action( 'do_page_content', 'ts_profile_content' );
+add_state( 'do_page_content', 'ts_profile_content' );
 
 function ts_char_content() {
     global $game;
 
-    if ( strcmp( 'char', $game->get_action() ) ) {
+    if ( strcmp( 'char', $game->get_state() ) ) {
        return;
     }
 
@@ -58,7 +49,7 @@ function ts_char_content() {
     ts_print_character( $char );
 }
 
-add_action( 'do_page_content', 'ts_char_content' );
+add_state( 'do_page_content', 'ts_char_content' );
 
 
 function ts_print_character( $character ) {
@@ -103,7 +94,7 @@ function ts_print_character( $character ) {
 function ts_achievements_content() {
     global $character, $game;
 
-    if ( strcmp( 'achievements', $game->get_action() ) ) {
+    if ( strcmp( 'achievements', $game->get_state() ) ) {
        return;
     }
 
@@ -156,4 +147,4 @@ function ts_achievements_content() {
 <?php
 }
 
-add_action( 'do_page_content', 'ts_achievements_content' );
+add_state( 'do_page_content', 'ts_achievements_content' );

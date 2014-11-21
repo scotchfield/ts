@@ -8,17 +8,17 @@ function ts_select_check() {
     }
 
     if ( FALSE == $character ) {
-        $game->set_action( 'select' );
+        $game->set_state( 'select' );
     }
 }
 
-add_action( 'action_set', 'ts_select_check' );
+add_state( 'state_set', 'ts_select_check' );
 
 
 function ts_select_print() {
     global $user, $game;
 
-    if ( strcmp( 'select', $game->get_action() ) ) {
+    if ( strcmp( 'select', $game->get_state() ) ) {
        return;
     }
 
@@ -70,4 +70,4 @@ function ts_select_print() {
 <?php
 }
 
-add_action( 'do_page_content', 'ts_select_print' );
+add_state( 'do_page_content', 'ts_select_print' );
