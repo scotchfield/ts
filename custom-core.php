@@ -30,7 +30,7 @@ function ts_default_state() {
     } else if ( FALSE == $character ) {
         $game->set_state( 'select' );
     } else {
-        $game->set_state( 'map' );
+        $game->set_state( 'zone' );
     }
 }
 
