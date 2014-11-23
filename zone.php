@@ -35,9 +35,9 @@ function ts_zone_content() {
     }
 
 //todo: allow converting strings to numeric (i.e. erebus to 93928340)
-    $zone_id = 1; //todo: define as constant TS_STARTING_ZONE
-    if ( isset( $_GET[ 'zone_id' ] ) ) {
-        $zone_id = $_GET[ 'zone_id' ];
+    $zone_id = 'erebus'; //todo: define as constant TS_STARTING_ZONE
+    if ( FALSE != $game->get_state_arg( 'zone_id' ) ) {
+        $zone_id = $game->get_state_arg( 'zone_id' );
     }
 
     if ( ! is_numeric( $zone_id ) ) {
@@ -51,7 +51,7 @@ function ts_zone_content() {
         return;
     }
 
-    debug_print( $zone );
+//    debug_print( $zone );
 ?>
 <div class="row text-center">
   <h2><?php echo( $zone[ 'name' ] ); ?></h2>

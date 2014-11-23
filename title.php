@@ -77,8 +77,8 @@ $err_obj = array(
     102 => 'Success! You can now log in.',
 );
 
-if ( isset( $_GET[ 'notify' ] ) ) {
-    $notify = intval( $_GET[ 'notify' ] );
+if ( FALSE != $game->get_state_arg( 'notify' ) ) {
+    $notify = intval( $game->get_state_arg( 'notify' ) );
     if ( isset( $err_obj[ $notify ] ) ) {
         echo( '<div class="row text-center"><h2>' .
               $err_obj[ $notify ] . '</h2></div>' );
