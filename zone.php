@@ -17,9 +17,9 @@ function ts_get_zone( $zone_id ) {
 }
 
 function ts_zone_set() {
-    global $character, $game;
+    global $character, $ag;
 
-    if ( strcmp( 'zone', $game->get_state() ) ) {
+    if ( strcmp( 'zone', $ag->get_state() ) ) {
         return;
     }
 //todo: need to do this?
@@ -28,16 +28,16 @@ function ts_zone_set() {
 add_state( 'state_set', 'ts_zone_set' );
 
 function ts_zone_content() {
-    global $character, $game;
+    global $character, $ag;
 
-    if ( strcmp( 'zone', $game->get_state() ) ) {
+    if ( strcmp( 'zone', $ag->get_state() ) ) {
        return;
     }
 
 //todo: allow converting strings to numeric (i.e. erebus to 93928340)
     $zone_id = 'erebus'; //todo: define as constant TS_STARTING_ZONE
-    if ( FALSE != $game->get_state_arg( 'zone_id' ) ) {
-        $zone_id = $game->get_state_arg( 'zone_id' );
+    if ( FALSE != $ag->get_state_arg( 'zone_id' ) ) {
+        $zone_id = $ag->get_state_arg( 'zone_id' );
     }
 
     if ( ! is_numeric( $zone_id ) ) {

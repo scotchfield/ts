@@ -1,9 +1,9 @@
 <?php
 
 function ts_profile_content() {
-    global $character, $game;
+    global $character, $ag;
 
-    if ( strcmp( 'profile', $game->get_state() ) ) {
+    if ( strcmp( 'profile', $ag->get_state() ) ) {
        return;
     }
 
@@ -19,9 +19,9 @@ function ts_profile_content() {
 add_state( 'do_page_content', 'ts_profile_content' );
 
 function ts_char_content() {
-    global $game;
+    global $ag;
 
-    if ( strcmp( 'char', $game->get_state() ) ) {
+    if ( strcmp( 'char', $ag->get_state() ) ) {
        return;
     }
 
@@ -92,9 +92,9 @@ function ts_print_character( $character ) {
 }
 
 function ts_achievements_content() {
-    global $character, $game;
+    global $character, $ag;
 
-    if ( strcmp( 'achievements', $game->get_state() ) ) {
+    if ( strcmp( 'achievements', $ag->get_state() ) ) {
        return;
     }
 

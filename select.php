@@ -1,14 +1,14 @@
 <?php
 
 function ts_select_check() {
-    global $user, $character, $game;
+    global $user, $character, $ag;
 
     if ( FALSE == $user ) {
         return;
     }
 
     if ( FALSE == $character ) {
-        $game->set_state( 'select' );
+        $ag->set_state( 'select' );
     }
 }
 
@@ -16,9 +16,9 @@ add_state( 'state_set', 'ts_select_check' );
 
 
 function ts_select_print() {
-    global $user, $game;
+    global $user, $ag;
 
-    if ( strcmp( 'select', $game->get_state() ) ) {
+    if ( strcmp( 'select', $ag->get_state() ) ) {
        return;
     }
 

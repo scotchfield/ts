@@ -23,14 +23,14 @@ define( 'TS_TIP', 10 );
 
 
 function ts_default_state() {
-    global $user, $character, $game;
+    global $user, $character, $ag;
 
     if ( FALSE == $user ) {
-        $game->set_state( 'title' );
+        $ag->set_state( 'title' );
     } else if ( FALSE == $character ) {
-        $game->set_state( 'select' );
+        $ag->set_state( 'select' );
     } else {
-        $game->set_state( 'zone' );
+        $ag->set_state( 'zone' );
     }
 }
 
@@ -125,9 +125,9 @@ function ts_login() {
 add_state( 'select_character', 'ts_login' );
 
 function ts_header() {
-    global $user, $character, $game;
+    global $user, $character, $ag;
 
-    if ( ! strcmp( 'title', $game->get_state() ) ) {
+    if ( ! strcmp( 'title', $ag->get_state() ) ) {
         return;
     }
 
@@ -140,7 +140,7 @@ function ts_header() {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo( GAME_NAME ); ?> (<?php echo( $game->get_state() );
+    <title><?php echo( GAME_NAME ); ?> (<?php echo( $ag->get_state() );
         ?>)</title>
     <link rel="stylesheet" href="<?php echo( GAME_CUSTOM_STYLE_URL );
         ?>bootstrap.min.css">
@@ -268,13 +268,13 @@ function ts_header() {
 <?php
 
 //debug_print( $character );
-//debug_print( $game->get_state() );
+//debug_print( $ag->get_state() );
 }
 
 function ts_footer() {
-    global $character, $game;
+    global $character, $ag;
 
-    if ( ! strcmp( 'title', $game->get_state() ) ) {
+    if ( ! strcmp( 'title', $ag->get_state() ) ) {
         return;
     }
 
@@ -316,9 +316,9 @@ function ts_tip_print() {
 add_state_priority( 'do_page_content', 'ts_tip_print' );
 
 function ts_about() {
-    global $game;
+    global $ag;
 
-    if ( strcmp( 'about', $game->get_state() ) ) {
+    if ( strcmp( 'about', $ag->get_state() ) ) {
        return;
     }
 
@@ -332,9 +332,9 @@ function ts_about() {
 }
 
 function ts_contact() {
-    global $game;
+    global $ag;
 
-    if ( strcmp( 'contact', $game->get_state() ) ) {
+    if ( strcmp( 'contact', $ag->get_state() ) ) {
        return;
     }
 

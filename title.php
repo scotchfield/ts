@@ -1,9 +1,9 @@
 <?php
 
 function ts_title_content() {
-    global $character, $game;
+    global $character, $ag;
 
-    if ( strcmp( 'title', $game->get_state() ) ) {
+    if ( strcmp( 'title', $ag->get_state() ) ) {
         return;
     }
 
@@ -77,8 +77,8 @@ $err_obj = array(
     102 => 'Success! You can now log in.',
 );
 
-if ( FALSE != $game->get_state_arg( 'notify' ) ) {
-    $notify = intval( $game->get_state_arg( 'notify' ) );
+if ( FALSE != $ag->get_state_arg( 'notify' ) ) {
+    $notify = intval( $ag->get_state_arg( 'notify' ) );
     if ( isset( $err_obj[ $notify ] ) ) {
         echo( '<div class="row text-center"><h2>' .
               $err_obj[ $notify ] . '</h2></div>' );
