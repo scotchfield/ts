@@ -17,7 +17,7 @@ function ts_get_zone( $zone_id ) {
 }
 
 function ts_zone_set() {
-    global $character, $ag;
+    global $ag;
 
     if ( strcmp( 'zone', $ag->get_state() ) ) {
         return;
@@ -28,7 +28,7 @@ function ts_zone_set() {
 add_state( 'state_set', 'ts_zone_set' );
 
 function ts_zone_content() {
-    global $character, $ag;
+    global $ag;
 
     if ( strcmp( 'zone', $ag->get_state() ) ) {
        return;

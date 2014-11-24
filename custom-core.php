@@ -23,11 +23,11 @@ define( 'TS_TIP', 10 );
 
 
 function ts_default_state() {
-    global $user, $character, $ag;
+    global $ag;
 
-    if ( FALSE == $user ) {
+    if ( FALSE == $ag->user ) {
         $ag->set_state( 'title' );
-    } else if ( FALSE == $character ) {
+    } else if ( FALSE == $ag->char ) {
         $ag->set_state( 'select' );
     } else {
         $ag->set_state( 'zone' );
@@ -38,9 +38,9 @@ add_state( 'set_default_state', 'ts_default_state' );
 
 
 function ts_unpack_character() {
-    global $character;
+    global $ag;
 
-    if ( FALSE == $character ) {
+    if ( FALSE == $ag->char ) {
         return;
     }
 
@@ -75,12 +75,12 @@ function ts_unpack_character() {
     );
 
     foreach ( $default_info_obj as $k => $v ) {
-        if ( ! isset( $character[ $k ] ) ) {
-            $character[ $k ] = $v;
+        if ( ! isset( $ag->char[ $k ] ) ) {
+            $ag->char[ $k ] = $v;
         }
     }
 
-    $character[ 'equipped' ] = json_decode(
+    $ag->char[ 'equipped' ] = json_decode(
         character_meta( ts_meta_type_character, TS_EQUIPPED ), TRUE );
 
     $default_info = array(
@@ -103,20 +103,20 @@ function ts_unpack_character() {
 
 
     foreach ( $default_info as $k => $v ) {
-        if ( ! isset( $character[ 'equipped' ][ $k ] ) ) {
-            $character[ 'equipped' ][ $k ] = $v;
+        if ( ! isset( $ag->char[ 'equipped' ][ $k ] ) ) {
+            $ag->char[ 'equipped' ][ $k ] = $v;
         }
     }
 
-    $character[ 'encounter' ] = json_decode(
+    $ag->char[ 'encounter' ] = json_decode(
         character_meta( ts_meta_type_character, TS_ENCOUNTER ), TRUE );
 }
 
 function ts_login() {
-    global $character;
+    global $ag;
 
     ensure_character_meta_keygroup(
-        $character[ 'id' ], ts_meta_type_character, '',
+        $ag->char[ 'id' ], ts_meta_type_character, '',
         array(
             TS_INFO, TS_EQUIPPED, TS_ENCOUNTER,
         ) );
@@ -125,7 +125,7 @@ function ts_login() {
 add_state( 'select_character', 'ts_login' );
 
 function ts_header() {
-    global $user, $character, $ag;
+    global $ag;
 
     if ( ! strcmp( 'title', $ag->get_state() ) ) {
         return;
@@ -168,7 +168,7 @@ function ts_header() {
         </div>
 <?php
 
-    if ( FALSE != $character ) {
+    if ( FALSE != $ag->char ) {
 ?>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -221,7 +221,7 @@ function ts_header() {
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php
-                  echo( $character[ 'character_name' ] );
+                  echo( $ag->char[ 'character_name' ] );
                   ?> <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="?state=dashboard">Dashboard</a></li>
@@ -241,19 +241,20 @@ function ts_header() {
 
     <div class="container">
 <?php
-    if ( FALSE != $character ) {
+    if ( FALSE != $ag->char ) {
+debug_print( $ag->char );
 ?>
       <div class="row">
 
         <div class="col-md-6">
-          <a href="#"><?php echo( $character[ 'character_name' ] ); ?></a>,
-          Level <?php echo( $character[ 'level' ] ); ?>,
-          Gold: <?php echo( $character[ 'gold' ] ); ?>
+          <a href="#"><?php echo( $ag->char[ 'character_name' ] ); ?></a>,
+          Level <?php echo( $ag->char[ 'level' ] ); ?>,
+          Gold: <?php echo( $ag->char[ 'gold' ] ); ?>
           (<a href="#">x new messages</a>)<br>
-          Health: <?php echo( $character[ 'health' ] ); ?> /
-          <?php echo( $character[ 'health_max' ] ); ?>,
-          Mana: <?php echo( $character[ 'mana' ] ); ?> /
-          <?php echo( $character[ 'mana_max' ] ); ?>
+          Health: <?php echo( $ag->char[ 'health' ] ); ?> /
+          <?php echo( $ag->char[ 'health_max' ] ); ?>,
+          Mana: <?php echo( $ag->char[ 'mana' ] ); ?> /
+          <?php echo( $ag->char[ 'mana_max' ] ); ?>
         </div>
         <div class="col-md-6 text-right">
           BUFFS<br>
@@ -267,12 +268,12 @@ function ts_header() {
       <div class="row">
 <?php
 
-//debug_print( $character );
+//debug_print( $ag->char );
 //debug_print( $ag->get_state() );
 }
 
 function ts_footer() {
-    global $character, $ag;
+    global $ag;
 
     if ( ! strcmp( 'title', $ag->get_state() ) ) {
         return;
@@ -298,9 +299,9 @@ add_state( 'game_footer', 'ts_footer' );
 
 
 function ts_tip_print() {
-    global $character;
+    global $ag;
 
-    if ( FALSE == $character ) {
+    if ( FALSE == $ag->char ) {
         return;
     }
 
@@ -308,7 +309,7 @@ function ts_tip_print() {
 
     if ( 0 < strlen( $tip ) ) {
         echo( '<p class="tip">' . $tip . '</p>' );
-        update_character_meta( $character[ 'id' ], ts_meta_type_character,
+        update_character_meta( $ag->char[ 'id' ], ts_meta_type_character,
             TS_TIP, '' );
     }
 }

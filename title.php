@@ -1,13 +1,13 @@
 <?php
 
 function ts_title_content() {
-    global $character, $ag;
+    global $ag;
 
     if ( strcmp( 'title', $ag->get_state() ) ) {
         return;
     }
 
-    if ( FALSE != $character ) {
+    if ( FALSE != $ag->char ) {
         header( 'Location: game-logout.php' );
         exit;
     }

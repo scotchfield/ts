@@ -1,13 +1,13 @@
 <?php
 
 function ts_select_check() {
-    global $user, $character, $ag;
+    global $ag;
 
-    if ( FALSE == $user ) {
+    if ( FALSE == $ag->user ) {
         return;
     }
 
-    if ( FALSE == $character ) {
+    if ( FALSE == $ag->char ) {
         $ag->set_state( 'select' );
     }
 }
@@ -16,13 +16,13 @@ add_state( 'state_set', 'ts_select_check' );
 
 
 function ts_select_print() {
-    global $user, $ag;
+    global $ag;
 
     if ( strcmp( 'select', $ag->get_state() ) ) {
        return;
     }
 
-    $char_obj = get_characters_for_user( $user[ 'id' ] );
+    $char_obj = get_characters_for_user( $ag->user[ 'id' ] );
 ?>
 <div class="row">
   <div class="col-md-2">
@@ -31,7 +31,7 @@ function ts_select_print() {
   <div class="col-md-8">
 
 <h1 class="text-center">Welcome back,
-<?php echo( $user[ 'user_name' ] ); ?>.</h1>
+<?php echo( $ag->user[ 'user_name' ] ); ?>.</h1>
 
   <h1 class="page_section">SELECT A CHARACTER</h1>
 <!--<h2 class="text-center">Select a character:</h2>-->
@@ -48,7 +48,7 @@ function ts_select_print() {
         }
     }
 
-    if ( count( $char_obj ) < $user[ 'max_characters' ] ) {
+    if ( count( $char_obj ) < $ag->user[ 'max_characters' ] ) {
 ?>
 <h1 class="text-center">Create a character</h1>
 <form name="char_form" id="char_form" method="get" action="game-setting.php">

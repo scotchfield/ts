@@ -1,7 +1,7 @@
 <?php
 
 function ts_profile_content() {
-    global $character, $ag;
+    global $ag;
 
     if ( strcmp( 'profile', $ag->get_state() ) ) {
        return;
@@ -12,8 +12,8 @@ function ts_profile_content() {
   <h1 class="page_section">Profile</h1>
 </div>
 <?php
-    debug_print( $character );
-    ts_print_character( $character );
+    debug_print( $ag->char );
+    ts_print_character( $ag->char );
 }
 
 add_state( 'do_page_content', 'ts_profile_content' );
@@ -92,7 +92,7 @@ function ts_print_character( $character ) {
 }
 
 function ts_achievements_content() {
-    global $character, $ag;
+    global $ag;
 
     if ( strcmp( 'achievements', $ag->get_state() ) ) {
        return;
@@ -106,13 +106,13 @@ function ts_achievements_content() {
   <div class="col-md-6">
     <h3>Your achievements</h3>
 <?php
-    if ( ( ! isset( $character[ 'meta' ][ game_meta_type_achievement ] ) ) ||
+    if ( ( ! isset( $ag->char[ 'meta' ][ game_meta_type_achievement ] ) ) ||
          ( 0 == count(
-                    $character[ 'meta' ][ game_meta_type_achievement ] ) ) ) {
+                    $ag->char[ 'meta' ][ game_meta_type_achievement ] ) ) ) {
         echo( '<h4>None yet!</h4>' );
     } else {
         echo( '<dl class="dl-horizontal">' );
-        $achieve_obj = get_achievements( $character[ 'id' ] );
+        $achieve_obj = get_achievements( $ag->char[ 'id' ] );
 
         foreach ( $achieve_obj as $achieve ) {
             $meta = json_decode( $achieve[ 'meta_value' ], TRUE );
@@ -132,7 +132,7 @@ function ts_achievements_content() {
     $achieve_obj = get_all_achievements();
 
     foreach ( $achieve_obj as $k => $achieve ) {
-        if ( isset( $character[ 'meta' ][
+        if ( isset( $ag->char[ 'meta' ][
                         game_meta_type_achievement ][ $k ] ) ) {
             continue;
         }

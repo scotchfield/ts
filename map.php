@@ -1,7 +1,7 @@
 <?
 
 function ts_map_print() {
-    global $user, $character, $ag;
+    global $ag;
 
     if ( strcmp( 'map', $ag->get_state() ) ) {
         return;
