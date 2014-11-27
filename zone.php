@@ -1,7 +1,9 @@
 <?php
 
 function ts_get_zone( $zone_id ) {
-    $zone = get_zone( $zone_id );
+    global $ag;
+
+    $zone = $ag->c( 'zone' )->get_zone( $zone_id );
 
     if ( FALSE == $zone ) {
         return;

@@ -22,6 +22,14 @@ define( 'TS_TIP', 10 );
 //define( 'CR_TUTORIAL_STATUS',                1 );
 
 
+function ts_post_load() {
+    global $ag;
+
+    $ag->set_component( 'zone', new ArcadiaZone() );
+}
+
+add_state( 'post_load', 'ts_post_load' );
+
 function ts_default_state() {
     global $ag;
 
