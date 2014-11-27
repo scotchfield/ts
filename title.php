@@ -89,13 +89,8 @@ if ( FALSE != $ag->get_state_arg( 'notify' ) ) {
   <div class="row">
 
     <div class="col-md-8">
-      <h3>A City Under Siege!</h3>
-      <p>The city of Lancaster has slowly descended into the hands of the
-        crooked. A powerful gang known as the XY have
-        influence over everyone with power, including the
-        politicians, the police force, and the large corporations in town.
-        With their own crypto-currency taking over the economic landscape,
-        the XY seem unstoppable.</p>
+      <h3>Title Here!</h3>
+      <p>Description of game here!</p>
       <h3>Always free</h3>
       <p><?php echo( GAME_NAME ); ?> is free to play, and we are devoted
         to keeping it that way. Although we offer microtransactions,
