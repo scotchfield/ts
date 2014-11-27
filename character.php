@@ -12,7 +12,6 @@ function ts_profile_content() {
   <h1 class="page_section">Profile</h1>
 </div>
 <?php
-    debug_print( $ag->char );
     ts_print_character( $ag->char );
 }
 
