@@ -250,7 +250,7 @@ function ts_header() {
     <div class="container">
 <?php
     if ( FALSE != $ag->char ) {
-debug_print( $ag->char );
+//debug_print( $ag->char );
 ?>
       <div class="row">
 
