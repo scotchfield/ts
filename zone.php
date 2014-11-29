@@ -63,12 +63,28 @@ function ts_zone_content() {
 <div class="row">
   <div class="col-sm-6 text-center">
     <h3>Actions</h3>
+<?php
+    if ( isset( $zone[ 'actions' ] ) ) {
+        echo( '<div class="list-group">' );
+        foreach ( $zone[ 'actions' ] as $k => $v ) {
+?>
+<a href="<?php echo( GAME_URL ); ?>?state=zone&zone_id=<?php echo( $k ); ?>"
+   class="list-group-item">
+  <h4 class="list-group-item-heading"><?php echo( $v ); ?></h4>
+  <p class="list-group-item-text">Herp de derp.</p>
+</a>
+<?php
+        }
+        echo( '</div>' );
+    }
+?>
+
   </div>
 
   <div class="col-sm-6 text-center">
     <h3>Places to go</h3>
 <?php
-    if ( isset( $zone[ 'places' ] ) && ( count( $zone[ 'places' ] ) > 0 ) ) {
+    if ( isset( $zone[ 'places' ] ) ) {
         echo( '<div class="list-group">' );
         foreach ( $zone[ 'places' ] as $k => $v ) {
 ?>
