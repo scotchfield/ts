@@ -4,6 +4,7 @@ require( GAME_CUSTOM_PATH . 'select.php' );
 require( GAME_CUSTOM_PATH . 'title.php' );
 
 require( GAME_CUSTOM_PATH . 'character.php' );
+//require( GAME_CUSTOM_PATH . 'combat.php' );
 require( GAME_CUSTOM_PATH . 'map.php' );
 require( GAME_CUSTOM_PATH . 'zone.php' );
 
@@ -52,9 +53,8 @@ function ts_unpack_character() {
         return;
     }
 
-    $info_obj = json_decode(
+    $ag->char[ 'info' ] = json_decode(
         character_meta( ts_meta_type_character, TS_INFO ), TRUE );
-
 // @todo: regen health/mana/stamina
 
     $default_info_obj = array(
@@ -71,6 +71,7 @@ function ts_unpack_character() {
         'mana_max' => 10,
 	'stamina' => 100,
 	'stamina_max' => 100,
+        'stamina_timestamp' => 0,
 	'sanity' => 100,
 	'sanity_max' => 100,
         'fatigue' => 0,
@@ -83,8 +84,8 @@ function ts_unpack_character() {
     );
 
     foreach ( $default_info_obj as $k => $v ) {
-        if ( ! isset( $ag->char[ $k ] ) ) {
-            $ag->char[ $k ] = $v;
+        if ( ! isset( $ag->char[ 'info' ][ $k ] ) ) {
+            $ag->char[ 'info' ][ $k ] = $v;
         }
     }
 
@@ -109,7 +110,6 @@ function ts_unpack_character() {
       'mount' => 0,
     );
 
-
     foreach ( $default_info as $k => $v ) {
         if ( ! isset( $ag->char[ 'equipped' ][ $k ] ) ) {
             $ag->char[ 'equipped' ][ $k ] = $v;
@@ -119,6 +119,61 @@ function ts_unpack_character() {
     $ag->char[ 'encounter' ] = json_decode(
         character_meta( ts_meta_type_character, TS_ENCOUNTER ), TRUE );
 }
+
+add_state_priority( 'character_load', 'ts_unpack_character' );
+
+function ts_pack_character() {
+    global $ag;
+
+    if ( FALSE == $ag->char ) {
+        return;
+    }
+
+    // todo: check if we need to update, don't just update every time
+
+    if ( isset( $ag->char[ 'info' ] ) ) {
+        update_character_meta( $ag->char[ 'id' ],
+            ts_meta_type_character, TS_INFO,
+            json_encode( $ag->char[ 'info' ] ) );
+    }
+
+    if ( isset( $ag->char[ 'equipped' ] ) ) {
+        update_character_meta( $ag->char[ 'id' ],
+            ts_meta_type_character, TS_EQUIPPED,
+            json_encode( $ag->char[ 'equipped' ] ) );
+    }
+
+    if ( isset( $ag->char[ 'encounter' ] ) ) {
+        update_character_meta( $ag->char[ 'id' ],
+            ts_meta_type_character, TS_ENCOUNTER,
+            json_encode( $ag->char[ 'encounter' ] ) );
+    }
+}
+
+add_state( 'arcadia_end', 'ts_pack_character' );
+
+function ts_regen_stamina() {
+    global $ag;
+
+    if ( FALSE == $ag->char ) {
+        return;
+    }
+
+    if ( $ag->char[ 'info' ][ 'stamina' ] < 100 ) {
+        $stamina_boost = 1.0;
+
+        $stamina_seconds = time() - $ag->char[ 'info' ][ 'stamina_timestamp' ];
+        $stamina_gain = $stamina_boost * ( $stamina_seconds / 120.0 );
+
+        $new_stamina = min(
+            100, $ag->char[ 'info' ][ 'stamina' ] + $stamina_gain );
+
+        $ag->char[ 'info' ][ 'stamina' ] = $new_stamina;
+        $ag->char[ 'info' ][ 'stamina_timestamp' ] = time();
+    }
+}
+
+add_state( 'character_load', 'ts_regen_stamina' );
 
 function ts_login() {
     global $ag;
@@ -139,7 +194,7 @@ function ts_header() {
         return;
     }
 
-    ts_unpack_character();
+//    ts_unpack_character();
 //    update_buffs();
 
 ?><!DOCTYPE html>
@@ -256,13 +311,13 @@ function ts_header() {
 
         <div class="col-md-6">
           <a href="#"><?php echo( $ag->char[ 'character_name' ] ); ?></a>,
-          Level <?php echo( $ag->char[ 'level' ] ); ?>,
-          Gold: <?php echo( $ag->char[ 'gold' ] ); ?>
+          Level <?php echo( $ag->char[ 'info' ][ 'level' ] ); ?>,
+          Gold: <?php echo( $ag->char[ 'info' ][ 'gold' ] ); ?>
           (<a href="#">x new messages</a>)<br>
-          Health: <?php echo( $ag->char[ 'health' ] ); ?> /
-          <?php echo( $ag->char[ 'health_max' ] ); ?>,
-          Mana: <?php echo( $ag->char[ 'mana' ] ); ?> /
-          <?php echo( $ag->char[ 'mana_max' ] ); ?>
+          Health: <?php echo( $ag->char[ 'info' ][ 'health' ] ); ?> /
+          <?php echo( $ag->char[ 'info' ][ 'health_max' ] ); ?>,
+          Mana: <?php echo( $ag->char[ 'info' ][ 'mana' ] ); ?> /
+          <?php echo( $ag->char[ 'info' ][ 'mana_max' ] ); ?>
         </div>
         <div class="col-md-6 text-right">
           BUFFS<br>

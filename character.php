@@ -61,14 +61,15 @@ function ts_print_character( $character ) {
       <dt>Name</dt>
       <dd><?php echo( $character[ 'character_name' ] ); ?></dd>
       <dt>Health</dt>
-      <dd><?php echo( $character[ 'health' ] ); ?></dd>
+      <dd><?php echo( $character[ 'info' ][ 'health' ] ); ?></dd>
       <dt>Stamina</dt>
-      <dd><?php echo( round( $character[ 'stamina' ], $precision = 2 ) ); ?> /
-          <?php echo( $character[ 'stamina_max' ] ); ?></dd>
+      <dd><?php echo( round(
+          $character[ 'info' ][ 'stamina' ], $precision = 2 ) ); ?> /
+          <?php echo( $character[ 'info' ][ 'stamina_max' ] ); ?></dd>
       <dt>Gold</dt>
-      <dd><?php echo( $character[ 'gold' ] ); ?></dd>
+      <dd><?php echo( $character[ 'info' ][ 'gold' ] ); ?></dd>
       <dt>Experience Points</dt>
-      <dd><?php echo( $character[ 'xp' ] ); ?></dd>
+      <dd><?php echo( $character[ 'info' ][ 'xp' ] ); ?></dd>
     </dl>
 
     <h2>Gear</h2>
