@@ -68,7 +68,7 @@ function ts_zone_content() {
         echo( '<div class="list-group">' );
         foreach ( $zone[ 'actions' ] as $k => $v ) {
 ?>
-<a href="<?php echo( GAME_URL ); ?>?state=zone&zone_id=<?php echo( $k ); ?>"
+<a href="<?php echo( GAME_URL ); ?>?<?php echo( $k ); ?>"
    class="list-group-item">
   <h4 class="list-group-item-heading"><?php echo( $v ); ?></h4>
   <p class="list-group-item-text">Herp de derp.</p>
