@@ -4,7 +4,7 @@ require( GAME_CUSTOM_PATH . 'select.php' );
 require( GAME_CUSTOM_PATH . 'title.php' );
 
 require( GAME_CUSTOM_PATH . 'character.php' );
-//require( GAME_CUSTOM_PATH . 'combat.php' );
+require( GAME_CUSTOM_PATH . 'combat.php' );
 require( GAME_CUSTOM_PATH . 'map.php' );
 require( GAME_CUSTOM_PATH . 'zone.php' );
 
@@ -26,6 +26,7 @@ define( 'TS_TIP', 10 );
 function ts_post_load() {
     global $ag;
 
+    $ag->set_component( 'npc', new ArcadiaNpc() );
     $ag->set_component( 'zone', new ArcadiaZone() );
 }
 
@@ -320,19 +321,12 @@ function ts_header() {
           <?php echo( $ag->char[ 'info' ][ 'mana_max' ] ); ?>
         </div>
         <div class="col-md-6 text-right">
-          BUFFS<br>
-          Twelve Sands
+          BUFFS
         </div>
 
       </div>
 <?php
     }
-?>
-      <div class="row">
-<?php
-
-//debug_print( $ag->char );
-//debug_print( $ag->get_state() );
 }
 
 function ts_footer() {
@@ -343,7 +337,6 @@ function ts_footer() {
     }
 
 ?>
-    </div>
   </div>
   <script src="<?php echo( GAME_CUSTOM_STYLE_URL );
       ?>popup.js"></script>

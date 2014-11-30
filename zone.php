@@ -10,6 +10,7 @@ function ts_get_zone( $zone_id ) {
     }
 
     $meta = json_decode( $zone[ 'meta_value' ], $assoc = TRUE );
+//todo: handle case where meta is false or json is erroneous
     foreach ( $meta as $k => $v ) {
         $zone[ $k ] = $v;
     }
