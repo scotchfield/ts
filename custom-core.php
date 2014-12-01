@@ -19,6 +19,7 @@ define( 'TS_ENCOUNTER', 3 );
 
 define( 'TS_TIP', 10 );
 
+define( 'TRACK_NPC', 2000 );
 
 //define( 'CR_TUTORIAL_STATUS',                1 );
 
@@ -26,7 +27,10 @@ define( 'TS_TIP', 10 );
 function ts_post_load() {
     global $ag;
 
+    $ag->set_component( 'achievement', new ArcadiaAchievement() );
     $ag->set_component( 'npc', new ArcadiaNpc() );
+    $ag->set_component( 'track_npc',
+        new ArcadiaTracking( $key_type = TRACK_NPC ) );
     $ag->set_component( 'zone', new ArcadiaZone() );
 }
 
@@ -254,7 +258,7 @@ function ts_header() {
               <a href="#" class="droptown-toggle"
                  data-toggle="dropdown">Navigate <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Capital City</a></li>
+                <li><a href="?state=zone&zone_id=erebus">Erebus City</a></li>
                 <li><a href="#">Auction House</a></li>
                 <li><a href="#">Casino</a></li>
                 <li><a href="#">Infirmary</a></li>
@@ -306,12 +310,12 @@ function ts_header() {
     <div class="container">
 <?php
     if ( FALSE != $ag->char ) {
-//debug_print( $ag->char );
 ?>
       <div class="row">
 
         <div class="col-md-6">
-          <a href="#"><?php echo( $ag->char[ 'character_name' ] ); ?></a>,
+          <a href="?state=profile"><?php
+              echo( $ag->char[ 'character_name' ] ); ?></a>,
           Level <?php echo( $ag->char[ 'info' ][ 'level' ] ); ?>,
           Gold: <?php echo( $ag->char[ 'info' ][ 'gold' ] ); ?>
           (<a href="#">x new messages</a>)<br>

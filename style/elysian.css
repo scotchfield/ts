@@ -102,6 +102,15 @@ h1.page_section {
     text-transform: uppercase;
 }
 
+p.attack {
+    margin: 0px;
+    padding: 0px;
+}
+
+div.attack {
+    margin-bottom: 16px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
