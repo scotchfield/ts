@@ -5,6 +5,7 @@ require( GAME_CUSTOM_PATH . 'title.php' );
 
 require( GAME_CUSTOM_PATH . 'character.php' );
 require( GAME_CUSTOM_PATH . 'combat.php' );
+require( GAME_CUSTOM_PATH . 'dashboard.php' );
 require( GAME_CUSTOM_PATH . 'map.php' );
 require( GAME_CUSTOM_PATH . 'zone.php' );
 
@@ -32,6 +33,8 @@ function ts_post_load() {
     $ag->set_component( 'track_npc',
         new ArcadiaTracking( $key_type = TRACK_NPC ) );
     $ag->set_component( 'zone', new ArcadiaZone() );
+
+    $ag->set_component( 'dashboard', new TSDashboard() );
 }
 
 add_state( 'post_load', 'ts_post_load' );
