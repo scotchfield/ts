@@ -106,13 +106,12 @@ function ts_achievements_content() {
   <div class="col-md-6">
     <h3>Your achievements</h3>
 <?php
-    if ( ( ! isset( $ag->char[ 'meta' ][ game_meta_type_achievement ] ) ) ||
-         ( 0 == count(
-                    $ag->char[ 'meta' ][ game_meta_type_achievement ] ) ) ) {
+    $achieve_obj = $ag->c( 'achievement' )->get_achievements( $ag->char[ 'id' ] );
+
+    if ( 0 == count( $achieve_obj ) ) {
         echo( '<h4>None yet!</h4>' );
     } else {
         echo( '<dl class="dl-horizontal">' );
-        $achieve_obj = get_achievements( $ag->char[ 'id' ] );
 
         foreach ( $achieve_obj as $achieve ) {
             $meta = json_decode( $achieve[ 'meta_value' ], TRUE );
@@ -129,11 +128,10 @@ function ts_achievements_content() {
     <h3>Achievements Remaining</h3>
     <dl class="dl-horizontal">
 <?php
-    $achieve_obj = get_all_achievements();
+    $all_achieve_obj = $ag->c( 'achievement' )->get_all_achievements();
 
-    foreach ( $achieve_obj as $k => $achieve ) {
-        if ( isset( $ag->char[ 'meta' ][
-                        game_meta_type_achievement ][ $k ] ) ) {
+    foreach ( $all_achieve_obj as $k => $achieve ) {
+        if ( isset( $achieve_obj[ $k ] ) ) {
             continue;
         }
         $meta = json_decode( $achieve[ 'meta_value' ], TRUE );

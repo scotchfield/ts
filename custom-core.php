@@ -387,9 +387,16 @@ function ts_about() {
 <div class="row text-right">
   <h1 class="page_section">About</h1>
 </div>
+<div class="row text-left">
+  <h2>What is Twelve Sands?</h2>
+  <p><a href="https://github.com/scotchfield/ts">Twelve Sands</a> is an
+    open-source web-based role playing game.</p>
+  <h2>What is Arcadia?</h2>
+  <p><a href="https://github.com/scotchfield/arcadia">Arcadia</a> is an
+    open-source web-based role playing engine currently under development.
+    Check out the project, and feel free to follow along as it grows!</p>
+</div>
 <?php
-
-    echo '<h1>BOB SAGET</h1>';
 }
 
 function ts_contact() {
@@ -438,3 +445,24 @@ function ts_validate_user( $args ) {
 }
 
 add_state( 'validate_user', 'ts_validate_user' );
+
+function ts_achievement_print( $args ) {
+    global $ag;
+
+    if ( ! isset( $args[ 'achievement_id' ] ) ) {
+        return;
+    }
+
+    $achievement = $ag->c( 'achievement' )->get_achievement(
+        $args[ 'achievement_id' ] );
+    $meta = json_decode( $achievement[ 'meta_value' ], TRUE );
+?>
+<div class="row text-center alert">
+  <h2>You have completed a new achievement!</h2>
+  <h3><?php echo( $meta[ 'name' ] ); ?></h3>
+  <h4><?php echo( $meta[ 'text' ] ); ?></h4>
+</div>
+<?php
+}
+
+add_state( 'award_achievement', 'ts_achievement_print' );

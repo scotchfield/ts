@@ -16,6 +16,7 @@ function ts_get_npc( $npc_id ) {
     }
     unset( $npc[ 'meta_value' ] );
 
+    $npc[ 'id' ] = $npc[ 'meta_key' ];
     if ( isset( $npc[ 'health' ] ) ) {
         $npc[ 'health_max' ] = $npc[ 'health' ];
     }
@@ -97,6 +98,8 @@ function ts_combat_content() {
               number_with_suffix( $ag->char_meta(
                   TRACK_NPC, $npc[ 'meta_key' ], 0 ) + 1 ) .
               ' ' . $npc[ 'name' ] . '.</p>' );
+
+        ts_check_combat_achievements( $npc );
     } else {
         echo( '<div class="row text-center">' .
               '<h2>You are defeated!</h2>' );
@@ -204,4 +207,13 @@ function ts_echo_health( $combat ) {
     </div>
     <div class="col-xs-6 text-center">
 <?php
+}
+
+function ts_check_combat_achievements( $npc ) {
+    global $ag;
+
+    if ( ( 1 == $npc[ 'id' ] ) &&
+         ( $ag->char_meta( TRACK_NPC, $npc[ 'id' ], 0 ) > 10 ) ) {
+        $ag->c( 'achievement' )->award_achievement( 1 );
+    }
 }
