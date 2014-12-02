@@ -318,14 +318,14 @@ function ts_header() {
               echo( $ag->char[ 'character_name' ] ); ?></a>,
           Level <?php echo( $ag->char[ 'info' ][ 'level' ] ); ?>,
           Gold: <?php echo( $ag->char[ 'info' ][ 'gold' ] ); ?>
-          (<a href="#">x new messages</a>)<br>
+          <!-- (<a href="#">x new messages</a>) --><br>
           Health: <?php echo( $ag->char[ 'info' ][ 'health' ] ); ?> /
           <?php echo( $ag->char[ 'info' ][ 'health_max' ] ); ?>,
           Mana: <?php echo( $ag->char[ 'info' ][ 'mana' ] ); ?> /
           <?php echo( $ag->char[ 'info' ][ 'mana_max' ] ); ?>
         </div>
         <div class="col-md-6 text-right">
-          BUFFS
+          <!-- BUFFS -->
         </div>
 
       </div>
