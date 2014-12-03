@@ -29,6 +29,7 @@ function ts_post_load() {
     global $ag;
 
     $ag->set_component( 'achievement', new ArcadiaAchievement() );
+    $ag->set_component( 'item', new ArcadiaItem() );
     $ag->set_component( 'npc', new ArcadiaNpc() );
     $ag->set_component( 'track_npc',
         new ArcadiaTracking( $key_type = TRACK_NPC ) );
@@ -312,28 +313,6 @@ function ts_header() {
 
     <div class="container">
 <?php
-    if ( FALSE != $ag->char ) {
-?>
-      <div class="row">
-
-        <div class="col-md-6">
-          <a href="?state=profile"><?php
-              echo( $ag->char[ 'character_name' ] ); ?></a>,
-          Level <?php echo( $ag->char[ 'info' ][ 'level' ] ); ?>,
-          Gold: <?php echo( $ag->char[ 'info' ][ 'gold' ] ); ?>
-          <!-- (<a href="#">x new messages</a>) --><br>
-          Health: <?php echo( $ag->char[ 'info' ][ 'health' ] ); ?> /
-          <?php echo( $ag->char[ 'info' ][ 'health_max' ] ); ?>,
-          Mana: <?php echo( $ag->char[ 'info' ][ 'mana' ] ); ?> /
-          <?php echo( $ag->char[ 'info' ][ 'mana_max' ] ); ?>
-        </div>
-        <div class="col-md-6 text-right">
-          <!-- BUFFS -->
-        </div>
-
-      </div>
-<?php
-    }
 }
 
 function ts_footer() {
