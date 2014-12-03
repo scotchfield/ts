@@ -119,9 +119,16 @@ function ts_unpack_character() {
       'mount' => 0,
     );
 
+    $default_cache = array();
+
     foreach ( $default_info as $k => $v ) {
         if ( ! isset( $ag->char[ 'equipped' ][ $k ] ) ) {
-            $ag->char[ 'equipped' ][ $k ] = $v;
+            if ( ! isset( $default_cache[ $v ] ) ) {
+                $default_cache[ $v ] = $ag->c( 'item' )->get_item( $v );
+            }
+
+            $ag->char[ 'equipped' ][ $k ] = json_decode(
+                $default_cache[ $v ][ 'meta_value' ], TRUE );
         }
     }
 
@@ -249,13 +256,13 @@ function ts_header() {
                  data-toggle="dropdown">Character <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="?state=profile">Profile</a></li>
-                <li><a href="#">Inventory</a></li>
+                <li><a href="?state=inventory">Inventory</a></li>
                 <li><a href="?state=achievements">Achievements</a></li>
                 <li class="divider">
-                <li><a href="#">Allies</a></li>
-                <li><a href="#">Guild</a></li>
-                <li><a href="#">Mailbox</a></li>
-                <li><a href="#">Quest Log</a></li>
+                <li><a href="?state=allies">Allies</a></li>
+                <li><a href="?state=guild">Guild</a></li>
+                <li><a href="?state=mail">Mailbox</a></li>
+                <li><a href="?state=quests">Quest Log</a></li>
               </ul>
             </li>
             <li class="dropdown">

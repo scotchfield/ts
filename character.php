@@ -75,6 +75,30 @@ function ts_print_character( $character ) {
     <h2>Gear</h2>
 
     <dl class="dl-horizontal">
+<?php
+    $gear_obj = array(
+        'weapon' => 'Weapon',
+        'head' => 'Head',
+        'chest' => 'Chest',
+        'legs' => 'Legs',
+        'neck' => 'Neck',
+        'trinket_1' => 'Trinket',
+        'trinket_2' => 'Trinket',
+        'trinket_3' => 'Trinket',
+        'hands' => 'Hands',
+        'wrists' => 'Wrists',
+        'belt' => 'Belt',
+        'boots' => 'Boots',
+        'ring_1' => 'Ring',
+        'ring_2' => 'Ring',
+        'mount' => 'Mount',
+    );
+
+    foreach ( $gear_obj as $k => $v ) {
+        echo( '<dt>' . $v . '</dt><dd>' .
+              $character[ 'equipped' ][ $k ][ 'name' ] . '</dd>' );
+    }
+?>
     </dl>
 
   </div>
@@ -146,3 +170,21 @@ function ts_achievements_content() {
 }
 
 add_state( 'do_page_content', 'ts_achievements_content' );
+
+function ts_inventory_content() {
+    global $ag;
+
+    if ( strcmp( 'inventory', $ag->get_state() ) ) {
+       return;
+    }
+
+?>
+<div class="row text-right">
+  <h1 class="page_section">Inventory</h1>
+</div>
+<?php
+
+    debug_print( $ag->char );
+}
+
+add_state( 'do_page_content', 'ts_inventory_content' );
