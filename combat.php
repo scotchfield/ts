@@ -28,13 +28,13 @@ function ts_combat_content() {
     global $ag;
 
     if ( strcmp( 'combat', $ag->get_state() ) ) {
-        return;
+        return FALSE;
     }
 
     $zone_id = $ag->get_state_arg( 'zone_id' );
 
     if ( ! $zone_id ) {
-        return;
+        return FALSE;
     }
 
     if ( ! is_numeric( $zone_id ) ) {
@@ -44,7 +44,7 @@ function ts_combat_content() {
     $zone = ts_get_zone( $zone_id );
 
     if ( FALSE == $zone ) {
-        return;
+        return FALSE;
     }
 ?>
 <div class="row text-right">
@@ -52,15 +52,22 @@ function ts_combat_content() {
 </div>
 <?
     $combat_id = $ag->get_state_arg( 'combat_id' );
+    if ( ! $combat_id ) {
+        $combat_id = 1;
+    }
 
     if ( ! isset( $zone[ 'combat_id' ][ $combat_id ] ) ) {
-        return;
+        return FALSE;
     }
 
     $c_obj = $zone[ 'combat_id' ][ $combat_id ];
     $npc_id = $c_obj[ array_rand( $c_obj ) ];
 
     $npc = ts_get_npc( $npc_id );
+
+    if ( ! $npc ) {
+        return FALSE;
+    }
 
     $combat_obj = ts_get_combat( $npc );
 
