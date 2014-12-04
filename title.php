@@ -23,7 +23,7 @@ function ts_title_content() {
     <link rel="stylesheet" href="<?php echo( GAME_CUSTOM_STYLE_URL );
         ?>bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo( GAME_CUSTOM_STYLE_URL );
-        ?>elysian.css">
+        ?>ts.css">
     <link href="http://fonts.googleapis.com/css?family=Raleway:400,500"
           rel="stylesheet" type="text/css">
   </head>
