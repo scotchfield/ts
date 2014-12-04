@@ -106,7 +106,7 @@ function ts_combat_content() {
               ' ' . $npc[ 'name' ] . '.</p>' );
 
         ts_check_combat_achievements( $npc );
-        
+
         if ( isset( $npc[ 'drops' ] ) ) {
             foreach ( $npc[ 'drops' ] as $k => $drop_rate ) {
                 $roll = mt_rand( 0, 100 );
