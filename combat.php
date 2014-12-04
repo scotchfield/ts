@@ -89,7 +89,6 @@ function ts_combat_content() {
         }
     }
 
-
     if ( $combat_obj[ 'win' ] ) {
         echo( '</div></div><div class="row text-center">' .
               '<h2>You win!</h2>' );
@@ -107,6 +106,21 @@ function ts_combat_content() {
               ' ' . $npc[ 'name' ] . '.</p>' );
 
         ts_check_combat_achievements( $npc );
+        
+        if ( isset( $npc[ 'drops' ] ) ) {
+            foreach ( $npc[ 'drops' ] as $k => $drop_rate ) {
+                $roll = mt_rand( 0, 100 );
+                if ( $roll < $drop_rate ) {
+                    $item = $ag->c( 'item' )->get_item( $k );
+                    $item = json_decode( $item[ 'meta_value' ], TRUE );
+
+                    echo( '<p>Your foe drops some loot: ' . ts_item_popup( $item ) . '</p>' );
+
+                    // todo: award the item; handle indices in db rows for inventory
+                }
+            }
+        }
+
     } else {
         echo( '<div class="row text-center">' .
               '<h2>You are defeated!</h2>' );

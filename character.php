@@ -182,9 +182,19 @@ function ts_inventory_content() {
 <div class="row text-right">
   <h1 class="page_section">Inventory</h1>
 </div>
-<?php
+<div class="row">
+  <h2>Currently Holding:</h2>
+  <ul>
+  <?php
 
-    debug_print( $ag->char );
+    foreach( $ag->char[ 'meta' ][ ts_meta_type_inventory ] as $item ) {
+        echo( '<li>' . ts_item_popup( $item ) . '</li>' );
+//        echo( '<li>' . $item[ 'name' ] . '<br><i>(' . $item[ 'text' ] . ')</i></li>' );
+    }
+
+?>
+</div>
+<?php
 }
 
 add_state( 'do_page_content', 'ts_inventory_content' );

@@ -64,7 +64,6 @@ function ts_unpack_character() {
 
     $ag->char[ 'info' ] = json_decode(
         character_meta( ts_meta_type_character, TS_INFO ), TRUE );
-// @todo: regen health/mana/stamina
 
     $default_info_obj = array(
         'level' => 1,
@@ -72,17 +71,17 @@ function ts_unpack_character() {
         'dex' => 10,
         'int' => 10,
         'con' => 10,
-	'cha' => 10,
-	'pow' => 10,
+        'cha' => 10,
+        'pow' => 10,
         'health' => 10,
         'health_max' => 10,
         'mana' => 10,
         'mana_max' => 10,
-	'stamina' => 100,
-	'stamina_max' => 100,
+        'stamina' => 100,
+        'stamina_max' => 100,
         'stamina_timestamp' => 0,
-	'sanity' => 100,
-	'sanity_max' => 100,
+        'sanity' => 100,
+        'sanity_max' => 100,
         'fatigue' => 0,
         'fatigue_reduction' => 0,
         'fatigue_rested' => 0,
@@ -90,6 +89,8 @@ function ts_unpack_character() {
         'gold' => 0,
         'gold_bank' => 0,
         'zone' => 1,
+        'burden' => 0,
+        'burden_max' => 100,
     );
 
     foreach ( $default_info_obj as $k => $v ) {
@@ -134,6 +135,10 @@ function ts_unpack_character() {
 
     $ag->char[ 'encounter' ] = json_decode(
         character_meta( ts_meta_type_character, TS_ENCOUNTER ), TRUE );
+
+    foreach( $ag->char[ 'meta' ][ ts_meta_type_inventory ] as $k => $v ) {
+        $ag->char[ 'meta' ][ ts_meta_type_inventory ][ $k ] = json_decode( $v, TRUE );
+    }
 }
 
 add_state_priority( 'character_load', 'ts_unpack_character' );
@@ -455,3 +460,39 @@ function ts_achievement_print( $args ) {
 }
 
 add_state( 'award_achievement', 'ts_achievement_print' );
+
+function ts_item_popup( $item ) {
+    if ( ! isset( $item[ 'rarity' ] ) ) {
+        $item[ 'rarity' ] = 1;
+    }
+    $rarity_obj = array(
+        5 => 'legendary', 4 => 'epic', 3 => 'rare',
+        2 => 'uncommon', 1 => 'common',
+    );
+
+    $st = '<a class="' . $rarity_obj[ $item[ 'rarity' ] ] .
+          '" href="#" onmouseover="popup(\'' .
+          '<span class=&quot;item_name&quot;>' . $item[ 'name' ] .
+          '</span><hr>';
+
+    if ( 5 == $item[ 'rarity' ] ) {
+        $st = $st . '<span class=&quot;legendary&quot;>' .
+              'Legendary Quality</span><br><span>';
+    } else if ( 4 == $item[ 'rarity' ] ) {
+        $st = $st . '<span class=&quot;epic&quot;>' .
+              'Epic Quality</span><br><span>';
+    } else if ( 3 == $item[ 'rarity' ] ) {
+        $st = $st . '<span class=&quot;rare&quot;>' .
+              'Rare Quality</span><br><span>';
+    } else if ( 2 == $item[ 'rarity' ] ) {
+        $st = $st . '<span class=&quot;uncommon&quot;>' .
+              'Uncommon Quality</span><br><span>';
+    } else {
+        $st = $st . '<span class=&quot;common&quot;>' .
+              'Common Quality</span><br><span>';
+    }
+
+    $st = $st . '</span><hr>' . 'HERP DE DERP' . '\')" onmouseout="popout()" class="item">' .
+          $item[ 'name' ] . '</a>';
+    return $st;
+}
