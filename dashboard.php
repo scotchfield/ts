@@ -2,8 +2,6 @@
 
 class TSDashboard extends ArcadiaComponent {
     function __construct() {
-        global $ag;
-
         add_state( 'do_page_content', array( $this, 'content_dashboard' ) );
 
         add_state( 'do_page_content', array( $this, 'content_zone' ) );
