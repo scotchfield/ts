@@ -11,7 +11,6 @@ require( GAME_CUSTOM_PATH . 'zone.php' );
 
 
 define( 'ts_meta_type_character',            1 );
-define( 'ts_meta_type_inventory',            2 );
 define( 'ts_meta_type_buff',                 3 );
 
 define( 'TS_INFO', 1 );
@@ -29,6 +28,7 @@ function ts_post_load() {
     global $ag;
 
     $ag->set_component( 'achievement', new ArcadiaAchievement() );
+    $ag->set_component( 'inventory', new ArcadiaInventory() );
     $ag->set_component( 'item', new ArcadiaItem() );
     $ag->set_component( 'npc', new ArcadiaNpc() );
     $ag->set_component( 'track_npc',
@@ -135,10 +135,6 @@ function ts_unpack_character() {
 
     $ag->char[ 'encounter' ] = json_decode(
         character_meta( ts_meta_type_character, TS_ENCOUNTER ), TRUE );
-
-    foreach( $ag->char[ 'meta' ][ ts_meta_type_inventory ] as $k => $v ) {
-        $ag->char[ 'meta' ][ ts_meta_type_inventory ][ $k ] = json_decode( $v, TRUE );
-    }
 }
 
 add_state_priority( 'character_load', 'ts_unpack_character' );

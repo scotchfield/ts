@@ -112,11 +112,13 @@ function ts_combat_content() {
                 $roll = mt_rand( 0, 100 );
                 if ( $roll < $drop_rate ) {
                     $item = $ag->c( 'item' )->get_item( $k );
-                    $item = json_decode( $item[ 'meta_value' ], TRUE );
+                    $item_obj = json_decode( $item[ 'meta_value' ], TRUE );
 
-                    echo( '<p>Your foe drops some loot: ' . ts_item_popup( $item ) . '</p>' );
+                    echo( '<p>Your foe drops some loot: ' .
+                          ts_item_popup( $item_obj ) . '</p>' );
 
-                    // todo: award the item; handle indices in db rows for inventory
+                    $ag->c( 'inventory' )->award_item(
+                        $ag->char[ 'id' ], $item[ 'meta_value' ] );
                 }
             }
         }

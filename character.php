@@ -178,6 +178,8 @@ function ts_inventory_content() {
        return;
     }
 
+    $inventory_obj = $ag->c( 'inventory' )->get_inventory( $ag->char[ 'id' ] );
+
 ?>
 <div class="row text-right">
   <h1 class="page_section">Inventory</h1>
@@ -187,9 +189,9 @@ function ts_inventory_content() {
   <ul>
   <?php
 
-    foreach( $ag->char[ 'meta' ][ ts_meta_type_inventory ] as $item ) {
-        echo( '<li>' . ts_item_popup( $item ) . '</li>' );
-//        echo( '<li>' . $item[ 'name' ] . '<br><i>(' . $item[ 'text' ] . ')</i></li>' );
+    foreach( $inventory_obj as $item ) {
+        $item_obj = json_decode( $item[ 'meta_value' ], TRUE );
+        echo( '<li>' . ts_item_popup( $item_obj ) . '</li>' );
     }
 
 ?>
