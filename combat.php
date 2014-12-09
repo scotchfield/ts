@@ -107,6 +107,20 @@ function ts_combat_content() {
 
         ts_check_combat_achievements( $npc );
 
+        if ( isset( $npc[ 'gold' ] ) ) {
+            $gold = $npc[ 'gold' ];
+            if ( isset( $npc[ 'gold_var' ] ) ) {
+                $v = $gold * floatval( $npc[ 'gold_var' ] );
+                $gold_min = max( 0, round( $gold - $v ) );
+                $gold_max = round( $gold + $v );
+                $gold = mt_rand( $gold_min, $gold_max );
+            }
+
+            echo( '<p>You receive ' . $gold . ' gold!</p>' );
+
+            $ag->char[ 'info' ][ 'gold' ] += $gold;
+        }
+
         if ( isset( $npc[ 'drops' ] ) ) {
             foreach ( $npc[ 'drops' ] as $k => $drop_rate ) {
                 $roll = mt_rand( 0, 100 );
