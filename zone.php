@@ -19,25 +19,9 @@ function ts_get_zone( $zone_id ) {
     return $zone;
 }
 
-function ts_zone_set() {
-    global $ag;
-
-    if ( strcmp( 'zone', $ag->get_state() ) ) {
-        return;
-    }
-//todo: need to do this?
-}
-
-add_state( 'state_set', FALSE, 'ts_zone_set' );
-
 function ts_zone_content() {
     global $ag;
 
-    if ( strcmp( 'zone', $ag->get_state() ) ) {
-       return;
-    }
-
-//todo: allow converting strings to numeric (i.e. erebus to 93928340)
     $zone_id = 'erebus'; //todo: define as constant TS_STARTING_ZONE
     if ( FALSE != $ag->get_arg( 'zone_id' ) ) {
         $zone_id = $ag->get_arg( 'zone_id' );
@@ -54,7 +38,6 @@ function ts_zone_content() {
         return;
     }
 
-//    debug_print( $zone );
 ?>
 <div class="row text-right">
   <h1 class="page_section">Zone</h1>
@@ -103,9 +86,57 @@ function ts_zone_content() {
 <?php
 }
 
-add_state( 'do_page_content', FALSE, 'ts_zone_content' );
+add_state( 'do_page_content', 'zone', 'ts_zone_content' );
 
 function ts_str_to_int( $st ) {
     $x = substr( md5( $st ), 0, 8 );
     return base_convert( $x, 16, 10 );
 }
+
+function ts_store_content() {
+    global $ag;
+
+    $zone_id = $ag->get_arg( 'zone_id' );
+
+    if ( ! $zone_id ) {
+        return FALSE;
+    }
+
+    if ( ! is_numeric( $zone_id ) ) {
+        $zone_id = ts_str_to_int( $zone_id );
+    }
+
+    $zone = ts_get_zone( $zone_id );
+
+    if ( FALSE == $zone ) {
+        return FALSE;
+    }
+
+    if ( ! isset( $zone[ 'store_id' ] ) ) {
+        return FALSE;
+    }
+
+?>
+<div class="row text-right">
+  <h1 class="page_section">Store</h1>
+</div>
+<?
+
+    $item_obj = $ag->c( 'item' )->get_item_list( $zone[ 'store_id' ] );
+
+    foreach ( $item_obj as $item ) {
+        $item = json_decode( $item[ 'meta_value' ], TRUE );
+
+        if ( ! isset( $item[ 'buy' ] ) ) {
+            continue;
+        }
+
+        //todo buy should be an array of item/quantities
+        echo( '<p>' . ts_item_popup( $item ) . ' (' .
+              '<a href="?state=store&zone_id=' . $ag->get_arg( 'zone_id' ) .
+              '">buy</a>)</p>' );
+    }
+
+}
+
+add_state( 'do_page_content', 'store', 'ts_store_content' );
