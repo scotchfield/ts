@@ -69,6 +69,15 @@ function ts_combat_content() {
         return FALSE;
     }
 
+    echo( '<div class="row text-center">' );
+    echo( '  <div class="col-md-8 col-md-offset-2">' );
+    echo( '    <h1>' . $npc[ 'name' ] . '</h1>' );
+    if ( isset( $npc[ 'text' ] ) ) {
+        echo( '      <p class="lead">' . $npc[ 'text' ] . '</p>' );
+    }
+    echo( '  </div>' );
+    echo( '</div>' );
+
     $combat_obj = ts_get_combat( $npc );
 
     if ( ! $combat_obj[ 'round' ][ 0 ][ 'initiative' ] ) {
@@ -147,6 +156,11 @@ function ts_combat_content() {
         $ag->char[ 'info' ][ 'stamina' ] = max(
             0, $ag->char[ 'info' ][ 'stamina' ] - 10.0 );
     }
+
+    echo( '<p><a href="?state=combat&zone_id=' . $ag->get_arg( 'zone_id' ) .
+          '">Adventure again</a></p>' );
+    echo( '<p><a href="?state=zone&zone_id=' . $ag->get_arg( 'zone_id' ) .
+          '">Back to ' . $zone[ 'name' ] . '</a></p>' );
 
     echo( '</div>' );
 }
