@@ -31,7 +31,7 @@ function ts_combat_content() {
         return FALSE;
     }
 
-    $zone_id = $ag->get_state_arg( 'zone_id' );
+    $zone_id = $ag->get_arg( 'zone_id' );
 
     if ( ! $zone_id ) {
         return FALSE;
@@ -51,7 +51,7 @@ function ts_combat_content() {
   <h1 class="page_section">Combat</h1>
 </div>
 <?
-    $combat_id = $ag->get_state_arg( 'combat_id' );
+    $combat_id = $ag->get_arg( 'combat_id' );
     if ( ! $combat_id ) {
         $combat_id = 1;
     }

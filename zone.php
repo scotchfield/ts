@@ -39,8 +39,8 @@ function ts_zone_content() {
 
 //todo: allow converting strings to numeric (i.e. erebus to 93928340)
     $zone_id = 'erebus'; //todo: define as constant TS_STARTING_ZONE
-    if ( FALSE != $ag->get_state_arg( 'zone_id' ) ) {
-        $zone_id = $ag->get_state_arg( 'zone_id' );
+    if ( FALSE != $ag->get_arg( 'zone_id' ) ) {
+        $zone_id = $ag->get_arg( 'zone_id' );
     }
 
     if ( ! is_numeric( $zone_id ) ) {

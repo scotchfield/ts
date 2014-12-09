@@ -59,7 +59,7 @@ class TSDashboard extends ArcadiaComponent {
 <div class="row text-center">
 <?php
 
-        $key = $ag->get_state_arg( 'key' );
+        $key = $ag->get_arg( 'key' );
         $zone = FALSE;
 
         if ( $key ) {
