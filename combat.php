@@ -173,11 +173,11 @@ function ts_get_combat( $npc ) {
         );
 
         if ( $initiative ) {
-            $attack = ts_get_attack( $npc );
+            $attack = ts_get_attack( $ag->char );
             $combat[ 'attack' ] = $attack;
             $npc[ 'health' ] -= $attack[ 'dmg' ];
         } else {
-            $attack = ts_get_attack( $ag->char );
+            $attack = ts_get_attack( $npc );
             $combat[ 'attack' ] = $attack;
             $ag->char[ 'info' ][ 'health' ] -= $attack[ 'dmg' ];
         }
@@ -210,9 +210,24 @@ function ts_get_initiative( $char_a, $char_b ) {
 }
 
 function ts_get_attack( $char ) {
-// todo come on
-    return array( 'text' => 'The weapon hits for 1 damage!',
-                  'dmg' => 1 );
+    $attack = array( 'text' => 'The weapon hits for 1 damage!', 'dmg' => 1 );
+
+    if ( isset( $char[ 'attacks' ] ) ) {
+        $attack_key = array_rand( $char[ 'attacks' ] );
+        $attack = $char[ 'attacks' ][ $attack_key ];
+
+        if ( isset( $attack[ 'min' ] ) && isset( $attack[ 'max' ] ) ) {
+            $attack[ 'dmg' ] = mt_rand(
+                intval( $attack[ 'min' ] ), intval( $attack[ 'max' ] ) );
+        } else {
+            $attack[ 'dmg' ] = 1;
+        }
+
+        $attack[ 'text' ] = str_replace( '|dmg|', $attack[ 'dmg' ],
+            $attack[ 'text' ] );
+    }
+
+    return $attack;
 }
 
 function ts_echo_health( $combat ) {
