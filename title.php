@@ -3,10 +3,6 @@
 function ts_title_content() {
     global $ag;
 
-    if ( strcmp( 'title', $ag->get_state() ) ) {
-        return;
-    }
-
     if ( FALSE != $ag->char ) {
         header( 'Location: game-logout.php' );
         exit;
@@ -159,4 +155,4 @@ if ( FALSE != $ag->get_arg( 'notify' ) ) {
 <?
 }
 
-add_state( 'do_page_content', FALSE, 'ts_title_content' );
+add_state( 'do_page_content', 'title', 'ts_title_content' );
