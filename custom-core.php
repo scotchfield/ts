@@ -488,7 +488,17 @@ function ts_item_popup( $item ) {
               'Common Quality</span><br><span>';
     }
 
-    $st = $st . '</span><hr>' . 'HERP DE DERP' . '\')" onmouseout="popout()" class="item">' .
+    $st = $st . '</span><hr>' . 'HERP DE DERP' .
+          '\')" onmouseout="popout()" class="item">' .
           $item[ 'name' ] . '</a>';
+    return $st;
+}
+
+function ts_item_div( $item ) {
+    $st = '<div class="item"><div class="img">' .
+          '<img src="/game/ts/style/grunge.png" width="64" height="64">' .
+          '</div><div class="text">' .
+          '<h4 style="margin: 0">' . $item[ 'name' ] . '</h4></div></div>';
+
     return $st;
 }

@@ -189,10 +189,21 @@ function ts_inventory_content() {
   <ul>
   <?php
 
-    foreach( $inventory_obj as $item ) {
-        $item_obj = json_decode( $item[ 'meta_value' ], TRUE );
-        echo( '<li>' . ts_item_popup( $item_obj ) . '</li>' );
+    echo( '<div class="row">' );
+    $counter = 0;
+    foreach ( $inventory_obj as $item ) {
+        $item = json_decode( $item[ 'meta_value' ], TRUE );
+
+        echo( '<div class="col-sm-4">' . ts_item_div( $item ) . '</div>' );
+
+        $counter += 1;
+        if ( $counter >= 3 ) {
+            echo( '</div><div class="row">' );
+            $counter = 0;
+        }
     }
+    echo( '</div>' );
+
 
 ?>
 </div>

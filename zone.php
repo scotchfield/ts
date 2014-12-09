@@ -124,6 +124,7 @@ function ts_store_content() {
 
     $item_obj = $ag->c( 'item' )->get_item_list( $zone[ 'store_id' ] );
 
+    echo( '<div class="row">' );
     foreach ( $item_obj as $item ) {
         $item = json_decode( $item[ 'meta_value' ], TRUE );
 
@@ -131,11 +132,13 @@ function ts_store_content() {
             continue;
         }
 
+        echo( '<div class="col-sm-4">' .
+              '<div class="text-center">Buy for 0 gold</div>' );
         //todo buy should be an array of item/quantities
-        echo( '<p>' . ts_item_popup( $item ) . ' (' .
-              '<a href="?state=store&zone_id=' . $ag->get_arg( 'zone_id' ) .
-              '">buy</a>)</p>' );
+
+        echo( ts_item_div( $item ) . '</div>' );
     }
+    echo( '</div>' );
 
 }
 

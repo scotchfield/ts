@@ -111,6 +111,26 @@ div.attack {
     margin-bottom: 16px;
 }
 
+div.item {
+    border: 1px white solid;
+    min-height: 80px;
+    overflow: auto;
+    padding: 8px;
+}
+
+div.item div.img {
+    float: left;
+    width: 64px;
+    height: 64px;
+}
+
+div.item div.text {
+    float: left;
+    margin-left: 16px;
+    overflow: hidden;
+    width: 65%;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
