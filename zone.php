@@ -45,7 +45,7 @@ function ts_zone_content() {
 
     if ( ! is_numeric( $zone_id ) ) {
         $zone_id = ts_str_to_int( $zone_id );
-        debug_print( 'zone_id changed to ' . $zone_id );
+        //debug_print( 'zone_id changed to ' . $zone_id );
     }
 
     $zone = ts_get_zone( $zone_id );
@@ -56,16 +56,18 @@ function ts_zone_content() {
 
 //    debug_print( $zone );
 ?>
-<div class="row text-center">
-  <h2><?php echo( $zone[ 'name' ] ); ?></h2>
-  <p class="lead"><?php echo( $zone[ 'description' ] ); ?></p>
+<div class="row text-right">
+  <h1 class="page_section">Zone</h1>
 </div>
-
 <div class="row">
-  <div class="col-sm-6 text-center">
-    <h3>Actions</h3>
+  <div class="col-md-8">
+    <h1><?php echo( $zone[ 'name' ] ); ?></h1>
+    <p class="lead"><?php echo( $zone[ 'description' ] ); ?></p>
+  </div>
+  <div class="col-md-4">
 <?php
     if ( isset( $zone[ 'actions' ] ) ) {
+        echo( '<h3>Actions</h3>' );
         echo( '<div class="list-group">' );
         foreach ( $zone[ 'actions' ] as $k => $v ) {
 ?>
@@ -78,14 +80,9 @@ function ts_zone_content() {
         }
         echo( '</div>' );
     }
-?>
 
-  </div>
-
-  <div class="col-sm-6 text-center">
-    <h3>Places to go</h3>
-<?php
     if ( isset( $zone[ 'places' ] ) ) {
+        echo( '<h3>Places to go</h3>' );
         echo( '<div class="list-group">' );
         foreach ( $zone[ 'places' ] as $k => $v ) {
 ?>
@@ -99,8 +96,10 @@ function ts_zone_content() {
         echo( '</div>' );
     }
 ?>
+
   </div>
 </div>
+
 <?php
 }
 
