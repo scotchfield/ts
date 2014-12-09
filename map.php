@@ -42,4 +42,4 @@ function ts_map_print() {
 <?php
 }
 
-add_state( 'do_page_content', 'ts_map_print' );
+add_state( 'do_page_content', FALSE, 'ts_map_print' );

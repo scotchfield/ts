@@ -151,7 +151,7 @@ function ts_combat_content() {
     echo( '</div>' );
 }
 
-add_state( 'do_page_content', 'ts_combat_content' );
+add_state( 'do_page_content', FALSE, 'ts_combat_content' );
 
 function ts_get_combat( $npc ) {
     global $ag;

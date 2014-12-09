@@ -15,7 +15,7 @@ function ts_profile_content() {
     ts_print_character( $ag->char );
 }
 
-add_state( 'do_page_content', 'ts_profile_content' );
+add_state( 'do_page_content', FALSE, 'ts_profile_content' );
 
 function ts_char_content() {
     global $ag;
@@ -48,7 +48,7 @@ function ts_char_content() {
     ts_print_character( $char );
 }
 
-add_state( 'do_page_content', 'ts_char_content' );
+add_state( 'do_page_content', FALSE, 'ts_char_content' );
 
 
 function ts_print_character( $character ) {
@@ -169,7 +169,7 @@ function ts_achievements_content() {
 <?php
 }
 
-add_state( 'do_page_content', 'ts_achievements_content' );
+add_state( 'do_page_content', FALSE, 'ts_achievements_content' );
 
 function ts_inventory_content() {
     global $ag;
@@ -199,4 +199,4 @@ function ts_inventory_content() {
 <?php
 }
 
-add_state( 'do_page_content', 'ts_inventory_content' );
+add_state( 'do_page_content', FALSE, 'ts_inventory_content' );

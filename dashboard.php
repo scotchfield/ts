@@ -2,9 +2,11 @@
 
 class TSDashboard extends ArcadiaComponent {
     function __construct() {
-        add_state( 'do_page_content', array( $this, 'content_dashboard' ) );
+        add_state( 'do_page_content', FALSE,
+                   array( $this, 'content_dashboard' ) );
 
-        add_state( 'do_page_content', array( $this, 'content_zone' ) );
+        add_state( 'do_page_content', FALSE,
+                   array( $this, 'content_zone' ) );
     }
 
     public function is_dev() {

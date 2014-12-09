@@ -12,7 +12,7 @@ function ts_select_check() {
     }
 }
 
-add_state( 'state_set', 'ts_select_check' );
+add_state( 'state_set', FALSE, 'ts_select_check' );
 
 
 function ts_select_print() {
@@ -70,4 +70,4 @@ function ts_select_print() {
 <?php
 }
 
-add_state( 'do_page_content', 'ts_select_print' );
+add_state( 'do_page_content', FALSE, 'ts_select_print' );

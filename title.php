@@ -159,4 +159,4 @@ if ( FALSE != $ag->get_state_arg( 'notify' ) ) {
 <?
 }
 
-add_state( 'do_page_content', 'ts_title_content' );
+add_state( 'do_page_content', FALSE, 'ts_title_content' );

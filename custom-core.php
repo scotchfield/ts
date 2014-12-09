@@ -38,7 +38,7 @@ function ts_post_load() {
     $ag->set_component( 'dashboard', new TSDashboard() );
 }
 
-add_state( 'post_load', 'ts_post_load' );
+add_state( 'post_load', FALSE, 'ts_post_load' );
 
 function ts_default_state() {
     global $ag;
@@ -52,7 +52,7 @@ function ts_default_state() {
     }
 }
 
-add_state( 'set_default_state', 'ts_default_state' );
+add_state( 'set_default_state', FALSE, 'ts_default_state' );
 
 
 function ts_unpack_character() {
@@ -137,7 +137,7 @@ function ts_unpack_character() {
         character_meta( ts_meta_type_character, TS_ENCOUNTER ), TRUE );
 }
 
-add_state_priority( 'character_load', 'ts_unpack_character' );
+add_state_priority( 'character_load', FALSE, 'ts_unpack_character' );
 
 function ts_pack_character() {
     global $ag;
@@ -167,7 +167,7 @@ function ts_pack_character() {
     }
 }
 
-add_state( 'arcadia_end', 'ts_pack_character' );
+add_state( 'arcadia_end', FALSE, 'ts_pack_character' );
 
 function ts_regen_stamina() {
     global $ag;
@@ -190,7 +190,7 @@ function ts_regen_stamina() {
     }
 }
 
-add_state( 'character_load', 'ts_regen_stamina' );
+add_state( 'character_load', FALSE, 'ts_regen_stamina' );
 
 function ts_login() {
     global $ag;
@@ -202,7 +202,7 @@ function ts_login() {
         ) );
 }
 
-add_state( 'select_character', 'ts_login' );
+add_state( 'select_character', FALSE, 'ts_login' );
 
 function ts_header() {
     global $ag;
@@ -343,8 +343,8 @@ function ts_footer() {
 <?php
 }
 
-add_state( 'game_header', 'ts_header' );
-add_state( 'game_footer', 'ts_footer' );
+add_state( 'game_header', FALSE, 'ts_header' );
+add_state( 'game_footer', FALSE, 'ts_footer' );
 
 
 
@@ -364,7 +364,7 @@ function ts_tip_print() {
     }
 }
 
-add_state_priority( 'do_page_content', 'ts_tip_print' );
+add_state_priority( 'do_page_content', FALSE, 'ts_tip_print' );
 
 function ts_about() {
     global $ag;
@@ -405,8 +405,8 @@ function ts_contact() {
     echo '<h1>OH BOB SAGET</h1>';
 }
 
-add_state( 'do_page_content', 'ts_about' );
-add_state( 'do_page_content', 'ts_contact' );
+add_state( 'do_page_content', FALSE, 'ts_about' );
+add_state( 'do_page_content', FALSE, 'ts_contact' );
 
 
 function ts_item_popup_str( $item ) {
@@ -434,7 +434,7 @@ function ts_validate_user( $args ) {
     set_user_max_characters( $args[ 'user_id' ], 1 );
 }
 
-add_state( 'validate_user', 'ts_validate_user' );
+add_state( 'validate_user', FALSE, 'ts_validate_user' );
 
 function ts_achievement_print( $args ) {
     global $ag;
@@ -455,7 +455,7 @@ function ts_achievement_print( $args ) {
 <?php
 }
 
-add_state( 'award_achievement', 'ts_achievement_print' );
+add_state( 'award_achievement', FALSE, 'ts_achievement_print' );
 
 function ts_item_popup( $item ) {
     if ( ! isset( $item[ 'rarity' ] ) ) {

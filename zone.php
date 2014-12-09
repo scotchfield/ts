@@ -28,7 +28,7 @@ function ts_zone_set() {
 //todo: need to do this?
 }
 
-add_state( 'state_set', 'ts_zone_set' );
+add_state( 'state_set', FALSE, 'ts_zone_set' );
 
 function ts_zone_content() {
     global $ag;
@@ -103,7 +103,7 @@ function ts_zone_content() {
 <?php
 }
 
-add_state( 'do_page_content', 'ts_zone_content' );
+add_state( 'do_page_content', FALSE, 'ts_zone_content' );
 
 function ts_str_to_int( $st ) {
     $x = substr( md5( $st ), 0, 8 );
