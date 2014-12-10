@@ -126,20 +126,85 @@ function ts_store_content() {
 
     echo( '<div class="row">' );
     foreach ( $item_obj as $item ) {
-        $item = json_decode( $item[ 'meta_value' ], TRUE );
+        $item_meta = json_decode( $item[ 'meta_value' ], TRUE );
 
-        if ( ! isset( $item[ 'buy' ] ) ) {
+        if ( ! isset( $item_meta[ 'buy' ] ) ) {
             continue;
         }
 
         echo( '<div class="col-sm-4">' .
-              '<div class="text-center">Buy for 0 gold</div>' );
+              '<div class="text-center">' .
+              '<a href="game-setting.php?setting=store_buy&zone_id=' .
+              $ag->get_arg( 'zone_id' ) . '&buy=' . $item[ 'meta_key' ] .
+              '&nonce=' . nonce_create( 'buy' . $item[ 'meta_key' ] ) .
+              '">Buy for 0 gold</a></div>' );
         //todo buy should be an array of item/quantities
 
-        echo( ts_item_div( $item ) . '</div>' );
+        echo( ts_item_div( $item_meta ) . '</div>' );
     }
     echo( '</div>' );
 
 }
 
 add_state( 'do_page_content', 'store', 'ts_store_content' );
+
+function ts_store_buy() {
+    global $ag;
+
+    $zone_id = $ag->get_arg( 'zone_id' );
+
+    if ( ! $zone_id ) {
+        return FALSE;
+    }
+
+    if ( ! is_numeric( $zone_id ) ) {
+        $zone_id = ts_str_to_int( $zone_id );
+    }
+
+    $zone = ts_get_zone( $zone_id );
+
+    if ( FALSE == $zone ) {
+        return FALSE;
+    }
+
+    if ( ! isset( $zone[ 'store_id' ] ) ) {
+        return FALSE;
+    }
+
+    $item_id = $ag->get_arg( 'buy' );
+
+    if ( ! nonce_verify( $ag->get_arg( 'nonce' ),
+                         $state = 'buy' . $item_id ) ) {
+        return FALSE;
+    }
+
+    if ( ! in_array( $item_id, $zone[ 'store_id' ] ) ) {
+        return FALSE;
+    }
+
+    $item = $ag->c( 'item' )->get_item( $item_id );
+
+    if ( ! $item ) {
+        return FALSE;
+    }
+
+    $item_meta = json_decode( $item[ 'meta_value' ], TRUE );
+
+    if ( ! isset( $item_meta[ 'buy' ] ) ) {
+        return FALSE;
+    }
+
+    if ( $ag->char[ 'info' ][ 'gold' ] < $item_meta[ 'buy' ][ 0 ] ) {
+        // todo: set tip to say you don't have enough gold
+        return FALSE;
+    }
+
+    $ag->char[ 'info' ][ 'gold' ] -= $item_meta[ 'buy' ][ 0 ];
+    $ag->c( 'inventory' )->award_item(
+        $ag->char[ 'id' ], $item[ 'meta_value' ] );
+
+    // todo: set tip to say you got the item and you spent the gold
+}
+
+// todo: this global has to go..
+$GLOBALS[ 'setting_map' ][ 'store_buy' ] = 'ts_store_buy';
