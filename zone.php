@@ -136,7 +136,8 @@ function ts_store_content() {
               '<div class="text-center">' .
               '<a href="game-setting.php?setting=store_buy&zone_id=' .
               $ag->get_arg( 'zone_id' ) . '&buy=' . $item[ 'meta_key' ] .
-              '&nonce=' . nonce_create( 'buy' . $item[ 'meta_key' ] ) .
+              '&nonce=' . $ag->c( 'common' )->nonce_create(
+                  'buy' . $item[ 'meta_key' ] ) .
               '">Buy for 0 gold</a></div>' );
         //todo buy should be an array of item/quantities
 
@@ -173,8 +174,8 @@ function ts_store_buy() {
 
     $item_id = $ag->get_arg( 'buy' );
 
-    if ( ! nonce_verify( $ag->get_arg( 'nonce' ),
-                         $state = 'buy' . $item_id ) ) {
+    if ( ! $ag->c( 'common' )->nonce_verify(
+               $ag->get_arg( 'nonce' ), $state = 'buy' . $item_id ) ) {
         return FALSE;
     }
 

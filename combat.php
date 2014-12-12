@@ -110,7 +110,7 @@ function ts_combat_content() {
             $ag->char_meta( TRACK_NPC, $npc[ 'meta_key' ], 0 ) + 1 );
 
         echo( '<p>You have defeated your ' .
-              number_with_suffix( $ag->char_meta(
+              $ag->c( 'common' )->number_with_suffix( $ag->char_meta(
                   TRACK_NPC, $npc[ 'meta_key' ], 0 ) + 1 ) .
               ' ' . $npc[ 'name' ] . '.</p>' );
 
