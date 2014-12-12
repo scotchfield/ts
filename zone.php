@@ -29,7 +29,7 @@ function ts_zone_content() {
 
     if ( ! is_numeric( $zone_id ) ) {
         $zone_id = ts_str_to_int( $zone_id );
-        //debug_print( 'zone_id changed to ' . $zone_id );
+        //$ag->debug_print( 'zone_id changed to ' . $zone_id );
     }
 
     $zone = ts_get_zone( $zone_id );

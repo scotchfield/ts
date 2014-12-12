@@ -68,7 +68,7 @@ class TSDashboard extends ArcadiaComponent {
 
         if ( $zone ) {
 
-            debug_print( $zone );
+            $ag->debug_print( $zone );
 
             echo( '<h2><a href="?state=dashboard_zone">' .
                   'Back to zones</a></h2>' );
