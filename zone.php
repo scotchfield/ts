@@ -138,7 +138,7 @@ function ts_store_content() {
               $ag->get_arg( 'zone_id' ) . '&buy=' . $item[ 'meta_key' ] .
               '&nonce=' . $ag->c( 'common' )->nonce_create(
                   'buy' . $item[ 'meta_key' ] ) .
-              '">Buy for 0 gold</a></div>' );
+              '">Buy for ' . $item_meta[ 'buy' ][ 0 ] . ' gold</a></div>' );
         //todo buy should be an array of item/quantities
 
         echo( ts_item_div( $item_meta ) . '</div>' );
@@ -204,7 +204,12 @@ function ts_store_buy() {
     $ag->c( 'inventory' )->award_item(
         $ag->char[ 'id' ], $item[ 'meta_value' ] );
 
-    // todo: set tip to say you got the item and you spent the gold
+    update_character_meta( $ag->char[ 'id' ], ts_meta_type_character,
+        TS_TIP, $item_meta[ 'name' ] . ' purchased for ' .
+        $item_meta[ 'buy' ][ 0 ] . ' gold.' );
+
+    $ag->set_redirect_header( GAME_URL .
+        '?state=store&zone_id=' . $ag->get_arg( 'zone_id' ) );
 }
 
 // todo: this global has to go..

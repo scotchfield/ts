@@ -199,6 +199,7 @@ function ts_login() {
         $ag->char[ 'id' ], ts_meta_type_character, '',
         array(
             TS_INFO, TS_EQUIPPED, TS_ENCOUNTER,
+            TS_TIP,
         ) );
 }
 
