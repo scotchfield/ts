@@ -192,9 +192,19 @@ function ts_inventory_content() {
     echo( '<div class="row">' );
     $counter = 0;
     foreach ( $inventory_obj as $item ) {
-        $item = json_decode( $item[ 'meta_value' ], TRUE );
+        $meta = json_decode( $item[ 'meta_value' ], TRUE );
 
-        echo( '<div class="col-sm-4">' . ts_item_div( $item ) . '</div>' );
+        echo( '<div class="col-sm-4">' . ts_item_div( $meta ) );
+        if ( isset( $meta[ 'sell' ] ) ) {
+            echo ( '<br>' .
+                '<a href="game-setting.php?setting=store_sell&sell=' .
+                $item[ 'meta_key' ] . '&nonce=' .
+                $ag->c( 'common' )->nonce_create(
+                    'sell' . $item[ 'meta_key' ] ) .
+                '">Sell for ' . $meta[ 'sell' ][ 0 ] .
+                ' gold</a>' );
+        }
+        echo( '</div>' );
 
         $counter += 1;
         if ( $counter >= 3 ) {
