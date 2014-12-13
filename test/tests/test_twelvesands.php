@@ -1,6 +1,6 @@
 <?php
 
-class TestTSCustomCore extends PHPUnit_Framework_TestCase {
+class TestTwelveSands extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers TwelveSands::__construct
