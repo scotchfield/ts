@@ -108,15 +108,12 @@ function ts_unpack_character() {
       'chest' => 0,
       'legs' => 0,
       'neck' => 0,
-      'trinket_1' => 0,
-      'trinket_2' => 0,
-      'trinket_3' => 0,
+      'trinket' => 0,
       'hands' => 0,
       'wrists' => 0,
       'belt' => 0,
       'boots' => 0,
-      'ring_1' => 0,
-      'ring_2' => 0,
+      'ring' => 0,
       'mount' => 0,
     );
 

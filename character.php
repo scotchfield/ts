@@ -82,15 +82,12 @@ function ts_print_character( $character ) {
         'chest' => 'Chest',
         'legs' => 'Legs',
         'neck' => 'Neck',
-        'trinket_1' => 'Trinket',
-        'trinket_2' => 'Trinket',
-        'trinket_3' => 'Trinket',
+        'trinket' => 'Trinket',
         'hands' => 'Hands',
         'wrists' => 'Wrists',
         'belt' => 'Belt',
         'boots' => 'Boots',
-        'ring_1' => 'Ring',
-        'ring_2' => 'Ring',
+        'ring' => 'Ring',
         'mount' => 'Mount',
     );
 
