@@ -201,6 +201,14 @@ function ts_inventory_content() {
                 '">Sell for ' . $meta[ 'sell' ][ 0 ] .
                 ' gold</a>' );
         }
+        if ( isset( $meta[ 'slot' ] ) ) {
+            echo( '<br>' .
+                '<a href="game-setting.php?setting=equip&equip=' .
+                $item[ 'meta_key' ] . '&nonce=' .
+                $ag->c( 'common' )->nonce_create(
+                    'equip' . $item[ 'meta_key' ] ) .
+                '">Equip</a>' );
+        }
         echo( '</div>' );
 
         $counter += 1;
@@ -218,3 +226,38 @@ function ts_inventory_content() {
 }
 
 add_state( 'do_page_content', FALSE, 'ts_inventory_content' );
+
+
+function ts_equip_item() {
+    global $ag;
+
+    $inv_id = $ag->get_arg( 'equip' );
+
+    if ( ! $ag->c( 'common' )->nonce_verify(
+           $ag->get_arg( 'nonce' ), $state = 'equip' . $inv_id ) ) {
+        return FALSE;
+    }
+
+    $inventory_obj = ts_get_inventory();
+
+    if ( ! isset( $inventory_obj[ $inv_id ] ) ) {
+        return FALSE;
+    }
+
+    $item = $inventory_obj[ $inv_id ];
+
+    if ( ! isset( $item[ 'meta' ][ 'slot' ] ) ) {
+        return FALSE;
+    }
+
+/*    $ag->char[ 'info' ][ 'gold' ] += $item[ 'meta' ][ 'sell' ][ 0 ];
+    $ag->c( 'inventory' )->remove_item( $ag->char[ 'id' ], $inv_id );*/
+
+    update_character_meta( $ag->char[ 'id' ], ts_meta_type_character,
+        TS_TIP, $item[ 'meta' ][ 'name' ] . ' equipped.' );
+
+    $ag->set_redirect_header( GAME_URL . '?state=profile' );
+}
+
+// todo: this global has to go..
+$GLOBALS[ 'setting_map' ][ 'equip' ] = 'ts_equip_item';
