@@ -10,6 +10,73 @@ require( GAME_CUSTOM_PATH . 'map.php' );
 require( GAME_CUSTOM_PATH . 'zone.php' );
 
 
+class TwelveSands {
+
+    public function __construct() {
+        add_state_priority( 'do_page_content', FALSE,
+                            array( $this, 'tip_print' ) );
+        add_state( 'post_load', FALSE, array( $this, 'post_load' ) );
+        add_state( 'select_character', FALSE, array( $this, 'login' ) );
+        add_state( 'set_default_state', FALSE,
+                   array( $this, 'default_state' ) );
+    }
+
+    public function post_load() {
+        global $ag;
+
+        $ag->set_component( 'achievement', new ArcadiaAchievement() );
+        $ag->set_component( 'inventory', new ArcadiaInventory() );
+        $ag->set_component( 'item', new ArcadiaItem() );
+        $ag->set_component( 'npc', new ArcadiaNpc() );
+        $ag->set_component( 'track_npc',
+            new ArcadiaTracking( $key_type = TRACK_NPC ) );
+        $ag->set_component( 'zone', new ArcadiaZone() );
+
+        $ag->set_component( 'dashboard', new TSDashboard() );
+    }
+
+    public function default_state() {
+        global $ag;
+
+        if ( FALSE == $ag->user ) {
+            $ag->set_state( 'title' );
+        } else if ( FALSE == $ag->char ) {
+            $ag->set_state( 'select' );
+        } else {
+            $ag->set_state( 'zone' );
+        }
+    }
+
+    public function login() {
+        global $ag;
+
+        ensure_character_meta_keygroup(
+            $ag->char[ 'id' ], ts_meta_type_character, '',
+            array(
+                TS_INFO, TS_EQUIPPED, TS_ENCOUNTER,
+                TS_TIP,
+                ) );
+    }
+
+    public function tip_print() {
+        global $ag;
+
+        if ( FALSE == $ag->char ) {
+            return;
+        }
+
+        $tip = character_meta( ts_meta_type_character, TS_TIP );
+
+        if ( 0 < strlen( $tip ) ) {
+            echo( '<p class="tip">' . $tip . '</p>' );
+            update_character_meta( $ag->char[ 'id' ], ts_meta_type_character,
+                TS_TIP, '' );
+        }
+    }
+
+}
+
+
 define( 'ts_meta_type_character',            1 );
 define( 'ts_meta_type_buff',                 3 );
 
@@ -23,36 +90,6 @@ define( 'TRACK_NPC', 2000 );
 
 //define( 'CR_TUTORIAL_STATUS',                1 );
 
-
-function ts_post_load() {
-    global $ag;
-
-    $ag->set_component( 'achievement', new ArcadiaAchievement() );
-    $ag->set_component( 'inventory', new ArcadiaInventory() );
-    $ag->set_component( 'item', new ArcadiaItem() );
-    $ag->set_component( 'npc', new ArcadiaNpc() );
-    $ag->set_component( 'track_npc',
-        new ArcadiaTracking( $key_type = TRACK_NPC ) );
-    $ag->set_component( 'zone', new ArcadiaZone() );
-
-    $ag->set_component( 'dashboard', new TSDashboard() );
-}
-
-add_state( 'post_load', FALSE, 'ts_post_load' );
-
-function ts_default_state() {
-    global $ag;
-
-    if ( FALSE == $ag->user ) {
-        $ag->set_state( 'title' );
-    } else if ( FALSE == $ag->char ) {
-        $ag->set_state( 'select' );
-    } else {
-        $ag->set_state( 'zone' );
-    }
-}
-
-add_state( 'set_default_state', FALSE, 'ts_default_state' );
 
 
 function ts_unpack_character() {
@@ -188,19 +225,6 @@ function ts_regen_stamina() {
 }
 
 add_state( 'character_load', FALSE, 'ts_regen_stamina' );
-
-function ts_login() {
-    global $ag;
-
-    ensure_character_meta_keygroup(
-        $ag->char[ 'id' ], ts_meta_type_character, '',
-        array(
-            TS_INFO, TS_EQUIPPED, TS_ENCOUNTER,
-            TS_TIP,
-        ) );
-}
-
-add_state( 'select_character', FALSE, 'ts_login' );
 
 function ts_header() {
     global $ag;
@@ -345,25 +369,6 @@ add_state( 'game_header', FALSE, 'ts_header' );
 add_state( 'game_footer', FALSE, 'ts_footer' );
 
 
-
-function ts_tip_print() {
-    global $ag;
-
-    if ( FALSE == $ag->char ) {
-        return;
-    }
-
-    $tip = character_meta( ts_meta_type_character, TS_TIP );
-
-    if ( 0 < strlen( $tip ) ) {
-        echo( '<p class="tip">' . $tip . '</p>' );
-        update_character_meta( $ag->char[ 'id' ], ts_meta_type_character,
-            TS_TIP, '' );
-    }
-}
-
-add_state_priority( 'do_page_content', FALSE, 'ts_tip_print' );
-
 function ts_about() {
     global $ag;
 
@@ -506,33 +511,43 @@ function ts_get_inventory() {
 
     $inventory_obj = $ag->c( 'inventory' )->get_inventory( $ag->char[ 'id' ] );
 
+    return ts_expand_id_obj( $inventory_obj );
+}
+
+function ts_expand_id_obj( $item_obj ) {
+    global $ag;
+
     $item_id = array();
 
     // todo: rewrite as first step collects inventory_obj keys and second
     //  setup replaces them, instead of cycling through the whole thing a
     //  second time
-    foreach ( $inventory_obj as $k => $v ) {
+    foreach ( $item_obj as $k => $v ) {
         $meta = json_decode( $v[ 'meta_value' ], TRUE );
-        if ( isset( $meta[ 'item_id' ] ) ) {
-            $item_id[] = $meta[ 'item_id' ];
+        if ( isset( $meta[ 'id' ] ) ) {
+            $item_id[] = $meta[ 'id' ];
         }
-        $inventory_obj[ $k ][ 'meta' ] = $meta;
+        $item_obj[ $k ][ 'meta' ] = $meta;
     }
 
     if ( count( $item_id ) > 0 ) {
-        $item_obj = $ag->c( 'item' )->get_item_list( $item_id );
+        $template_obj = $ag->c( 'item' )->get_item_list( $item_id );
 
-        foreach ( $inventory_obj as $inv_k => $inv_v ) {
-            if ( isset( $inv_v[ 'meta' ][ 'item_id' ] ) ) {
-                $i = $inv_v[ 'meta' ][ 'item_id' ];
+        foreach ( $item_obj as $inv_k => $inv_v ) {
+            if ( isset( $inv_v[ 'meta' ][ 'id' ] ) ) {
+                $i = $inv_v[ 'meta' ][ 'id' ];
                 $item_meta = json_decode(
-                    $item_obj[ $i ][ 'meta_value' ], TRUE );
+                    $template_obj[ $i ][ 'meta_value' ], TRUE );
                 foreach ( $item_meta as $k => $v ) {
-                    $inventory_obj[ $inv_k ][ 'meta' ][ $k ] = $v;
+                    $item_obj[ $inv_k ][ 'meta' ][ $k ] = $v;
                 }
             }
         }
     }
 
-    return $inventory_obj;
+    return $item_obj;
 }
+
+// todo: attach this to $ag instead of new global
+global $ts;
+$ts = new TwelveSands();

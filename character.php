@@ -250,8 +250,16 @@ function ts_equip_item() {
         return FALSE;
     }
 
-/*    $ag->char[ 'info' ][ 'gold' ] += $item[ 'meta' ][ 'sell' ][ 0 ];
-    $ag->c( 'inventory' )->remove_item( $ag->char[ 'id' ], $inv_id );*/
+    $slot = $item[ 'meta' ][ 'slot' ];
+
+    if ( 0 != $ag->char[ 'equipped' ][ $slot ][ 'id' ] ) {
+        $equipped_item = json_encode( $ag->char[ 'equipped' ][ $slot ] );
+        $ag->c( 'inventory' )->award_item( $ag->char[ 'id' ], $equipped_item );
+    }
+
+    $ag->c( 'inventory' )->remove_item( $ag->char[ 'id' ], $inv_id );
+
+    $ag->char[ 'equipped' ][ $slot ] = $item[ 'meta' ];
 
     update_character_meta( $ag->char[ 'id' ], ts_meta_type_character,
         TS_TIP, $item[ 'meta' ][ 'name' ] . ' equipped.' );

@@ -202,7 +202,7 @@ function ts_store_buy() {
 
     $ag->char[ 'info' ][ 'gold' ] -= $item_meta[ 'buy' ][ 0 ];
     $ag->c( 'inventory' )->award_item(
-        $ag->char[ 'id' ], '{"item_id":' . $item_id . '}' );
+        $ag->char[ 'id' ], '{"id":' . $item_id . '}' );
 
     update_character_meta( $ag->char[ 'id' ], ts_meta_type_character,
         TS_TIP, $item_meta[ 'name' ] . ' purchased for ' .
