@@ -134,7 +134,7 @@ function ts_store_content() {
 
         echo( '<div class="col-sm-4">' .
               '<div class="text-center">' .
-              '<a href="game-setting.php?setting=store_buy&zone_id=' .
+              '<a href="game-setting.php?state=store_buy&zone_id=' .
               $ag->get_arg( 'zone_id' ) . '&buy=' . $item[ 'meta_key' ] .
               '&nonce=' . $ag->c( 'common' )->nonce_create(
                   'buy' . $item[ 'meta_key' ] ) .
@@ -212,11 +212,7 @@ function ts_store_buy() {
         '?state=store&zone_id=' . $ag->get_arg( 'zone_id' ) );
 }
 
-// todo: this global has to go..
-$GLOBALS[ 'setting_map' ][ 'store_buy' ] = 'ts_store_buy';
-
-
-
+add_state( 'do_setting', 'store_buy', 'ts_store_buy' );
 
 function ts_store_sell() {
     global $ag;
@@ -250,5 +246,4 @@ function ts_store_sell() {
     $ag->set_redirect_header( GAME_URL . '?state=inventory' );
 }
 
-// todo: this global has to go..
-$GLOBALS[ 'setting_map' ][ 'store_sell' ] = 'ts_store_sell';
+add_state( 'do_setting', 'store_sell', 'ts_store_sell' );

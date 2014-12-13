@@ -194,7 +194,7 @@ function ts_inventory_content() {
         echo( '<div class="col-sm-4">' . ts_item_div( $meta ) );
         if ( isset( $meta[ 'sell' ] ) ) {
             echo ( '<br>' .
-                '<a href="game-setting.php?setting=store_sell&sell=' .
+                '<a href="game-setting.php?state=store_sell&sell=' .
                 $item[ 'meta_key' ] . '&nonce=' .
                 $ag->c( 'common' )->nonce_create(
                     'sell' . $item[ 'meta_key' ] ) .
@@ -203,7 +203,7 @@ function ts_inventory_content() {
         }
         if ( isset( $meta[ 'slot' ] ) ) {
             echo( '<br>' .
-                '<a href="game-setting.php?setting=equip&equip=' .
+                '<a href="game-setting.php?state=equip&equip=' .
                 $item[ 'meta_key' ] . '&nonce=' .
                 $ag->c( 'common' )->nonce_create(
                     'equip' . $item[ 'meta_key' ] ) .
@@ -259,5 +259,4 @@ function ts_equip_item() {
     $ag->set_redirect_header( GAME_URL . '?state=profile' );
 }
 
-// todo: this global has to go..
-$GLOBALS[ 'setting_map' ][ 'equip' ] = 'ts_equip_item';
+add_state( 'do_setting', 'equip', 'ts_equip_item' );

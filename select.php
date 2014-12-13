@@ -42,7 +42,7 @@ function ts_select_print() {
     } else {
         foreach ( $char_obj as $char ) {
             echo( '<h3 class="text-center">' .
-                  '<a href="game-setting.php?setting=select_character' .
+                  '<a href="game-setting.php?state=select_character' .
                   '&amp;id=' . $char[ 'id' ] . '">' .
                   $char[ 'character_name' ] . '</a></h3>' );
         }
@@ -57,7 +57,7 @@ function ts_select_print() {
 <input class="form-control" name="char_name" id="char_name" value="" type="text">
 </div>
 <button type="submit" class="btn btn-default">Let's go!</button>
-<input type="hidden" name="setting" value="new_character">
+<input type="hidden" name="state" value="new_character">
 </form>
 <?php
     }

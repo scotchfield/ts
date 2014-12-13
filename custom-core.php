@@ -304,7 +304,7 @@ function ts_header() {
               <ul class="dropdown-menu">
                 <li><a href="?state=dashboard">Dashboard</a></li>
                 <li class="divider"></li>
-                <li><a href="game-setting.php?setting=change_character">
+                <li><a href="game-setting.php?state=change_character">
                     Change Character</a></li>
                 <li><a href="game-logout.php">Log out</a></li>
               </ul>
