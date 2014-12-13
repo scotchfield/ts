@@ -14,8 +14,7 @@ class TwelveSands {
 
     public $ag;
 
-    public function __construct() {
-        global $ag;
+    public function __construct( $ag ) {
         $this->ag = $ag;
 
         add_state( 'do_page_content', 'about', array( $this, 'about' ) );
@@ -527,5 +526,5 @@ function ts_expand_id_obj( $item_obj ) {
 // todo: attach this to $ag instead of new global
 // todo: simplify custom-core so that it just attached a twelvesands game
 //  object to $ag, then move the twelvesands game object to a new file
-global $ts;
-$ts = new TwelveSands();
+global $ag, $ts;
+$ts = new TwelveSands( $ag );
