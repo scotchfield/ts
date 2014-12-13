@@ -503,3 +503,39 @@ function ts_item_div( $item ) {
 
     return $st;
 }
+
+function ts_get_inventory() {
+    global $ag;
+
+    $inventory_obj = $ag->c( 'inventory' )->get_inventory( $ag->char[ 'id' ] );
+
+    $item_id = array();
+
+    // todo: rewrite as first step collects inventory_obj keys and second
+    //  setup replaces them, instead of cycling through the whole thing a
+    //  second time
+    foreach ( $inventory_obj as $k => $v ) {
+        $meta = json_decode( $v[ 'meta_value' ], TRUE );
+        if ( isset( $meta[ 'item_id' ] ) ) {
+            $item_id[] = $meta[ 'item_id' ];
+        }
+        $inventory_obj[ $k ][ 'meta' ] = $meta;
+    }
+
+    if ( count( $item_id ) > 0 ) {
+        $item_obj = $ag->c( 'item' )->get_item_list( $item_id );
+
+        foreach ( $inventory_obj as $inv_k => $inv_v ) {
+            if ( isset( $inv_v[ 'meta' ][ 'item_id' ] ) ) {
+                $i = $inv_v[ 'meta' ][ 'item_id' ];
+                $item_meta = json_decode(
+                    $item_obj[ $i ][ 'meta_value' ], TRUE );
+                foreach ( $item_meta as $k => $v ) {
+                    $inventory_obj[ $inv_k ][ 'meta' ][ $k ] = $v;
+                }
+            }
+        }
+    }
+
+    return $inventory_obj;
+}

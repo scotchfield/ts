@@ -141,7 +141,7 @@ function ts_combat_content() {
                           ts_item_popup( $item_obj ) . '</p>' );
 
                     $ag->c( 'inventory' )->award_item(
-                        $ag->char[ 'id' ], $item[ 'meta_value' ] );
+                        $ag->char[ 'id' ], '{"item_id":' . $k . '}' );
                 }
             }
         }

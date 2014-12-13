@@ -178,7 +178,7 @@ function ts_inventory_content() {
        return;
     }
 
-    $inventory_obj = $ag->c( 'inventory' )->get_inventory( $ag->char[ 'id' ] );
+    $inventory_obj = ts_get_inventory();
 
 ?>
 <div class="row text-right">
@@ -192,7 +192,7 @@ function ts_inventory_content() {
     echo( '<div class="row">' );
     $counter = 0;
     foreach ( $inventory_obj as $item ) {
-        $meta = json_decode( $item[ 'meta_value' ], TRUE );
+        $meta = $item[ 'meta' ];
 
         echo( '<div class="col-sm-4">' . ts_item_div( $meta ) );
         if ( isset( $meta[ 'sell' ] ) ) {

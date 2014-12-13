@@ -202,7 +202,7 @@ function ts_store_buy() {
 
     $ag->char[ 'info' ][ 'gold' ] -= $item_meta[ 'buy' ][ 0 ];
     $ag->c( 'inventory' )->award_item(
-        $ag->char[ 'id' ], $item[ 'meta_value' ] );
+        $ag->char[ 'id' ], '{"item_id":' . $item_id . '}' );
 
     update_character_meta( $ag->char[ 'id' ], ts_meta_type_character,
         TS_TIP, $item_meta[ 'name' ] . ' purchased for ' .
@@ -228,25 +228,24 @@ function ts_store_sell() {
         return FALSE;
     }
 
-    $inventory_obj = $ag->c( 'inventory' )->get_inventory( $ag->char[ 'id' ] );
+    $inventory_obj = ts_get_inventory();
 
     if ( ! isset( $inventory_obj[ $inv_id ] ) ) {
         return FALSE;
     }
 
     $item = $inventory_obj[ $inv_id ];
-    $item_meta = json_decode( $item[ 'meta_value' ], TRUE );
 
-    if ( ! isset( $item_meta[ 'sell' ] ) ) {
+    if ( ! isset( $item[ 'meta' ][ 'sell' ] ) ) {
         return FALSE;
     }
 
-    $ag->char[ 'info' ][ 'gold' ] += $item_meta[ 'sell' ][ 0 ];
+    $ag->char[ 'info' ][ 'gold' ] += $item[ 'meta' ][ 'sell' ][ 0 ];
     $ag->c( 'inventory' )->remove_item( $ag->char[ 'id' ], $inv_id );
 
     update_character_meta( $ag->char[ 'id' ], ts_meta_type_character,
-        TS_TIP, $item_meta[ 'name' ] . ' sold for ' .
-        $item_meta[ 'sell' ][ 0 ] . ' gold.' );
+        TS_TIP, $item[ 'meta' ][ 'name' ] . ' sold for ' .
+        $item[ 'meta' ][ 'sell' ][ 0 ] . ' gold.' );
 
     $ag->set_redirect_header( GAME_URL . '?state=inventory' );
 }
