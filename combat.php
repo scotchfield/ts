@@ -38,10 +38,10 @@ function ts_combat_content() {
     }
 
     if ( ! is_numeric( $zone_id ) ) {
-        $zone_id = ts_str_to_int( $zone_id );
+        $zone_id = $ag->ts->zone->str_to_int( $zone_id );
     }
 
-    $zone = ts_get_zone( $zone_id );
+    $zone = $ag->ts->zone->get_zone( $zone_id );
 
     if ( FALSE == $zone ) {
         return FALSE;

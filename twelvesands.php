@@ -38,6 +38,8 @@ class TwelveSands {
         add_state( 'set_default_state', FALSE,
             array( $this, 'default_state' ) );
         add_state( 'validate_user', FALSE, array( $this, 'validate_user' ) );
+
+        $this->zone = new Zone( $ag );
     }
 
     public function post_load() {

@@ -62,7 +62,7 @@ class TSDashboard extends ArcadiaComponent {
         $zone = FALSE;
 
         if ( $id ) {
-            $key = ts_str_to_int( $id );
+            $key = $ag->ts->zone->str_to_int( $id );
             $zone = $ag->c( 'zone' )->get_zone( $key );
         }
 
@@ -100,7 +100,7 @@ class TSDashboard extends ArcadiaComponent {
                 $ag->c( 'zone' )->update_zone(
                     $key, json_encode( $meta_new ) );
 
-                $new_key = ts_str_to_int( $meta_new[ 'id' ] );
+                $new_key = $ag->ts->zone->str_to_int( $meta_new[ 'id' ] );
 
                 if ( $new_key != $key ) {
                     $ag->c( 'zone' )->modify_zone_key( $key, $new_key );
