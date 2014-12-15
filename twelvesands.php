@@ -39,7 +39,8 @@ class TwelveSands {
             array( $this, 'default_state' ) );
         add_state( 'validate_user', FALSE, array( $this, 'validate_user' ) );
 
-        $this->zone = new Zone( $ag );
+        $this->craft = new TSCraft( $ag );
+        $this->zone = new TSZone( $ag );
     }
 
     public function post_load() {
@@ -295,10 +296,10 @@ class TwelveSands {
                  data-toggle="dropdown">Actions <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#">Cast a Spell</a></li>
-                <li><a href="#">Cooking</a></li>
-                <li><a href="#">Crafting</a></li>
+                <li><a href="?state=craft&type=1">Cooking</a></li>
+                <li><a href="?state=craft&type=2">Crafting</a></li>
                 <li><a href="#">Enchanting</a></li>
-                <li><a href="#">Sell Something</a></li>
+                <li><a href="?state=sell">Sell Something</a></li>
                 <li><a href="#">Online Players</a></li>
                 <li><a href="#">Character Search</a></li>
               </ul>

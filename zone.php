@@ -1,6 +1,6 @@
 <?php
 
-class Zone {
+class TSZone {
     private $ag;
 
     public function __construct( $ag ) {
