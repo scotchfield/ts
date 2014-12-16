@@ -89,13 +89,11 @@ class TwelveSands {
     }
 
     public function unpack_character() {
-        global $ag;
-
-        if ( FALSE == $ag->char ) {
+        if ( FALSE == $this->ag->char ) {
             return;
         }
 
-        $ag->char[ 'info' ] = json_decode(
+        $this->ag->char[ 'info' ] = json_decode(
             character_meta( ts_meta_type_character, TS_INFO ), TRUE );
 
         $default_info_obj = array(
@@ -127,12 +125,12 @@ class TwelveSands {
         );
 
         foreach ( $default_info_obj as $k => $v ) {
-            if ( ! isset( $ag->char[ 'info' ][ $k ] ) ) {
-                $ag->char[ 'info' ][ $k ] = $v;
+            if ( ! isset( $this->ag->char[ 'info' ][ $k ] ) ) {
+                $this->ag->char[ 'info' ][ $k ] = $v;
             }
         }
 
-        $ag->char[ 'equipped' ] = json_decode(
+        $this->ag->char[ 'equipped' ] = json_decode(
             character_meta( ts_meta_type_character, TS_EQUIPPED ), TRUE );
 
         $default_info = array(
@@ -153,74 +151,68 @@ class TwelveSands {
         $default_cache = array();
 
         foreach ( $default_info as $k => $v ) {
-            if ( ! isset( $ag->char[ 'equipped' ][ $k ] ) ) {
+            if ( ! isset( $this->ag->char[ 'equipped' ][ $k ] ) ) {
                 if ( ! isset( $default_cache[ $v ] ) ) {
-                    $default_cache[ $v ] = $ag->c( 'item' )->get_item( $v );
+                    $default_cache[ $v ] = $this->ag->c( 'item' )->get_item( $v );
                 }
 
-                $ag->char[ 'equipped' ][ $k ] = json_decode(
+                $this->ag->char[ 'equipped' ][ $k ] = json_decode(
                     $default_cache[ $v ][ 'meta_value' ], TRUE );
             }
         }
 
-        $ag->char[ 'encounter' ] = json_decode(
+        $this->ag->char[ 'encounter' ] = json_decode(
             character_meta( ts_meta_type_character, TS_ENCOUNTER ), TRUE );
     }
 
     public function pack_character() {
-        global $ag;
-
-        if ( FALSE == $ag->char ) {
+        if ( FALSE == $this->ag->char ) {
             return;
         }
 
         // todo: check if we need to update, don't just update every time
 
-        if ( isset( $ag->char[ 'info' ] ) ) {
-            update_character_meta( $ag->char[ 'id' ],
+        if ( isset( $this->ag->char[ 'info' ] ) ) {
+            update_character_meta( $this->ag->char[ 'id' ],
                 ts_meta_type_character, TS_INFO,
-                json_encode( $ag->char[ 'info' ] ) );
+                json_encode( $this->ag->char[ 'info' ] ) );
         }
 
-        if ( isset( $ag->char[ 'equipped' ] ) ) {
-            update_character_meta( $ag->char[ 'id' ],
+        if ( isset( $this->ag->char[ 'equipped' ] ) ) {
+            update_character_meta( $this->ag->char[ 'id' ],
                 ts_meta_type_character, TS_EQUIPPED,
-                json_encode( $ag->char[ 'equipped' ] ) );
+                json_encode( $this->ag->char[ 'equipped' ] ) );
         }
 
-        if ( isset( $ag->char[ 'encounter' ] ) ) {
-            update_character_meta( $ag->char[ 'id' ],
+        if ( isset( $this->ag->char[ 'encounter' ] ) ) {
+            update_character_meta( $this->ag->char[ 'id' ],
                 ts_meta_type_character, TS_ENCOUNTER,
-                json_encode( $ag->char[ 'encounter' ] ) );
+                json_encode( $this->ag->char[ 'encounter' ] ) );
         }
     }
 
     public function regen_stamina() {
-        global $ag;
-
-        if ( FALSE == $ag->char ) {
+        if ( FALSE == $this->ag->char ) {
             return;
         }
 
-        if ( $ag->char[ 'info' ][ 'stamina' ] < 100 ) {
+        if ( $this->ag->char[ 'info' ][ 'stamina' ] < 100 ) {
             $stamina_boost = 1.0;
 
             $stamina_seconds = time() -
-                $ag->char[ 'info' ][ 'stamina_timestamp' ];
+                $this->ag->char[ 'info' ][ 'stamina_timestamp' ];
             $stamina_gain = $stamina_boost * ( $stamina_seconds / 120.0 );
 
             $new_stamina = min(
-                100, $ag->char[ 'info' ][ 'stamina' ] + $stamina_gain );
+                100, $this->ag->char[ 'info' ][ 'stamina' ] + $stamina_gain );
 
-            $ag->char[ 'info' ][ 'stamina' ] = $new_stamina;
-            $ag->char[ 'info' ][ 'stamina_timestamp' ] = time();
+            $this->ag->char[ 'info' ][ 'stamina' ] = $new_stamina;
+            $this->ag->char[ 'info' ][ 'stamina_timestamp' ] = time();
         }
     }
 
     public function header() {
-        global $ag;
-
-        if ( ! strcmp( 'title', $ag->get_state() ) ) {
+        if ( ! strcmp( 'title', $this->ag->get_state() ) ) {
             return;
         }
 
@@ -230,7 +222,7 @@ class TwelveSands {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo( GAME_NAME ); ?> (<?php echo( $ag->get_state() );
+    <title><?php echo( GAME_NAME ); ?> (<?php echo( $this->ag->get_state() );
         ?>)</title>
     <link rel="stylesheet" href="<?php echo( GAME_CUSTOM_STYLE_URL );
         ?>bootstrap.min.css">
@@ -259,7 +251,7 @@ class TwelveSands {
               echo( GAME_NAME ); ?></a>
         </div>
 <?php
-        if ( FALSE != $ag->char ) {
+        if ( FALSE != $this->ag->char ) {
 ?>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -312,7 +304,7 @@ class TwelveSands {
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php
-                  echo( $ag->char[ 'character_name' ] );
+                  echo( $this->ag->char[ 'character_name' ] );
                   ?> <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="?state=dashboard">Dashboard</a></li>
@@ -335,9 +327,7 @@ class TwelveSands {
     }
 
     public function footer() {
-        global $ag;
-
-        if ( ! strcmp( 'title', $ag->get_state() ) ) {
+        if ( ! strcmp( 'title', $this->ag->get_state() ) ) {
             return;
         }
 
@@ -473,16 +463,13 @@ function ts_item_div( $item ) {
 }
 
 function ts_get_inventory() {
-    global $ag;
-
-    $inventory_obj = $ag->c( 'inventory' )->get_inventory( $ag->char[ 'id' ] );
+    $inventory_obj = $this->ag->c( 'inventory' )->get_inventory(
+        $this->ag->char[ 'id' ] );
 
     return ts_expand_id_obj( $inventory_obj );
 }
 
 function ts_expand_id_obj( $item_obj ) {
-    global $ag;
-
     $item_id = array();
 
     // todo: rewrite as first step collects inventory_obj keys and second
@@ -497,7 +484,7 @@ function ts_expand_id_obj( $item_obj ) {
     }
 
     if ( count( $item_id ) > 0 ) {
-        $template_obj = $ag->c( 'item' )->get_item_list( $item_id );
+        $template_obj = $this->ag->c( 'item' )->get_item_list( $item_id );
 
         foreach ( $item_obj as $inv_k => $inv_v ) {
             if ( isset( $inv_v[ 'meta' ][ 'id' ] ) ) {
