@@ -33,7 +33,9 @@ body {
     -o-background-size: cover;
     background-size: cover;
 
-    font-family: 'Raleway', sans-serif;
+//    font-family: 'Raleway', sans-serif;
+    font-family: 'Lusitana', serif;
+    font-size: 12pt;
 //    text-transform: uppercase;
 }
 
@@ -129,6 +131,10 @@ div.item div.text {
     margin-left: 16px;
     overflow: hidden;
     width: 65%;
+}
+
+.zone_description {
+    text-align: justify;
 }
 
 /* Sticky footer styles

@@ -20,8 +20,10 @@ function ts_title_content() {
         ?>bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo( GAME_CUSTOM_STYLE_URL );
         ?>ts.css">
-    <link href="http://fonts.googleapis.com/css?family=Raleway:400,500"
-          rel="stylesheet" type="text/css">
+<!--    <link href="http://fonts.googleapis.com/css?family=Raleway:400,500"
+          rel="stylesheet" type="text/css">-->
+      <link href='http://fonts.googleapis.com/css?family=Lusitana:400,700'
+        rel='stylesheet' type='text/css'>
   </head>
   <body>
 

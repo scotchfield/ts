@@ -56,7 +56,8 @@ class TSZone {
 <div class="row">
   <div class="col-md-8">
     <h1><?php echo( $zone[ 'name' ] ); ?></h1>
-    <p class="lead"><?php echo( $zone[ 'description' ] ); ?></p>
+    <p class="lead zone_description"><?php
+        echo( $zone[ 'description' ] ); ?></p>
   </div>
   <div class="col-md-4">
 <?php
