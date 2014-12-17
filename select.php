@@ -25,7 +25,7 @@ function ts_select_print() {
        return;
     }
 
-    $char_obj = get_characters_for_user( $ag->user[ 'id' ] );
+    $char_obj = $ag->c( 'user' )->get_characters_for_user( $ag->user[ 'id' ] );
 ?>
 <div class="row">
   <div class="col-md-2">

@@ -70,7 +70,7 @@ class TwelveSands {
     }
 
     public function login() {
-        ensure_character_meta_keygroup(
+        $this->ag->c( 'user' )->ensure_character_meta_keygroup(
             $this->ag->char[ 'id' ], ts_meta_type_character, '',
             array(
                 TS_INFO, TS_EQUIPPED, TS_ENCOUNTER,
@@ -83,11 +83,13 @@ class TwelveSands {
             return;
         }
 
-        $tip = character_meta( ts_meta_type_character, TS_TIP );
+        $tip = $this->ag->c( 'user' )->character_meta(
+            ts_meta_type_character, TS_TIP );
 
         if ( 0 < strlen( $tip ) ) {
             echo( '<p class="tip">' . $tip . '</p>' );
-            update_character_meta( $this->ag->char[ 'id' ],
+            $this->ag->c( 'user' )->update_character_meta(
+                $this->ag->char[ 'id' ],
                 ts_meta_type_character, TS_TIP, '' );
         }
     }
@@ -98,7 +100,8 @@ class TwelveSands {
         }
 
         $this->ag->char[ 'info' ] = json_decode(
-            character_meta( ts_meta_type_character, TS_INFO ), TRUE );
+            $this->ag->c( 'user' )->character_meta(
+                ts_meta_type_character, TS_INFO ), TRUE );
 
         $default_info_obj = array(
             'level' => 1,
@@ -135,7 +138,8 @@ class TwelveSands {
         }
 
         $this->ag->char[ 'equipped' ] = json_decode(
-            character_meta( ts_meta_type_character, TS_EQUIPPED ), TRUE );
+            $this->ag->c( 'user' )->character_meta(
+                ts_meta_type_character, TS_EQUIPPED ), TRUE );
 
         $default_info = array(
           'weapon' => 0,
@@ -166,7 +170,8 @@ class TwelveSands {
         }
 
         $this->ag->char[ 'encounter' ] = json_decode(
-            character_meta( ts_meta_type_character, TS_ENCOUNTER ), TRUE );
+            $this->ag->c( 'user' )->character_meta(
+                ts_meta_type_character, TS_ENCOUNTER ), TRUE );
     }
 
     public function pack_character() {
@@ -177,19 +182,22 @@ class TwelveSands {
         // todo: check if we need to update, don't just update every time
 
         if ( isset( $this->ag->char[ 'info' ] ) ) {
-            update_character_meta( $this->ag->char[ 'id' ],
+            $this->ag->c( 'user' )->update_character_meta(
+                $this->ag->char[ 'id' ],
                 ts_meta_type_character, TS_INFO,
                 json_encode( $this->ag->char[ 'info' ] ) );
         }
 
         if ( isset( $this->ag->char[ 'equipped' ] ) ) {
-            update_character_meta( $this->ag->char[ 'id' ],
+            $this->ag->c( 'user' )->update_character_meta(
+                $this->ag->char[ 'id' ],
                 ts_meta_type_character, TS_EQUIPPED,
                 json_encode( $this->ag->char[ 'equipped' ] ) );
         }
 
         if ( isset( $this->ag->char[ 'encounter' ] ) ) {
-            update_character_meta( $this->ag->char[ 'id' ],
+            $this->ag->c( 'user' )->update_character_meta(
+                $this->ag->char[ 'id' ],
                 ts_meta_type_character, TS_ENCOUNTER,
                 json_encode( $this->ag->char[ 'encounter' ] ) );
         }
