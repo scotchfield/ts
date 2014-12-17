@@ -408,107 +408,97 @@ class TwelveSands {
 <?php
     }
 
-}
+  function item_string( $item ) {
+      return '<a href="#" onmouseover="popup(\'' .
+             '<span class=&quot;item_name&quot;>' . $item[ 'name' ] .
+             '</span><hr><span>' . $item[ 'description' ] . '</span>' .
+             '\')" onmouseout="popout()" class="item">' . $item[ 'name' ] .
+             '</a>';
+  }
 
+  function item_popup( $item ) {
+      if ( ! isset( $item[ 'rarity' ] ) ) {
+          $item[ 'rarity' ] = 1;
+      }
+      $rarity_obj = array(
+          5 => 'legendary', 4 => 'epic', 3 => 'rare',
+          2 => 'uncommon', 1 => 'common',
+      );
 
-function ts_item_popup_str( $item ) {
-    return '<a href="#" onmouseover="popup(\'' .
-           '<span class=&quot;item_name&quot;>' . $item[ 'name' ] .
-           '</span>' .
-           '<hr><span>' . $item[ 'description' ] . '</span>' .
-           '\')" onmouseout="popout()" class="item">' . $item[ 'name' ] .
-           '</a>';
-}
+      $st = '<a class="' . $rarity_obj[ $item[ 'rarity' ] ] .
+            '" href="#" onmouseover="popup(\'' .
+            '<span class=&quot;item_name&quot;>' . $item[ 'name' ] .
+            '</span><hr>';
 
-function ts_item_string( $item ) {
-    return '<a href="#" onmouseover="popup(\'' .
-           '<span class=&quot;item_name&quot;>' . $item[ 'name' ] .
-           '</span><hr><span>' . $item[ 'description' ] . '</span>' .
-           '\')" onmouseout="popout()" class="item">' . $item[ 'name' ] .
-           '</a>';
-}
+      if ( 5 == $item[ 'rarity' ] ) {
+          $st = $st . '<span class=&quot;legendary&quot;>' .
+                'Legendary Quality</span><br><span>';
+      } else if ( 4 == $item[ 'rarity' ] ) {
+          $st = $st . '<span class=&quot;epic&quot;>' .
+                'Epic Quality</span><br><span>';
+      } else if ( 3 == $item[ 'rarity' ] ) {
+          $st = $st . '<span class=&quot;rare&quot;>' .
+                'Rare Quality</span><br><span>';
+      } else if ( 2 == $item[ 'rarity' ] ) {
+          $st = $st . '<span class=&quot;uncommon&quot;>' .
+                'Uncommon Quality</span><br><span>';
+      } else {
+          $st = $st . '<span class=&quot;common&quot;>' .
+                'Common Quality</span><br><span>';
+      }
 
-function ts_item_popup( $item ) {
-    if ( ! isset( $item[ 'rarity' ] ) ) {
-        $item[ 'rarity' ] = 1;
-    }
-    $rarity_obj = array(
-        5 => 'legendary', 4 => 'epic', 3 => 'rare',
-        2 => 'uncommon', 1 => 'common',
-    );
+      $st = $st . '</span><hr>' . 'HERP DE DERP' .
+            '\')" onmouseout="popout()" class="item">' .
+            $item[ 'name' ] . '</a>';
+      return $st;
+  }
 
-    $st = '<a class="' . $rarity_obj[ $item[ 'rarity' ] ] .
-          '" href="#" onmouseover="popup(\'' .
-          '<span class=&quot;item_name&quot;>' . $item[ 'name' ] .
-          '</span><hr>';
+  function item_div( $item ) {
+      $st = '<div class="item"><div class="img">' .
+            '<img src="/game/ts/style/grunge.png" width="64" height="64">' .
+            '</div><div class="text">' .
+            '<h4 style="margin: 0">' . $item[ 'name' ] . '</h4></div></div>';
 
-    if ( 5 == $item[ 'rarity' ] ) {
-        $st = $st . '<span class=&quot;legendary&quot;>' .
-              'Legendary Quality</span><br><span>';
-    } else if ( 4 == $item[ 'rarity' ] ) {
-        $st = $st . '<span class=&quot;epic&quot;>' .
-              'Epic Quality</span><br><span>';
-    } else if ( 3 == $item[ 'rarity' ] ) {
-        $st = $st . '<span class=&quot;rare&quot;>' .
-              'Rare Quality</span><br><span>';
-    } else if ( 2 == $item[ 'rarity' ] ) {
-        $st = $st . '<span class=&quot;uncommon&quot;>' .
-              'Uncommon Quality</span><br><span>';
-    } else {
-        $st = $st . '<span class=&quot;common&quot;>' .
-              'Common Quality</span><br><span>';
-    }
+      return $st;
+  }
 
-    $st = $st . '</span><hr>' . 'HERP DE DERP' .
-          '\')" onmouseout="popout()" class="item">' .
-          $item[ 'name' ] . '</a>';
-    return $st;
-}
+  function get_inventory() {
+      $inventory_obj = $this->ag->c( 'inventory' )->get_inventory(
+          $this->ag->char[ 'id' ] );
 
-function ts_item_div( $item ) {
-    $st = '<div class="item"><div class="img">' .
-          '<img src="/game/ts/style/grunge.png" width="64" height="64">' .
-          '</div><div class="text">' .
-          '<h4 style="margin: 0">' . $item[ 'name' ] . '</h4></div></div>';
+      return $this->expand_id_obj( $inventory_obj );
+  }
 
-    return $st;
-}
+  function expand_id_obj( $item_obj ) {
+      $item_id = array();
 
-function ts_get_inventory() {
-    $inventory_obj = $this->ag->c( 'inventory' )->get_inventory(
-        $this->ag->char[ 'id' ] );
+      // todo: rewrite as first step collects inventory_obj keys and second
+      //  setup replaces them, instead of cycling through the whole thing a
+      //  second time
+      foreach ( $item_obj as $k => $v ) {
+          $meta = json_decode( $v[ 'meta_value' ], TRUE );
+          if ( isset( $meta[ 'id' ] ) ) {
+              $item_id[] = $meta[ 'id' ];
+          }
+          $item_obj[ $k ][ 'meta' ] = $meta;
+      }
 
-    return ts_expand_id_obj( $inventory_obj );
-}
+      if ( count( $item_id ) > 0 ) {
+          $template_obj = $this->ag->c( 'item' )->get_item_list( $item_id );
 
-function ts_expand_id_obj( $item_obj ) {
-    $item_id = array();
+          foreach ( $item_obj as $inv_k => $inv_v ) {
+              if ( isset( $inv_v[ 'meta' ][ 'id' ] ) ) {
+                  $i = $inv_v[ 'meta' ][ 'id' ];
+                  $item_meta = json_decode(
+                      $template_obj[ $i ][ 'meta_value' ], TRUE );
+                  foreach ( $item_meta as $k => $v ) {
+                      $item_obj[ $inv_k ][ 'meta' ][ $k ] = $v;
+                  }
+              }
+          }
+      }
 
-    // todo: rewrite as first step collects inventory_obj keys and second
-    //  setup replaces them, instead of cycling through the whole thing a
-    //  second time
-    foreach ( $item_obj as $k => $v ) {
-        $meta = json_decode( $v[ 'meta_value' ], TRUE );
-        if ( isset( $meta[ 'id' ] ) ) {
-            $item_id[] = $meta[ 'id' ];
-        }
-        $item_obj[ $k ][ 'meta' ] = $meta;
-    }
+      return $item_obj;
+  }
 
-    if ( count( $item_id ) > 0 ) {
-        $template_obj = $this->ag->c( 'item' )->get_item_list( $item_id );
-
-        foreach ( $item_obj as $inv_k => $inv_v ) {
-            if ( isset( $inv_v[ 'meta' ][ 'id' ] ) ) {
-                $i = $inv_v[ 'meta' ][ 'id' ];
-                $item_meta = json_decode(
-                    $template_obj[ $i ][ 'meta_value' ], TRUE );
-                foreach ( $item_meta as $k => $v ) {
-                    $item_obj[ $inv_k ][ 'meta' ][ $k ] = $v;
-                }
-            }
-        }
-    }
-
-    return $item_obj;
 }

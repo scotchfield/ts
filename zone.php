@@ -153,7 +153,7 @@ class TSZone {
                   ' gold</a></div>' );
             //todo buy should be an array of item/quantities
 
-            echo( ts_item_div( $item_meta ) . '</div>' );
+            echo( $this->ag->ts->item_div( $item_meta ) . '</div>' );
         }
         echo( '</div>' );
     }
@@ -228,7 +228,7 @@ class TSZone {
             return FALSE;
         }
 
-        $inventory_obj = ts_get_inventory();
+        $inventory_obj = $this->ag->ts->get_inventory();
 
         if ( ! isset( $inventory_obj[ $inv_id ] ) ) {
             return FALSE;

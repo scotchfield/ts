@@ -46,7 +46,7 @@ function ts_char_content() {
 
     $char[ 'meta' ] = get_character_meta( $char_id );
 
-    $char = ts_get_unpacked_character( $char );
+    $char = $ag->ts->get_unpacked_character( $char );
 
     ts_print_character( $char );
 }
@@ -178,7 +178,7 @@ function ts_inventory_content() {
        return;
     }
 
-    $inventory_obj = ts_get_inventory();
+    $inventory_obj = $ag->ts->get_inventory();
 
 ?>
 <div class="row text-right">
@@ -194,7 +194,7 @@ function ts_inventory_content() {
     foreach ( $inventory_obj as $item ) {
         $meta = $item[ 'meta' ];
 
-        echo( '<div class="col-sm-4">' . ts_item_div( $meta ) );
+        echo( '<div class="col-sm-4">' . $ag->ts->item_div( $meta ) );
         if ( isset( $meta[ 'sell' ] ) ) {
             echo ( '<br>' .
                 '<a href="game-setting.php?state=store_sell&sell=' .
@@ -241,7 +241,7 @@ function ts_equip_item() {
         return FALSE;
     }
 
-    $inventory_obj = ts_get_inventory();
+    $inventory_obj = $ag->ts->get_inventory();
 
     if ( ! isset( $inventory_obj[ $inv_id ] ) ) {
         return FALSE;

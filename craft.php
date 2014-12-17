@@ -91,7 +91,7 @@ class TSCraft extends ArcadiaComponent {
             return FALSE;
         }
 
-        $inventory_obj = ts_get_inventory();
+        $inventory_obj = $this->ag->ts->get_inventory();
         $inv_count = array();
         foreach ( $inventory_obj as $x ) {
             if ( ! isset( $inv_count[ 'id' ] ) ) {

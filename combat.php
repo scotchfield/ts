@@ -141,7 +141,7 @@ function ts_combat_content() {
                     $item_obj = json_decode( $item[ 'meta_value' ], TRUE );
 
                     echo( '<p>Your foe drops some loot: ' .
-                          ts_item_popup( $item_obj ) . '</p>' );
+                          $ag->ts->item_popup( $item_obj ) . '</p>' );
 
                     $ag->c( 'inventory' )->award_item(
                         $ag->char[ 'id' ], '{"id":' . $k . '}' );
