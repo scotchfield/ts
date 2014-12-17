@@ -102,24 +102,40 @@ class TSCraft extends ArcadiaComponent {
 
         $meta = json_decode( $recipe[ 'meta_value' ], TRUE );
 
-/*$this->ag->debug_print( $meta );
-$this->ag->debug_print( $inv_count );*/
-
         $can_craft = TRUE;
         foreach ( $meta[ 'pre' ] as $x ) {
-            $this->ag->debug_print( $x );
+            if ( ! isset( $inv_count[ $x[ 0 ] ] ) ) {
+                $can_craft = FALSE;
+                continue;
+            }
             if ( count( $inv_count[ $x[ 0 ] ] ) < $x[ 2 ] ) {
                 $can_craft = FALSE;
             }
         }
 
-        if ( $can_craft ) {
-            $this->ag->debug_print( 'can craft!' );
+        if ( ! $can_craft ) {
+            return FALSE;
         }
 
-        $this->ag->debug_print( $recipe );
+        foreach ( $meta[ 'pre' ] as $x ) {
+            for ( $i = 0; $i < $x[ 2 ]; $i++ ) {
+                $this->ag->c( 'inventory' )->remove_item(
+                    $this->ag->char[ 'id' ], $inv_count[ $x[ 0 ] ][ $i ] );
+            }
+        }
 
-        exit;
+        foreach ( $meta[ 'post' ] as $x ) {
+            for ( $i = 0; $i < $x[ 2 ]; $i++ ) {
+                $this->ag->c( 'inventory' )->award_item(
+                    $this->ag->char[ 'id' ], '{"id":' . $x[ 0 ] . '}' );
+            }
+        }
+
+        $this->ag->c( 'user' )->update_character_meta(
+            $this->ag->char[ 'id' ], ts_meta_type_character,
+            TS_TIP, 'Created something new!' );
+
+        return TRUE;
     }
 
 }

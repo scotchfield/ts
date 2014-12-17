@@ -264,7 +264,8 @@ function ts_equip_item() {
 
     $ag->char[ 'equipped' ][ $slot ] = $item[ 'meta' ];
 
-    update_character_meta( $ag->char[ 'id' ], ts_meta_type_character,
+    $ag->c( 'user' )->update_character_meta(
+        $ag->char[ 'id' ], ts_meta_type_character,
         TS_TIP, $item[ 'meta' ][ 'name' ] . ' equipped.' );
 
     $ag->set_redirect_header( GAME_URL . '?state=profile' );

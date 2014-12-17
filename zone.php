@@ -212,7 +212,8 @@ class TSZone {
         $this->ag->c( 'inventory' )->award_item(
             $this->ag->char[ 'id' ], '{"id":' . $item_id . '}' );
 
-        update_character_meta( $this->ag->char[ 'id' ], ts_meta_type_character,
+        $this->ag->c( 'user' )->update_character_meta(
+            $this->ag->char[ 'id' ], ts_meta_type_character,
             TS_TIP, $item_meta[ 'name' ] . ' purchased for ' .
             $item_meta[ 'buy' ][ 0 ] . ' gold.' );
 
@@ -244,7 +245,8 @@ class TSZone {
         $this->ag->c( 'inventory' )->remove_item(
             $this->ag->char[ 'id' ], $inv_id );
 
-        update_character_meta( $this->ag->char[ 'id' ], ts_meta_type_character,
+        $this->ag->c( 'user' )->update_character_meta(
+            $this->ag->char[ 'id' ], ts_meta_type_character,
             TS_TIP, $item[ 'meta' ][ 'name' ] . ' sold for ' .
             $item[ 'meta' ][ 'sell' ][ 0 ] . ' gold.' );
 
