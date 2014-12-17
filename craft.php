@@ -12,10 +12,10 @@ class TSCraft extends ArcadiaComponent {
 
         $this->ag = $ag;
 
-        add_state( 'do_page_content', 'craft',
+        $ag->add_state( 'do_page_content', 'craft',
             array( $this, 'craft_content' ) );
 
-        add_state( 'do_setting', 'craft_create',
+        $ag->add_state( 'do_setting', 'craft_create',
             array( $this, 'craft_create' ) );
     }
 

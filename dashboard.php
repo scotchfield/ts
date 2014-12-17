@@ -1,11 +1,15 @@
 <?php
 
 class TSDashboard extends ArcadiaComponent {
-    function __construct() {
-        add_state( 'do_page_content', FALSE,
+    private $ag;
+
+    function __construct( $ag ) {
+        $this->ag = $ag;
+
+        $ag->add_state( 'do_page_content', FALSE,
                    array( $this, 'content_dashboard' ) );
 
-        add_state( 'do_page_content', FALSE,
+        $ag->add_state( 'do_page_content', FALSE,
                    array( $this, 'content_zone' ) );
     }
 

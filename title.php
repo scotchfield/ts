@@ -1,5 +1,8 @@
 <?php
 
+// todo: refactor to object
+global $ag;
+
 function ts_title_content() {
     global $ag;
 
@@ -157,4 +160,4 @@ if ( FALSE != $ag->get_arg( 'notify' ) ) {
 <?
 }
 
-add_state( 'do_page_content', 'title', 'ts_title_content' );
+$ag->add_state( 'do_page_content', 'title', 'ts_title_content' );

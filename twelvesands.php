@@ -20,24 +20,28 @@ class TwelveSands {
     public function __construct( $ag ) {
         $this->ag = $ag;
 
-        add_state( 'do_page_content', 'about', array( $this, 'about' ) );
-        add_state( 'do_page_content', 'contact', array( $this, 'contact' ) );
-        add_state_priority( 'do_page_content', FALSE,
+        $ag->add_state( 'do_page_content', 'about', array( $this, 'about' ) );
+        $ag->add_state( 'do_page_content', 'contact',
+            array( $this, 'contact' ) );
+        $ag->add_state_priority( 'do_page_content', FALSE,
             array( $this, 'tip_print' ) );
 
-        add_state( 'arcadia_end', FALSE, array( $this, 'pack_character' ) );
-        add_state( 'award_achievement', FALSE,
+        $ag->add_state( 'arcadia_end', FALSE,
+            array( $this, 'pack_character' ) );
+        $ag->add_state( 'award_achievement', FALSE,
             array( $this, 'achievement_print' ) );
-        add_state_priority( 'character_load', FALSE,
+        $ag->add_state_priority( 'character_load', FALSE,
             array( $this, 'unpack_character' ) );
-        add_state( 'character_load', FALSE, array( $this, 'regen_stamina' ) );
-        add_state( 'game_header', FALSE, array( $this, 'header' ) );
-        add_state( 'game_footer', FALSE, array( $this, 'footer' ) );
-        add_state( 'post_load', FALSE, array( $this, 'post_load' ) );
-        add_state( 'select_character', FALSE, array( $this, 'login' ) );
-        add_state( 'set_default_state', FALSE,
+        $ag->add_state( 'character_load', FALSE,
+            array( $this, 'regen_stamina' ) );
+        $ag->add_state( 'game_header', FALSE, array( $this, 'header' ) );
+        $ag->add_state( 'game_footer', FALSE, array( $this, 'footer' ) );
+        $ag->add_state( 'post_load', FALSE, array( $this, 'post_load' ) );
+        $ag->add_state( 'select_character', FALSE, array( $this, 'login' ) );
+        $ag->add_state( 'set_default_state', FALSE,
             array( $this, 'default_state' ) );
-        add_state( 'validate_user', FALSE, array( $this, 'validate_user' ) );
+        $ag->add_state( 'validate_user', FALSE,
+            array( $this, 'validate_user' ) );
 
         $this->craft = new TSCraft( $ag );
         $this->zone = new TSZone( $ag );
@@ -52,7 +56,7 @@ class TwelveSands {
             new ArcadiaTracking( $key_type = TRACK_NPC ) );
         $this->ag->set_component( 'zone', new ArcadiaZone() );
 
-        $this->ag->set_component( 'dashboard', new TSDashboard() );
+        $this->ag->set_component( 'dashboard', new TSDashboard( $this->ag ) );
     }
 
     public function default_state() {

@@ -1,5 +1,8 @@
 <?php
 
+// todo: refactor to object
+global $ag;
+
 function ts_profile_content() {
     global $ag;
 
@@ -15,7 +18,7 @@ function ts_profile_content() {
     ts_print_character( $ag->char );
 }
 
-add_state( 'do_page_content', FALSE, 'ts_profile_content' );
+$ag->add_state( 'do_page_content', FALSE, 'ts_profile_content' );
 
 function ts_char_content() {
     global $ag;
@@ -48,7 +51,7 @@ function ts_char_content() {
     ts_print_character( $char );
 }
 
-add_state( 'do_page_content', FALSE, 'ts_char_content' );
+$ag->add_state( 'do_page_content', FALSE, 'ts_char_content' );
 
 
 function ts_print_character( $character ) {
@@ -166,7 +169,7 @@ function ts_achievements_content() {
 <?php
 }
 
-add_state( 'do_page_content', FALSE, 'ts_achievements_content' );
+$ag->add_state( 'do_page_content', FALSE, 'ts_achievements_content' );
 
 function ts_inventory_content() {
     global $ag;
@@ -225,7 +228,7 @@ function ts_inventory_content() {
 <?php
 }
 
-add_state( 'do_page_content', FALSE, 'ts_inventory_content' );
+$ag->add_state( 'do_page_content', FALSE, 'ts_inventory_content' );
 
 
 function ts_equip_item() {
@@ -267,4 +270,4 @@ function ts_equip_item() {
     $ag->set_redirect_header( GAME_URL . '?state=profile' );
 }
 
-add_state( 'do_setting', 'equip', 'ts_equip_item' );
+$ag->add_state( 'do_setting', 'equip', 'ts_equip_item' );

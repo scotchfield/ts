@@ -1,5 +1,8 @@
 <?php
 
+// todo: refactor to object
+global $ag;
+
 function ts_select_check() {
     global $ag;
 
@@ -12,7 +15,7 @@ function ts_select_check() {
     }
 }
 
-add_state( 'state_set', FALSE, 'ts_select_check' );
+$ag->add_state( 'state_set', FALSE, 'ts_select_check' );
 
 
 function ts_select_print() {
@@ -70,4 +73,4 @@ function ts_select_print() {
 <?php
 }
 
-add_state( 'do_page_content', FALSE, 'ts_select_print' );
+$ag->add_state( 'do_page_content', FALSE, 'ts_select_print' );

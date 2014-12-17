@@ -1,5 +1,8 @@
 <?php
 
+// todo: refactor to object
+global $ag;
+
 function ts_get_npc( $npc_id ) {
     global $ag;
 
@@ -165,7 +168,7 @@ function ts_combat_content() {
     echo( '</div>' );
 }
 
-add_state( 'do_page_content', FALSE, 'ts_combat_content' );
+$ag->add_state( 'do_page_content', FALSE, 'ts_combat_content' );
 
 function ts_get_combat( $npc ) {
     global $ag;

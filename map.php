@@ -1,5 +1,8 @@
 <?
 
+// todo: refactor to object
+global $ag;
+
 function ts_map_print() {
     global $ag;
 
@@ -42,4 +45,4 @@ function ts_map_print() {
 <?php
 }
 
-add_state( 'do_page_content', FALSE, 'ts_map_print' );
+$ag->add_state( 'do_page_content', FALSE, 'ts_map_print' );

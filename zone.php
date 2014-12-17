@@ -6,12 +6,15 @@ class TSZone {
     public function __construct( $ag ) {
         $this->ag = $ag;
 
-        add_state( 'do_page_content', 'store',
+        $ag->add_state( 'do_page_content', 'store',
             array( $this, 'store_content' ) );
-        add_state( 'do_page_content', 'zone', array( $this, 'zone_content' ) );
+        $ag->add_state( 'do_page_content', 'zone',
+            array( $this, 'zone_content' ) );
 
-        add_state( 'do_setting', 'store_buy', array( $this, 'store_buy' ) );
-        add_state( 'do_setting', 'store_sell', array( $this, 'store_sell' ) );
+        $ag->add_state( 'do_setting', 'store_buy',
+            array( $this, 'store_buy' ) );
+        $ag->add_state( 'do_setting', 'store_sell',
+            array( $this, 'store_sell' ) );
     }
 
     public function get_zone( $zone_id ) {
