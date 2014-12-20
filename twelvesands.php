@@ -70,17 +70,27 @@ class TwelveSands {
     }
 
     public function login() {
+        if ( ! $this->ag->char ) {
+            return FALSE;
+        }
+
+        if ( ! $this->ag->c( 'user' ) ) {
+            return FALSE;
+        }
+
         $this->ag->c( 'user' )->ensure_character_meta_keygroup(
             $this->ag->char[ 'id' ], ts_meta_type_character, '',
             array(
                 TS_INFO, TS_EQUIPPED, TS_ENCOUNTER,
                 TS_TIP,
                 ) );
+
+        return TRUE;
     }
 
     public function tip_print() {
         if ( FALSE == $this->ag->char ) {
-            return;
+            return FALSE;
         }
 
         $tip = $this->ag->c( 'user' )->character_meta(
@@ -92,6 +102,8 @@ class TwelveSands {
                 $this->ag->char[ 'id' ],
                 ts_meta_type_character, TS_TIP, '' );
         }
+
+        return TRUE;
     }
 
     public function unpack_character() {
