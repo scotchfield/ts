@@ -43,6 +43,7 @@ class TwelveSands {
             array( $this, 'validate_user' ) );
 
         $this->craft = new TSCraft( $ag );
+        $this->title = new TSTitle( $ag );
         $this->zone = new TSZone( $ag );
 
         $this->ag->set_component( 'achievement', new ArcadiaAchievement() );

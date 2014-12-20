@@ -1,16 +1,24 @@
 <?php
 
-// todo: refactor to object
-global $ag;
+class TSTitle {
+    private $ag;
 
-function ts_title_content() {
-    global $ag;
+    public function __construct( $ag ) {
+        $this->ag = $ag;
 
-    if ( FALSE != $ag->char ) {
-        header( 'Location: game-logout.php' );
-        exit;
+        $ag->add_state( 'do_page_content', FALSE,
+            array( $this, 'title_content' ) );
     }
 
+    public function title_content() {
+        if ( FALSE != $this->ag->char ) {
+            //header( 'Location: game-logout.php' );
+
+            // todo: this should force an exit using arcadia!
+            // find a better way to handle the header redirect, it's a
+            //  risky phpunit test
+            return FALSE;
+        }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,25 +74,25 @@ function ts_title_content() {
   </div>
 
 <?php
-$err_obj = array(
-    1 => 'Please provide a username.',
-    2 => 'Please provide a password.',
-    3 => 'Please provide a valid email address.',
-    4 => 'That username already exists.',
-    5 => 'That email address is already in use.',
-    6 => 'That username and password combination does not exist.',
-    100 => 'Thanks! Please check your email for a validation link.',
-    101 => 'That account is already validated!',
-    102 => 'Success! You can now log in.',
-);
+    $err_obj = array(
+        1 => 'Please provide a username.',
+        2 => 'Please provide a password.',
+        3 => 'Please provide a valid email address.',
+        4 => 'That username already exists.',
+        5 => 'That email address is already in use.',
+        6 => 'That username and password combination does not exist.',
+        100 => 'Thanks! Please check your email for a validation link.',
+        101 => 'That account is already validated!',
+        102 => 'Success! You can now log in.',
+    );
 
-if ( FALSE != $ag->get_arg( 'notify' ) ) {
-    $notify = intval( $ag->get_arg( 'notify' ) );
-    if ( isset( $err_obj[ $notify ] ) ) {
-        echo( '<div class="row text-center"><h2>' .
-              $err_obj[ $notify ] . '</h2></div>' );
+    if ( FALSE != $this->ag->get_arg( 'notify' ) ) {
+        $notify = intval( $this->ag->get_arg( 'notify' ) );
+        if ( isset( $err_obj[ $notify ] ) ) {
+            echo( '<div class="row text-center"><h2>' .
+                  $err_obj[ $notify ] . '</h2></div>' );
+        }
     }
-}
 ?>
 
   <div class="row">
@@ -158,6 +166,8 @@ if ( FALSE != $ag->get_arg( 'notify' ) ) {
 </html>
 
 <?
+        return TRUE;
+    }
+
 }
 
-$ag->add_state( 'do_page_content', 'title', 'ts_title_content' );
