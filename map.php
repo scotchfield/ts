@@ -1,15 +1,16 @@
-<?
+<?php
 
-// todo: refactor to object
-global $ag;
+class TSMap {
+    private $ag;
 
-function ts_map_print() {
-    global $ag;
+    public function __construct( $ag ) {
+        $this->ag = $ag;
 
-    if ( strcmp( 'map', $ag->get_state() ) ) {
-        return;
+        $ag->add_state( 'do_page_content', 'map',
+            array( $this, 'map_content' ) );
     }
 
+    public function map_content() {
 ?>
 <h3>Twelve Sands Navigation</h3>
 <div class="row">
@@ -43,6 +44,7 @@ function ts_map_print() {
   </div>
 </div>
 <?php
-}
+        return TRUE;
+    }
 
-$ag->add_state( 'do_page_content', FALSE, 'ts_map_print' );
+}
