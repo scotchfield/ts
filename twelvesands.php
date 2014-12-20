@@ -42,22 +42,21 @@ class TwelveSands {
         $ag->add_state( 'validate_user', FALSE,
             array( $this, 'validate_user' ) );
 
-        // todo: better way to organize these, maybe TS_ components?
-        $this->craft = new TSCraft( $ag );
-        $this->map = new TSMap( $ag );
-        $this->select = new TSSelect( $ag );
-        $this->title = new TSTitle( $ag );
-        $this->zone = new TSZone( $ag );
-
-        $this->ag->set_component( 'achievement', new ArcadiaAchievement() );
-        $this->ag->set_component( 'inventory', new ArcadiaInventory() );
-        $this->ag->set_component( 'item', new ArcadiaItem() );
-        $this->ag->set_component( 'npc', new ArcadiaNpc() );
-        $this->ag->set_component( 'track_npc',
+        $ag->set_component( 'achievement', new ArcadiaAchievement() );
+        $ag->set_component( 'inventory', new ArcadiaInventory() );
+        $ag->set_component( 'item', new ArcadiaItem() );
+        $ag->set_component( 'npc', new ArcadiaNpc() );
+        $ag->set_component( 'track_npc',
             new ArcadiaTracking( $key_type = TRACK_NPC ) );
-        $this->ag->set_component( 'zone', new ArcadiaZone() );
+        $ag->set_component( 'zone', new ArcadiaZone() );
 
-        $this->ag->set_component( 'dashboard', new TSDashboard( $this->ag ) );
+        $ag->set_component( 'dashboard', new TSDashboard( $ag ) );
+
+        $ag->set_component( 'ts_craft', new TSCraft( $ag ) );
+        $ag->set_component( 'ts_map', new TSMap( $ag ) );
+        $ag->set_component( 'ts_select', new TSSelect( $ag ) );
+        $ag->set_component( 'ts_title', new TSTitle( $ag ) );
+        $ag->set_component( 'ts_zone', new TSZone( $ag ) );
     }
 
     public function default_state() {

@@ -23,7 +23,7 @@ class TestTSCraft extends PHPUnit_Framework_TestCase {
      * @covers TSCraft::__construct
      */
     public function test_craft_new() {
-        $this->assertNotNull( $this->ts->craft );
+        $this->assertNotFalse( $this->ag->c( 'ts_craft' ) );
     }
 
 }

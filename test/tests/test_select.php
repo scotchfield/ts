@@ -23,7 +23,7 @@ class TestTSSelect extends PHPUnit_Framework_TestCase {
      * @covers TSSelect::__construct
      */
     public function test_select_new() {
-        $this->assertNotNull( $this->ts->select );
+        $this->assertNotFalse( $this->ag->c( 'ts_select' ) );
     }
 
 }

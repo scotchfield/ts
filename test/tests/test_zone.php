@@ -23,7 +23,7 @@ class TestTSZone extends PHPUnit_Framework_TestCase {
      * @covers TSZone::__construct
      */
     public function test_zone_new() {
-        $this->assertNotNull( $this->ts->zone );
+        $this->assertNotFalse( $this->ag->c( 'ts_zone' ) );
     }
 
 }

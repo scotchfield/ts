@@ -23,7 +23,7 @@ class TestTSMap extends PHPUnit_Framework_TestCase {
      * @covers TSMap::__construct
      */
     public function test_map_new() {
-        $this->assertNotNull( $this->ts->map );
+        $this->assertNotFalse( $this->ag->c( 'ts_map' ) );
     }
 
     /**
@@ -31,7 +31,7 @@ class TestTSMap extends PHPUnit_Framework_TestCase {
      */
     public function test_map_content() {
         ob_start();
-        $result = $this->ts->map->map_content();
+        $result = $this->ag->c( 'ts_map' )->map_content();
         ob_end_clean();
 
         $this->assertTrue( $result );

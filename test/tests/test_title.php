@@ -23,7 +23,7 @@ class TestTSTitle extends PHPUnit_Framework_TestCase {
      * @covers TSTitle::__construct
      */
     public function test_title_new() {
-        $this->assertNotNull( $this->ts->title );
+        $this->assertNotFalse( $this->ag->c( 'ts_title' ) );
     }
 
     /**
@@ -33,7 +33,7 @@ class TestTSTitle extends PHPUnit_Framework_TestCase {
         $this->ag->char = array( 'id' => 1 );
 
         ob_start();
-        $result = $this->ts->title->title_content();
+        $result = $this->ag->c( 'ts_title' )->title_content();
         ob_end_clean();
 
         $this->assertFalse( $result );
@@ -44,7 +44,7 @@ class TestTSTitle extends PHPUnit_Framework_TestCase {
      */
     public function test_title_content_no_char() {
         ob_start();
-        $result = $this->ts->title->title_content();
+        $result = $this->ag->c( 'ts_title' )->title_content();
         ob_end_clean();
 
         $this->assertTrue( $result );
@@ -57,7 +57,7 @@ class TestTSTitle extends PHPUnit_Framework_TestCase {
         $this->ag->set_arg( 'notify', 1 );
 
         ob_start();
-        $result = $this->ts->title->title_content();
+        $result = $this->ag->c( 'ts_title' )->title_content();
         ob_end_clean();
 
         $this->assertTrue( $result );
