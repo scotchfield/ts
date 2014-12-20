@@ -14,6 +14,11 @@ class TestTwelveSands extends PHPUnit_Framework_TestCase {
         $this->ts = new TwelveSands( $ag );
     }
 
+    public function tearDown() {
+        unset( $this->ts );
+        unset( $this->ag );
+    }
+
     /**
      * @covers TwelveSands::__construct
      */
