@@ -19,13 +19,6 @@ class TestTwelveSands extends PHPUnit_Framework_TestCase {
      */
     public function test_ts_new() {
         $this->assertNotNull( $this->ts );
-    }
-
-    /**
-     * @covers TwelveSands::post_load
-     */
-    public function test_ts_post_load() {
-        $this->ts->post_load();
 
         $this->assertNotFalse( $this->ag->c( 'dashboard' ) );
     }
@@ -122,6 +115,42 @@ class TestTwelveSands extends PHPUnit_Framework_TestCase {
         $this->assertEmpty( $this->ag->c( 'user' )->character_meta(
             ts_meta_type_character, TS_TIP ) );
     }
+
+    /**
+     * @covers TwelveSands::unpack_character
+     */
+    public function test_ts_unpack_character_no_char() {
+        $result = $this->ts->unpack_character();
+
+        $this->assertFalse( $result );
+    }
+
+    /**
+     * @covers TwelveSands::unpack_character
+     */
+    public function test_ts_unpack_character_empty_metadata() {
+        $this->ag->char = array( 'id' => 1 );
+
+        $result = $this->ts->unpack_character();
+
+        $this->assertTrue( $result );
+        $this->assertTrue( isset( $this->ag->char[ 'info' ] ) );
+        $this->assertTrue( isset( $this->ag->char[ 'equipped' ] ) );
+        $this->assertFalse( isset( $this->ag->char[ 'encounter' ] ) );
+    }
+
+    /**
+     * @covers TwelveSands::pack_character
+     */
+    public function test_ts_pack_character_no_char() {
+        $result = $this->ts->pack_character();
+
+        $this->assertFalse( $result );
+    }
+
+
+
+
 
 
 }

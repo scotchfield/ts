@@ -36,7 +36,6 @@ class TwelveSands {
             array( $this, 'regen_stamina' ) );
         $ag->add_state( 'game_header', FALSE, array( $this, 'header' ) );
         $ag->add_state( 'game_footer', FALSE, array( $this, 'footer' ) );
-        $ag->add_state( 'post_load', FALSE, array( $this, 'post_load' ) );
         $ag->add_state( 'select_character', FALSE, array( $this, 'login' ) );
         $ag->add_state( 'set_default_state', FALSE,
             array( $this, 'default_state' ) );
@@ -45,9 +44,7 @@ class TwelveSands {
 
         $this->craft = new TSCraft( $ag );
         $this->zone = new TSZone( $ag );
-    }
 
-    public function post_load() {
         $this->ag->set_component( 'achievement', new ArcadiaAchievement() );
         $this->ag->set_component( 'inventory', new ArcadiaInventory() );
         $this->ag->set_component( 'item', new ArcadiaItem() );
@@ -108,7 +105,7 @@ class TwelveSands {
 
     public function unpack_character() {
         if ( FALSE == $this->ag->char ) {
-            return;
+            return FALSE;
         }
 
         $this->ag->char[ 'info' ] = json_decode(
@@ -173,7 +170,8 @@ class TwelveSands {
         foreach ( $default_info as $k => $v ) {
             if ( ! isset( $this->ag->char[ 'equipped' ][ $k ] ) ) {
                 if ( ! isset( $default_cache[ $v ] ) ) {
-                    $default_cache[ $v ] = $this->ag->c( 'item' )->get_item( $v );
+                    $default_cache[ $v ] = $this->ag->c( 'item' )->get_item(
+                        $v );
                 }
 
                 $this->ag->char[ 'equipped' ][ $k ] = json_decode(
@@ -184,11 +182,13 @@ class TwelveSands {
         $this->ag->char[ 'encounter' ] = json_decode(
             $this->ag->c( 'user' )->character_meta(
                 ts_meta_type_character, TS_ENCOUNTER ), TRUE );
+
+        return TRUE;
     }
 
     public function pack_character() {
         if ( FALSE == $this->ag->char ) {
-            return;
+            return FALSE;
         }
 
         // todo: check if we need to update, don't just update every time
@@ -213,11 +213,13 @@ class TwelveSands {
                 ts_meta_type_character, TS_ENCOUNTER,
                 json_encode( $this->ag->char[ 'encounter' ] ) );
         }
+
+        return TRUE;
     }
 
     public function regen_stamina() {
         if ( FALSE == $this->ag->char ) {
-            return;
+            return FALSE;
         }
 
         if ( $this->ag->char[ 'info' ][ 'stamina' ] < 100 ) {
@@ -233,11 +235,13 @@ class TwelveSands {
             $this->ag->char[ 'info' ][ 'stamina' ] = $new_stamina;
             $this->ag->char[ 'info' ][ 'stamina_timestamp' ] = time();
         }
+
+        return TRUE;
     }
 
     public function header() {
         if ( ! strcmp( 'title', $this->ag->get_state() ) ) {
-            return;
+            return FALSE;
         }
 
 ?><!DOCTYPE html>
@@ -348,13 +352,13 @@ class TwelveSands {
 
     <div class="container">
 <?php
+        return TRUE;
     }
 
     public function footer() {
         if ( ! strcmp( 'title', $this->ag->get_state() ) ) {
-            return;
+            return FALSE;
         }
-
 ?>
   </div>
   <script src="<?php echo( GAME_CUSTOM_STYLE_URL );
@@ -366,6 +370,7 @@ class TwelveSands {
   </body>
 </html>
 <?php
+        return TRUE;
     }
 
     public function about() {
@@ -397,15 +402,17 @@ class TwelveSands {
 
     public function validate_user( $args ) {
         if ( ! isset( $args[ 'user_id' ] ) ) {
-            return;
+            return FALSE;
         }
 
         set_user_max_characters( $args[ 'user_id' ], 1 );
+
+        return TRUE;
     }
 
     public function achievement_print( $args ) {
         if ( ! isset( $args[ 'achievement_id' ] ) ) {
-            return;
+            return FALSE;
         }
 
         $achievement = $this->ag->c( 'achievement' )->get_achievement(
@@ -418,6 +425,7 @@ class TwelveSands {
   <h4><?php echo( $meta[ 'text' ] ); ?></h4>
 </div>
 <?php
+        return TRUE;
     }
 
     public function item_string( $item ) {
