@@ -52,6 +52,7 @@ class TwelveSands {
 
         $ag->set_component( 'dashboard', new TSDashboard( $ag ) );
 
+        $ag->set_component( 'ts_character', new TSCharacter( $ag ) );
         $ag->set_component( 'ts_craft', new TSCraft( $ag ) );
         $ag->set_component( 'ts_map', new TSMap( $ag ) );
         $ag->set_component( 'ts_select', new TSSelect( $ag ) );
