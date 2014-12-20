@@ -45,6 +45,7 @@ class TwelveSands {
         // todo: better way to organize these, maybe TS_ components?
         $this->craft = new TSCraft( $ag );
         $this->map = new TSMap( $ag );
+        $this->select = new TSSelect( $ag );
         $this->title = new TSTitle( $ag );
         $this->zone = new TSZone( $ag );
 

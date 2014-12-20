@@ -1,31 +1,31 @@
 <?php
 
-// todo: refactor to object
-global $ag;
+class TSSelect {
+    private $ag;
 
-function ts_select_check() {
-    global $ag;
+    public function __construct( $ag ) {
+        $this->ag = $ag;
 
-    if ( FALSE == $ag->user ) {
-        return;
+        $ag->add_state( 'state_set', FALSE, array( $this, 'select_check' ) );
+        $ag->add_state( 'do_page_content', 'select',
+            array( $this, 'select_content' ) );
     }
 
-    if ( FALSE == $ag->char ) {
-        $ag->set_state( 'select' );
-    }
-}
+    public function select_check() {
+        if ( FALSE == $this->ag->user ) {
+            return FALSE;
+        }
 
-$ag->add_state( 'state_set', FALSE, 'ts_select_check' );
+        if ( FALSE == $this->ag->char ) {
+            $this->ag->set_state( 'select' );
+        }
 
-
-function ts_select_print() {
-    global $ag;
-
-    if ( strcmp( 'select', $ag->get_state() ) ) {
-       return;
+        return TRUE;
     }
 
-    $char_obj = $ag->c( 'user' )->get_characters_for_user( $ag->user[ 'id' ] );
+    public function select_content() {
+        $char_obj = $this->ag->c( 'user' )->get_characters_for_user(
+            $this->ag->user[ 'id' ] );
 ?>
 <div class="row">
   <div class="col-md-2">
@@ -34,24 +34,23 @@ function ts_select_print() {
   <div class="col-md-8">
 
 <h1 class="text-center">Welcome back,
-<?php echo( $ag->user[ 'user_name' ] ); ?>.</h1>
+<?php echo( $this->ag->user[ 'user_name' ] ); ?>.</h1>
 
   <h1 class="page_section">SELECT A CHARACTER</h1>
-<!--<h2 class="text-center">Select a character:</h2>-->
 
 <?php
-    if ( count( $char_obj ) == 0 ) {
-        echo( '<h3 class="text-center">None found!</h3>' );
-    } else {
-        foreach ( $char_obj as $char ) {
-            echo( '<h3 class="text-center">' .
-                  '<a href="game-setting.php?state=select_character' .
-                  '&amp;id=' . $char[ 'id' ] . '">' .
-                  $char[ 'character_name' ] . '</a></h3>' );
+        if ( count( $char_obj ) == 0 ) {
+            echo( '<h3 class="text-center">None found!</h3>' );
+        } else {
+            foreach ( $char_obj as $char ) {
+                echo( '<h3 class="text-center">' .
+                      '<a href="game-setting.php?state=select_character' .
+                      '&amp;id=' . $char[ 'id' ] . '">' .
+                      $char[ 'character_name' ] . '</a></h3>' );
+            }
         }
-    }
 
-    if ( count( $char_obj ) < $ag->user[ 'max_characters' ] ) {
+        if ( count( $char_obj ) < $this->ag->user[ 'max_characters' ] ) {
 ?>
 <h1 class="text-center">Create a character</h1>
 <form name="char_form" id="char_form" method="get" action="game-setting.php">
@@ -63,7 +62,7 @@ function ts_select_print() {
 <input type="hidden" name="state" value="new_character">
 </form>
 <?php
-    }
+        }
 ?>
   </div>
   <div class="col-md-2">
@@ -71,6 +70,7 @@ function ts_select_print() {
   </div>
 </div>
 <?php
-}
+        return TRUE;
+    }
 
-$ag->add_state( 'do_page_content', FALSE, 'ts_select_print' );
+}
