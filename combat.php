@@ -14,7 +14,7 @@ class TSCombat {
         $npc = $this->ag->c( 'npc' )->get_npc( $npc_id );
 
         if ( FALSE == $npc ) {
-            return;
+            return FALSE;
         }
 
         $meta = json_decode( $npc[ 'meta_value' ], $assoc = TRUE );
@@ -33,10 +33,6 @@ class TSCombat {
     }
 
     public function combat_content() {
-        if ( strcmp( 'combat', $this->ag->get_state() ) ) {
-            return FALSE;
-        }
-
         $zone_id = $this->ag->get_arg( 'zone_id' );
 
         if ( ! $zone_id ) {

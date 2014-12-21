@@ -26,4 +26,13 @@ class TestTSCombat extends PHPUnit_Framework_TestCase {
         $this->assertNotFalse( $this->ag->c( 'ts_combat' ) );
     }
 
+    /**
+     * @covers TSCombat::get_npc
+     */
+    public function test_combat_get_npc_does_not_exist() {
+        $result = $this->ag->c( 'ts_combat' )->get_npc( -1 );
+
+        $this->assertFalse( $result );
+    }
+
 }
