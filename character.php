@@ -42,20 +42,24 @@ class TSCharacter {
         }
 
         $char_id = intval( $this->ag->get_arg( 'id' ) );
-        $char = get_character_by_id( $char_id );
+        $char = $this->ag->c( 'user' )->get_character_by_id( $char_id );
 
         if ( FALSE == $char ) {
             return FALSE;
         }
 
-        $char[ 'meta' ] = get_character_meta( $char_id );
-
-        $char = $this->ag->ts->get_unpacked_character( $char );
+        $char[ 'meta' ] = $this->ag->c( 'user' )->get_character_meta(
+            $char_id );
 
         $this->print_character( $char );
+
+        return TRUE;
     }
 
     public function print_character( $character ) {
+        if ( ! isset( $character[ 'info' ] ) ) {
+            return FALSE;
+        }
 ?>
 <div class="row">
   <div class="col-md-6">

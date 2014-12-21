@@ -26,4 +26,68 @@ class TestTSCharacter extends PHPUnit_Framework_TestCase {
         $this->assertNotFalse( $this->ag->c( 'ts_character' ) );
     }
 
+    /**
+     * @covers TSCharacter::profile_content
+     */
+    public function test_character_profile_content() {
+        $component = new TSCharacter( $this->ag );
+
+        ob_start();
+        $result = $component->profile_content();
+        ob_end_clean();
+
+        $this->assertTrue( $result );
+    }
+
+    /**
+     * @covers TSCharacter::char_content
+     */
+    public function test_character_char_content_no_id() {
+        $component = new TSCharacter( $this->ag );
+
+        ob_start();
+        $result = $component->char_content();
+        ob_end_clean();
+
+        $this->assertFalse( $result );
+    }
+
+    /**
+     * @covers TSCharacter::char_content
+     */
+    public function test_character_char_content_invalid_char() {
+        $component = new TSCharacter( $this->ag );
+
+        $this->ag->set_arg( 'id', -1 );
+
+        ob_start();
+        $result = $component->char_content();
+        ob_end_clean();
+
+        $this->assertFalse( $result );
+
+        $this->ag->clear_args();
+    }
+
+    /**
+     * @covers TSCharacter::char_content
+     */
+    public function test_character_char_content() {
+        $component = new TSCharacter( $this->ag );
+
+        $this->ag->c( 'db' )->db_execute(
+            'INSERT INTO characters ( id, user_id, character_name ) VALUES ' .
+                '( 1, 1, "test" )' );
+        $this->ag->set_arg( 'id', 1 );
+
+        ob_start();
+        $result = $component->char_content();
+        ob_end_clean();
+
+        $this->assertTrue( $result );
+
+        $this->ag->clear_args();
+    }
+
+
 }

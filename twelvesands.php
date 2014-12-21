@@ -59,6 +59,8 @@ class TwelveSands {
         $ag->set_component( 'ts_select', new TSSelect( $ag ) );
         $ag->set_component( 'ts_title', new TSTitle( $ag ) );
         $ag->set_component( 'ts_zone', new TSZone( $ag ) );
+
+        $ag->ts = $this;
     }
 
     public function default_state() {
