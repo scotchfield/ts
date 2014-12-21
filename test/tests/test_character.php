@@ -89,5 +89,15 @@ class TestTSCharacter extends PHPUnit_Framework_TestCase {
         $this->ag->clear_args();
     }
 
+    /**
+     * @covers TSCharacter::print_character
+     */
+    public function test_character_print_character_no_info() {
+        $component = new TSCharacter( $this->ag );
+
+        $result = $component->print_character( array() );
+
+        $this->assertFalse( $result );
+    }
 
 }
