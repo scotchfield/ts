@@ -18,9 +18,10 @@ class TSSelect {
 
         if ( FALSE == $this->ag->char ) {
             $this->ag->set_state( 'select' );
+            return TRUE;
         }
 
-        return TRUE;
+        return FALSE;
     }
 
     public function select_content() {
