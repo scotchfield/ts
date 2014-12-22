@@ -6,7 +6,7 @@ class TSTitle {
     public function __construct( $ag ) {
         $this->ag = $ag;
 
-        $ag->add_state( 'do_page_content', FALSE,
+        $ag->add_state( 'do_page_content', 'title',
             array( $this, 'title_content' ) );
     }
 
