@@ -60,6 +60,14 @@ class TSCharacter {
         if ( ! isset( $character[ 'info' ] ) ) {
             return FALSE;
         }
+
+        if ( ! isset( $character[ 'equipped' ] ) ) {
+            return FALSE;
+        }
+
+        if ( ! isset( $character[ 'character_name' ] ) ) {
+            return FALSE;
+        }
 ?>
 <div class="row">
   <div class="col-md-6">
@@ -100,6 +108,10 @@ class TSCharacter {
         );
 
         foreach ( $gear_obj as $k => $v ) {
+            if ( ! isset( $character[ 'equipped' ][ $k ] ) ) {
+                continue;
+            }
+
             echo( '<dt>' . $v . '</dt><dd>' .
                   $character[ 'equipped' ][ $k ][ 'name' ] . '</dd>' );
         }
@@ -217,6 +229,7 @@ class TSCharacter {
 ?>
 </div>
 <?php
+        return TRUE;
     }
 
     public function equip_item() {

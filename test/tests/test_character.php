@@ -100,4 +100,84 @@ class TestTSCharacter extends PHPUnit_Framework_TestCase {
         $this->assertFalse( $result );
     }
 
+    /**
+     * @covers TSCharacter::print_character
+     */
+    public function test_character_print_character_no_equipped() {
+        $component = new TSCharacter( $this->ag );
+
+        $result = $component->print_character( array( 'info' => array() ) );
+
+        $this->assertFalse( $result );
+    }
+
+    /**
+     * @covers TSCharacter::print_character
+     */
+    public function test_character_print_character_no_character_name() {
+        $component = new TSCharacter( $this->ag );
+
+        $result = $component->print_character(
+            array( 'id' => 1, 'info' => array(), 'equipped' => array() ) );
+
+        $this->assertFalse( $result );
+    }
+
+    /**
+     * @covers TSCharacter::print_character
+     */
+    public function test_character_print_character() {
+        $component = new TSCharacter( $this->ag );
+
+        ob_start();
+        $result = $component->print_character(
+            array( 'id' => 1,
+                   'equipped' => array( 'weapon' => array( 'name' => 'a' ) ),
+                   'character_name' => 'test',
+                   'info' => array(
+                       'health' => 100, 'stamina' => 100, 'stamina_max' => 100,
+                       'gold' => 100, 'xp' => 100 ) ) );
+        ob_end_clean();
+
+        $this->assertTrue( $result );
+    }
+
+    /**
+     * @covers TSCharacter::achievements_content
+     */
+    public function test_character_achievements_content_empty() {
+        $component = new TSCharacter( $this->ag );
+
+        ob_start();
+        $result = $component->achievements_content();
+        ob_end_clean();
+
+        $this->assertTrue( $result );
+    }
+
+    /**
+     * @covers TSCharacter::inventory_content
+     */
+    public function test_character_inventory_content_empty() {
+        $component = new TSCharacter( $this->ag );
+
+        ob_start();
+        $result = $component->inventory_content();
+        ob_end_clean();
+
+        $this->assertTrue( $result );
+    }
+
+    /**
+     * @covers TSCharacter::equip_item
+     */
+    public function test_character_equip_item_empty() {
+        $component = new TSCharacter( $this->ag );
+
+        $result = $component->equip_item();
+
+        $this->assertFalse( $result );
+    }
+
+
 }
