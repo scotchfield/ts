@@ -75,7 +75,7 @@ class TestTSCharacter extends PHPUnit_Framework_TestCase {
     public function test_character_char_content() {
         $component = new TSCharacter( $this->ag );
 
-        $this->ag->c( 'db' )->db_execute(
+        $this->ag->c( 'db' )->execute(
             'INSERT INTO characters ( id, user_id, character_name ) VALUES ' .
                 '( 1, 1, "test" )' );
         $this->ag->set_arg( 'id', 1 );

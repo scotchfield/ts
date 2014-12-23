@@ -92,7 +92,7 @@ class TestTSSelect extends PHPUnit_Framework_TestCase {
         $this->ag->user = array( 'id' => 1, 'user_name' => 'test',
             'max_characters' => 2 );
 
-        $this->ag->c( 'db' )->db_execute(
+        $this->ag->c( 'db' )->execute(
             'INSERT INTO characters ( user_id, character_name ) ' .
                 'VALUES ( 1, "test" ) ' );
 
@@ -102,7 +102,7 @@ class TestTSSelect extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue( $result );
 
-        $this->ag->c( 'db' )->db_execute( 'DELETE FROM characters' );
+        $this->ag->c( 'db' )->execute( 'DELETE FROM characters' );
     }
 
 }
