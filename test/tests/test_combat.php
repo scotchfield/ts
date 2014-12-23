@@ -12,9 +12,18 @@ class TestTSCombat extends PHPUnit_Framework_TestCase {
 
         $this->ag = $ag;
         $this->ts = new TwelveSands( $ag );
+
+        $ag->c( 'db' )->execute(
+            'INSERT INTO game_meta ( key_type, meta_key, meta_value ) ' .
+                'VALUES ( ?, 1, \'{"name":"test","health":1}\' )',
+            array( $ag->c( 'npc' )->get_flag_game_meta() ) );
     }
 
     public function tearDown() {
+        $this->ag->c( 'db' )->execute(
+            'DELETE FROM game_meta WHERE key_type=?',
+            array( $this->ag->c( 'npc' )->get_flag_game_meta() ) );
+
         unset( $this->ts );
         unset( $this->ag );
     }
@@ -33,6 +42,18 @@ class TestTSCombat extends PHPUnit_Framework_TestCase {
         $result = $this->ag->c( 'ts_combat' )->get_npc( -1 );
 
         $this->assertFalse( $result );
+    }
+
+    /**
+     * @covers TSCombat::get_npc
+     */
+    public function test_combat_get_npc_exists() {
+        $result = $this->ag->c( 'ts_combat' )->get_npc( 1 );
+
+        $this->assertEquals( $result,
+            array( 'key_type' => '208', 'meta_key' => '1',
+                   'name' => 'test', 'id' => '1',
+                   'health' => 1, 'health_max' => 1 ) );
     }
 
 }
