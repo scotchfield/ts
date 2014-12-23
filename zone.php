@@ -79,6 +79,21 @@ class TSZone {
             echo( '</div>' );
         }
 
+        if ( isset( $zone[ 'people' ] ) ) {
+            echo( '<h3>People here</h3>' );
+            echo( '<div class="list-group">' );
+            foreach ( $zone[ 'people' ] as $k => $v ) {
+?>
+<a href="<?php echo( GAME_URL ); ?>?state=npc&id=<?php echo( $k ); ?>"
+   class="list-group-item">
+  <h4 class="list-group-item-heading"><?php echo( $v ); ?></h4>
+  <p class="list-group-item-text">Herp de derp.</p>
+</a>
+<?php
+            }
+            echo( '</div>' );
+        }
+
         if ( isset( $zone[ 'places' ] ) ) {
             echo( '<h3>Places to go</h3>' );
             echo( '<div class="list-group">' );
