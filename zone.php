@@ -21,11 +21,15 @@ class TSZone {
         $zone = $this->ag->c( 'zone' )->get_zone( $zone_id );
 
         if ( FALSE == $zone ) {
-            return;
+            return FALSE;
         }
 
         $meta = json_decode( $zone[ 'meta_value' ], $assoc = TRUE );
-        //todo: handle case where meta is false or json is erroneous
+
+        if ( ! $meta ) {
+            return FALSE;
+        }
+
         foreach ( $meta as $k => $v ) {
             $zone[ $k ] = $v;
         }
