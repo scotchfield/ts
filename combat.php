@@ -82,6 +82,10 @@ class TSCombat {
 
         $combat_obj = $this->get_combat( $npc );
 
+        if ( ! $combat_obj ) {
+            return FALSE;
+        }
+
         if ( ! $combat_obj[ 'round' ][ 0 ][ 'initiative' ] ) {
             $this->echo_health( $combat_obj[ 'round' ][ 0 ] );
         }
@@ -169,6 +173,8 @@ class TSCombat {
               '">Back to ' . $zone[ 'name' ] . '</a></p>' );
 
         echo( '</div>' );
+
+        return TRUE;
     }
 
     public function get_combat( $npc ) {
