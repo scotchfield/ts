@@ -20,13 +20,13 @@ class TSCraft extends ArcadiaComponent {
     }
 
     public function get_recipe( $id ) {
-        return $this->ag->c( 'db' )->db_fetch(
+        return $this->ag->c( 'db' )->fetch(
             'SELECT * FROM game_meta WHERE key_type=? AND meta_key=?',
             array( $this->flag_game_meta, $id ) );
     }
 
     public function get_recipes( $type = FALSE ) {
-        $obj = $this->ag->c( 'db' )->db_fetch_all(
+        $obj = $this->ag->c( 'db' )->fetch_all(
             'SELECT * FROM game_meta WHERE key_type=? ORDER BY meta_key',
             array( $this->flag_game_meta ),
             'meta_key' );
@@ -58,7 +58,7 @@ class TSCraft extends ArcadiaComponent {
         );
 
         if ( ! isset( $craft_types[ $this->ag->get_arg( 'type' ) ] ) ) {
-            return;
+            return FALSE;
         }
 
         $craft_type = $this->ag->get_arg( 'type' );
