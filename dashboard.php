@@ -6,10 +6,10 @@ class TSDashboard extends ArcadiaComponent {
     function __construct( $ag ) {
         $this->ag = $ag;
 
-        $ag->add_state( 'do_page_content', FALSE,
+        $ag->add_state( 'do_page_content', 'dashboard',
                    array( $this, 'content_dashboard' ) );
 
-        $ag->add_state( 'do_page_content', FALSE,
+        $ag->add_state( 'do_page_content', 'dashboard_zone',
                    array( $this, 'content_zone' ) );
     }
 
@@ -23,12 +23,8 @@ class TSDashboard extends ArcadiaComponent {
     }
 
     public function content_dashboard( $args ) {
-        if ( strcmp( 'dashboard', $this->ag->get_state() ) ) {
-            return;
-        }
-
         if ( ! $this->is_dev() ) {
-            return;
+            return FALSE;
         }
 
 ?>
@@ -42,12 +38,8 @@ class TSDashboard extends ArcadiaComponent {
     }
 
     public function content_zone( $args ) {
-        if ( strcmp( 'dashboard_zone', $this->ag->get_state() ) ) {
-            return;
-        }
-
         if ( ! $this->is_dev() ) {
-            return;
+            return FALSE;
         }
 
 ?>
@@ -199,6 +191,8 @@ class TSDashboard extends ArcadiaComponent {
                   'Back to Dashboard</a></h2>' );
 
         }
+
+        return TRUE;
     }
     
 }
