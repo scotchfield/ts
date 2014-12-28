@@ -14,10 +14,8 @@ class TSDashboard extends ArcadiaComponent {
     }
 
     public function is_dev() {
-        global $ag;
-
-        if ( ( isset( $ag->char[ 'info' ][ 'dev' ] ) ) &&
-             ( $ag->char[ 'info' ][ 'dev' ] ) ) {
+        if ( ( isset( $this->ag->char[ 'info' ][ 'dev' ] ) ) &&
+             ( $this->ag->char[ 'info' ][ 'dev' ] ) ) {
             return TRUE;
         }
 
@@ -25,9 +23,7 @@ class TSDashboard extends ArcadiaComponent {
     }
 
     public function content_dashboard( $args ) {
-        global $ag;
-
-        if ( strcmp( 'dashboard', $ag->get_state() ) ) {
+        if ( strcmp( 'dashboard', $this->ag->get_state() ) ) {
             return;
         }
 
@@ -46,9 +42,7 @@ class TSDashboard extends ArcadiaComponent {
     }
 
     public function content_zone( $args ) {
-        global $ag;
-
-        if ( strcmp( 'dashboard_zone', $ag->get_state() ) ) {
+        if ( strcmp( 'dashboard_zone', $this->ag->get_state() ) ) {
             return;
         }
 
@@ -62,12 +56,12 @@ class TSDashboard extends ArcadiaComponent {
 </div>
 <?php
 
-        $id = $ag->get_arg( 'id' );
+        $id = $this->ag->get_arg( 'id' );
         $zone = FALSE;
 
         if ( $id ) {
-            $key = $ag->ts->zone->str_to_int( $id );
-            $zone = $ag->c( 'zone' )->get_zone( $key );
+            $key = $this->ag->ts->zone->str_to_int( $id );
+            $zone = $this->ag->c( 'zone' )->get_zone( $key );
         }
 
         if ( $zone ) {
@@ -101,16 +95,17 @@ class TSDashboard extends ArcadiaComponent {
                     'combat_id' => json_decode( $_POST[ 'inputCombat' ], TRUE )
                 );
 
-                $ag->c( 'zone' )->update_zone(
+                $this->ag->c( 'zone' )->update_zone(
                     $key, json_encode( $meta_new ) );
 
-                $new_key = $ag->ts->zone->str_to_int( $meta_new[ 'id' ] );
+                $new_key = $this->ag->ts->zone->str_to_int(
+                    $meta_new[ 'id' ] );
 
                 if ( $new_key != $key ) {
-                    $ag->c( 'zone' )->modify_zone_key( $key, $new_key );
+                    $this->ag->c( 'zone' )->modify_zone_key( $key, $new_key );
                 }
 
-                $zone = $ag->c( 'zone' )->get_zone( $new_key );
+                $zone = $this->ag->c( 'zone' )->get_zone( $new_key );
 
                 $meta = json_decode( $zone[ 'meta_value' ], TRUE );
 
@@ -190,7 +185,7 @@ class TSDashboard extends ArcadiaComponent {
 
         } else {
 
-            $zone_obj = $ag->c( 'zone' )->get_all_zones();
+            $zone_obj = $this->ag->c( 'zone' )->get_all_zones();
 
             foreach ( $zone_obj as $zone ) {
                 $meta = json_decode( $zone[ 'meta_value' ], TRUE );
