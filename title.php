@@ -165,7 +165,7 @@ class TSTitle {
 </body>
 </html>
 
-<?
+<?php
         return TRUE;
     }
 

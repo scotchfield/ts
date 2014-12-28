@@ -148,7 +148,7 @@ class TSZone {
 <div class="row text-right">
   <h1 class="page_section">Store</h1>
 </div>
-<?
+<?php
 
         $item_obj = $this->ag->c( 'item' )->get_item_list(
             $zone[ 'store_id' ] );

@@ -52,7 +52,7 @@ class TSCombat {
 <div class="row text-right">
   <h1 class="page_section">Combat</h1>
 </div>
-<?
+<?php
         $combat_id = $this->ag->get_arg( 'combat_id' );
         if ( ! $combat_id ) {
             $combat_id = 1;
