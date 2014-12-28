@@ -85,7 +85,7 @@ class TSZone {
             echo( '</div>' );
         }
 
-        if ( isset( $zone[ 'people' ] ) ) {
+        if ( isset( $zone[ 'people' ] ) && count( $zone[ 'people' ] ) > 0 ) {
             echo( '<h3>People here</h3>' );
             echo( '<div class="list-group">' );
             foreach ( $zone[ 'people' ] as $k => $v ) {
@@ -100,7 +100,7 @@ class TSZone {
             echo( '</div>' );
         }
 
-        if ( isset( $zone[ 'places' ] ) ) {
+        if ( isset( $zone[ 'places' ] ) && count( $zone[ 'places' ] ) > 0 ) {
             echo( '<h3>Places to go</h3>' );
             echo( '<div class="list-group">' );
             foreach ( $zone[ 'places' ] as $k => $v ) {
