@@ -10,7 +10,7 @@ define( 'DB_ADDRESS', 'localhost' );
 define( 'DB_PORT', 3306 );
 define( 'DB_NAME', 'game_test' );
 define( 'DB_USER', 'root' );
-define( 'DB_PASSWORD', 'root' );
+define( 'DB_PASSWORD', '' );
 
 define( 'GAME_CUSTOM_PATH', '../' );
 define( 'GAME_CUSTOM_STYLE_URL',
