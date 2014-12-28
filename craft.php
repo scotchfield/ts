@@ -80,6 +80,8 @@ class TSCraft extends ArcadiaComponent {
                   '">craft</a>)</li>' );
         }
         echo( '</ul></div>' );
+
+        return TRUE;
     }
 
     public function craft_create() {
