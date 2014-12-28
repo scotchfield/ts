@@ -1,4 +1,4 @@
-<phpunit bootstrap="tests/bootstrap_travis.php" backupGlobals="false" colors="true">
+<phpunit bootstrap="bootstrap_travis.php" backupGlobals="false" colors="true">
     <testsuites>
         <!-- Default test suite to run all tests -->
         <testsuite>
