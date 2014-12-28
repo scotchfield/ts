@@ -22,7 +22,7 @@ class TSDashboard extends ArcadiaComponent {
         return FALSE;
     }
 
-    public function content_dashboard( $args ) {
+    public function content_dashboard() {
         if ( ! $this->is_dev() ) {
             return FALSE;
         }
@@ -35,9 +35,10 @@ class TSDashboard extends ArcadiaComponent {
   <h2><a href="?state=dashboard_zone">Edit zones</a></h2>
 </div>
 <?php
+        return TRUE;
     }
 
-    public function content_zone( $args ) {
+    public function content_zone() {
         if ( ! $this->is_dev() ) {
             return FALSE;
         }

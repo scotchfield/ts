@@ -26,4 +26,69 @@ class TestTSDashboard extends PHPUnit_Framework_TestCase {
         $this->assertNotFalse( $this->ag->c( 'dashboard' ) );
     }
 
+    /**
+     * @covers TSDashboard::is_dev
+     */
+    public function test_dashboard_is_dev_no_user() {
+        $result = $this->ag->c( 'dashboard' )->is_dev();
+
+        $this->assertFalse( $result );
+    }
+
+    /**
+     * @covers TSDashboard::is_dev
+     */
+    public function test_dashboard_is_dev_true() {
+        $this->ag->char = array( 'info' => array( 'dev' => 1 ) );
+
+        $result = $this->ag->c( 'dashboard' )->is_dev();
+
+        $this->assertTrue( $result );
+    }
+
+    /**
+     * @covers TSDashboard::content_dashboard
+     */
+    public function test_dashboard_content_dashboard_no_user() {
+        $result = $this->ag->c( 'dashboard' )->content_dashboard();
+
+        $this->assertFalse( $result );
+    }
+
+    /**
+     * @covers TSDashboard::content_dashboard
+     */
+    public function test_dashboard_content_dashboard_dev_user() {
+        $this->ag->char = array( 'info' => array( 'dev' => 1 ) );
+
+        ob_start();
+        $result = $this->ag->c( 'dashboard' )->content_dashboard();
+        ob_end_clean();
+
+        $this->assertTrue( $result );
+    }
+
+    /**
+     * @covers TSDashboard::content_zone
+     */
+    public function test_dashboard_content_zone_no_user() {
+        $result = $this->ag->c( 'dashboard' )->content_zone();
+
+        $this->assertFalse( $result );
+    }
+
+    /**
+     * @covers TSDashboard::content_zone
+     */
+    public function test_dashboard_content_zone_dev_user() {
+        $this->ag->char = array( 'info' => array( 'dev' => 1 ) );
+
+        ob_start();
+        $result = $this->ag->c( 'dashboard' )->content_zone();
+        ob_end_clean();
+
+        $this->assertTrue( $result );
+    }
+
+
 }
