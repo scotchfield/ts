@@ -53,7 +53,7 @@ class TSZone {
         $zone = $this->get_zone( $zone_id );
 
         if ( FALSE == $zone ) {
-            return;
+            return FALSE;
         }
 
 ?>
@@ -64,7 +64,9 @@ class TSZone {
   <div class="col-md-8">
     <h1><?php echo( $zone[ 'name' ] ); ?></h1>
     <p class="lead zone_description"><?php
-        echo( $zone[ 'description' ] ); ?></p>
+        if ( isset( $zone[ 'description' ] ) ) {
+            echo( $zone[ 'description' ] );
+        } ?></p>
   </div>
   <div class="col-md-4">
 <?php
@@ -116,6 +118,7 @@ class TSZone {
   </div>
 </div>
 <?php
+        return TRUE;
     }
 
     function str_to_int( $st ) {
