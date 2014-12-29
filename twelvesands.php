@@ -246,11 +246,7 @@ class TwelveSands {
         return TRUE;
     }
 
-    public function header() {
-        if ( ! strcmp( 'title', $this->ag->get_state() ) ) {
-            return FALSE;
-        }
-
+    public function header_output_head() {
 ?><!DOCTYPE html>
 <html lang="en">
   <head>
@@ -261,15 +257,30 @@ class TwelveSands {
         ?>)</title>
     <link rel="stylesheet" href="<?php echo( GAME_CUSTOM_STYLE_URL );
         ?>bootstrap.min.css">
-    <link rel="stylesheet" href="<?php echo( GAME_CUSTOM_STYLE_URL );
-        ?>ts.css">
+<!--    <link rel="stylesheet" href="<?php echo( GAME_CUSTOM_STYLE_URL );
+        ?>ts.css"><!-- -->
 <!--    <link href="http://fonts.googleapis.com/css?family=Raleway:400,500"
           rel="stylesheet" type="text/css">-->
       <link href='http://fonts.googleapis.com/css?family=Lusitana:400,700'
         rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Oswald:700'
           rel='stylesheet' type='text/css'>
+<style type="text/css">
+body > .container {
+  padding-top: 50px;
+}
+</style>
   </head>
+<?php
+    }
+
+    public function header() {
+        if ( ! strcmp( 'title', $this->ag->get_state() ) ) {
+            return FALSE;
+        }
+
+        $this->header_output_head();
+?>
   <body>
     <div id="popup" class="invis"></div>
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
