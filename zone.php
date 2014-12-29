@@ -107,8 +107,8 @@ class TSZone {
 ?>
 <a href="<?php echo( GAME_URL ); ?>?state=zone&zone_id=<?php echo( $k ); ?>"
    class="list-group-item">
-  <h4 class="list-group-item-heading"><?php echo( $v ); ?></h4>
-  <p class="list-group-item-text">Herp de derp.</p>
+  <h4 class="list-group-item-heading"><?php echo( $v[ 0 ] ); ?></h4>
+  <p class="list-group-item-text"><?php echo( $v[ 1 ] ); ?></p>
 </a>
 <?php
             }
