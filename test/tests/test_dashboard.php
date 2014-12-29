@@ -90,5 +90,57 @@ class TestTSDashboard extends PHPUnit_Framework_TestCase {
         $this->assertTrue( $result );
     }
 
+    /**
+     * @covers TSDashboard::content_zone
+     */
+    public function test_dashboard_content_zone_id_exists_no_zone() {
+        $this->ag->char = array( 'info' => array( 'dev' => 1 ) );
+
+        $this->ag->set_arg( 'id', -1 );
+
+        ob_start();
+        $result = $this->ag->c( 'dashboard' )->content_zone();
+        ob_end_clean();
+
+        $this->assertTrue( $result );
+    }
+
+    /**
+     * @covers TSDashboard::content_zone
+     */
+    public function test_dashboard_content_zone_exists() {
+        $this->ag->char = array( 'info' => array( 'dev' => 1 ) );
+
+        $zone_id = $this->ag->c( 'ts_zone' )->str_to_int( 1 );
+
+        $this->ag->c( 'zone' )->add_zone( $zone_id, 'test' );
+
+        $this->ag->set_arg( 'id', 1 );
+
+        ob_start();
+        $result = $this->ag->c( 'dashboard' )->content_zone();
+        ob_end_clean();
+
+        $this->assertTrue( $result );
+    }
+
+    /**
+     * @covers TSDashboard::content_zone
+     */
+    public function test_dashboard_content_zone_list_zones() {
+        $this->ag->char = array( 'info' => array( 'dev' => 1 ) );
+
+        $this->ag->c( 'zone' )->add_zone( 1, 'test' );
+
+        ob_start();
+        $result = $this->ag->c( 'dashboard' )->content_zone();
+        ob_end_clean();
+
+        $this->assertTrue( $result );
+    }
+
+
+
+
 
 }

@@ -53,7 +53,7 @@ class TSDashboard extends ArcadiaComponent {
         $zone = FALSE;
 
         if ( $id ) {
-            $key = $this->ag->ts->zone->str_to_int( $id );
+            $key = $this->ag->c( 'ts_zone' )->str_to_int( $id );
             $zone = $this->ag->c( 'zone' )->get_zone( $key );
         }
 
