@@ -57,9 +57,6 @@ class TSZone {
         }
 
 ?>
-<div class="row text-right">
-  <h1 class="page_section">Zone</h1>
-</div>
 <div class="row">
   <div class="col-md-8">
     <h1><?php echo( $zone[ 'name' ] ); ?></h1>

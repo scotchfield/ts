@@ -37,7 +37,7 @@ class TSSelect {
 <h1 class="text-center">Welcome back,
 <?php echo( $this->ag->user[ 'user_name' ] ); ?>.</h1>
 
-  <h1 class="page_section">SELECT A CHARACTER</h1>
+  <h1 class="page_section">Select a character</h1>
 
 <?php
         if ( count( $char_obj ) == 0 ) {
