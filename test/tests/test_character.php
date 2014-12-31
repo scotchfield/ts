@@ -156,6 +156,31 @@ class TestTSCharacter extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers TSCharacter::achievements_content
+     */
+    public function test_character_achievements_content() {
+        $component = new TSCharacter( $this->ag );
+
+        $this->ag->char = array( 'id' => 1 );
+        $this->ag->c( 'db' )->execute( 'INSERT INTO game_meta ' .
+            '( key_type, meta_key, meta_value ) VALUES ' .
+            '( ?, 1, "test" ), ( ?, 2, "test2" )',
+            array( $this->ag->c( 'achievement' )->get_flag_game_meta(),
+                   $this->ag->c( 'achievement' )->get_flag_game_meta() ) );
+
+        ob_start();
+        $this->ag->c( 'achievement' )->award_achievement( 1 );
+        $result = $component->achievements_content();
+        ob_end_clean();
+
+        $this->assertTrue( $result );
+
+        $this->ag->c( 'db' )->execute( 'DELETE FROM character_meta' );
+        $this->ag->c( 'db' )->execute( 'DELETE FROM game_meta' );
+        unset( $this->ag->char );
+    }
+
+    /**
      * @covers TSCharacter::inventory_content
      */
     public function test_character_inventory_content_empty() {

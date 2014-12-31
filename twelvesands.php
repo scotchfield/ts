@@ -42,7 +42,8 @@ class TwelveSands {
         $ag->add_state( 'validate_user', FALSE,
             array( $this, 'validate_user' ) );
 
-        $ag->set_component( 'achievement', new ArcadiaAchievement() );
+        $ag->set_component( 'achievement', new ArcadiaAchievement(
+            $ag_obj = $ag ) );
         $ag->set_component( 'inventory', new ArcadiaInventory() );
         $ag->set_component( 'item', new ArcadiaItem() );
         $ag->set_component( 'npc', new ArcadiaNpc() );
