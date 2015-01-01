@@ -230,8 +230,17 @@ class TwelveSands {
             return FALSE;
         }
 
+        if ( ! isset( $this->ag->char[ 'info' ][ 'stamina' ] ) ) {
+            return FALSE;
+        }
+
         if ( $this->ag->char[ 'info' ][ 'stamina' ] < 100 ) {
             $stamina_boost = 1.0;
+
+            if ( ! isset(
+                $this->ag->char[ 'info' ][ 'stamina_timestamp' ] ) ) {
+                $this->ag->char[ 'info' ][ 'stamina_timestamp' ] = time();
+            }
 
             $stamina_seconds = time() -
                 $this->ag->char[ 'info' ][ 'stamina_timestamp' ];
@@ -273,6 +282,7 @@ body > .container {
 </style>
   </head>
 <?php
+        return TRUE;
     }
 
     public function header() {
@@ -351,8 +361,9 @@ body > .container {
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php
-                  echo( $this->ag->char[ 'character_name' ] );
-                  ?> <b class="caret"></b></a>
+                  if ( isset( $this->ag->char[ 'character_name' ] ) ) {
+                      echo( $this->ag->char[ 'character_name' ] );
+                  } ?> <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="?state=dashboard">Dashboard</a></li>
                 <li class="divider"></li>
@@ -407,6 +418,7 @@ body > .container {
     Check out the project, and feel free to follow along as it grows!</p>
 </div>
 <?php
+        return TRUE;
     }
 
     public function contact() {
@@ -417,6 +429,8 @@ body > .container {
 <?php
 
         echo '<h1>Contact</h1>';
+
+        return TRUE;
     }
 
     public function validate_user( $args ) {
